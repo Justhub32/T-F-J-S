@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(174, 72%, 56%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(174, 72%, 56%);
+  --radius: 0.5rem;
+  
+  /* Custom ocean/surf theme colors */
+  --ocean: hsl(174, 72%, 56%);
+  --surf: hsl(188, 94%, 43%);
+  --sunset: hsl(45, 93%, 47%);
+  --sand: hsl(48, 89%, 88%);
+  --wave: hsl(200, 100%, 95%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(174, 72%, 56%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .ocean {
+    color: var(--ocean);
+  }
+  
+  .surf {
+    color: var(--surf);
+  }
+  
+  .sunset {
+    color: var(--sunset);
+  }
+  
+  .sand {
+    color: var(--sand);
+  }
+  
+  .wave {
+    color: var(--wave);
+  }
+  
+  .bg-ocean {
+    background-color: var(--ocean);
+  }
+  
+  .bg-surf {
+    background-color: var(--surf);
+  }
+  
+  .bg-sunset {
+    background-color: var(--sunset);
+  }
+  
+  .bg-sand {
+    background-color: var(--sand);
+  }
+  
+  .bg-wave {
+    background-color: var(--wave);
+  }
+  
+  .border-ocean {
+    border-color: var(--ocean);
+  }
+  
+  .border-surf {
+    border-color: var(--surf);
+  }
+  
+  .hover\:bg-ocean:hover {
+    background-color: var(--ocean);
+  }
+  
+  .hover\:text-ocean:hover {
+    color: var(--ocean);
+  }
+  
+  .hover\:text-surf:hover {
+    color: var(--surf);
+  }
+  
+  .hover\:border-ocean:hover {
+    border-color: var(--ocean);
+  }
+  
+  .hover\:border-surf:hover {
+    border-color: var(--surf);
+  }
+  
+  .text-ocean {
+    color: var(--ocean);
+  }
+  
+  .text-surf {
+    color: var(--surf);
+  }
+}

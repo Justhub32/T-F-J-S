@@ -12,15 +12,20 @@ export default function Home() {
     queryFn: () => api.articles.getFeatured(3),
   });
 
+  const { data: siteSettings } = useQuery({
+    queryKey: ["/api/settings"],
+    queryFn: () => api.settings.get(),
+  });
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        {/* Surfing Background Image */}
+        {/* Dynamic Background Image */}
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"
-            alt="Surfer on a wave"
+            src={siteSettings?.heroBackgroundUrl || "https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"}
+            alt="Hero background"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40"></div>

@@ -1,5 +1,5 @@
 import { apiRequest } from "./queryClient";
-import { Article, InsertArticle } from "@shared/schema";
+import { Article, InsertArticle, SiteSettings, InsertSiteSettings } from "@shared/schema";
 
 export const api = {
   articles: {
@@ -38,5 +38,13 @@ export const api = {
       
       return response.json();
     }
+  },
+
+  settings: {
+    get: (): Promise<SiteSettings> => 
+      apiRequest("GET", "/api/settings").then(res => res.json()),
+    
+    update: (settings: Partial<InsertSiteSettings>): Promise<SiteSettings> => 
+      apiRequest("PUT", "/api/settings", settings).then(res => res.json()),
   }
 };

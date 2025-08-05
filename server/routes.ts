@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertArticleSchema } from "@shared/schema";
+import { insertArticleSchema, insertSiteSettingsSchema } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -136,6 +136,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ imageUrl });
     } catch (error) {
       res.status(500).json({ message: "Failed to upload image" });
+    }
+  });
+
+  // Get site settings
+  app.get("/api/settings", async (req, res) => {
+    try {
+      const settings = await storage.getSiteSettings();
+      res.json(settings);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch site settings" });
+    }
+  });
+
+  // Update site settings
+  app.put("/api/settings", async (req, res) => {
+    try {
+      const updates = insertSiteSettingsSchema.partial().parse(req.body);
+      const settings = await storage.updateSiteSettings(updates);
+      res.json(settings);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Failed to update site settings" });
+      }
     }
   });
 

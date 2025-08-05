@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Article, type InsertArticle } from "@shared/schema";
+import { type User, type InsertUser, type Article, type InsertArticle, type SiteSettings, type InsertSiteSettings } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -12,15 +12,24 @@ export interface IStorage {
   updateArticle(id: string, article: Partial<InsertArticle>): Promise<Article | undefined>;
   deleteArticle(id: string): Promise<boolean>;
   getFeaturedArticles(limit?: number): Promise<Article[]>;
+  
+  getSiteSettings(): Promise<SiteSettings>;
+  updateSiteSettings(settings: Partial<InsertSiteSettings>): Promise<SiteSettings>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private articles: Map<string, Article>;
+  private siteSettings: SiteSettings;
 
   constructor() {
     this.users = new Map();
     this.articles = new Map();
+    this.siteSettings = {
+      id: "site",
+      heroBackgroundUrl: "https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80",
+      updatedAt: new Date(),
+    };
     
     // Add some initial articles for demo
     this.seedArticles();
@@ -193,6 +202,19 @@ export class MemStorage implements IStorage {
   async getFeaturedArticles(limit: number = 3): Promise<Article[]> {
     const articles = await this.getArticles();
     return articles.slice(0, limit);
+  }
+
+  async getSiteSettings(): Promise<SiteSettings> {
+    return this.siteSettings;
+  }
+
+  async updateSiteSettings(updates: Partial<InsertSiteSettings>): Promise<SiteSettings> {
+    this.siteSettings = {
+      ...this.siteSettings,
+      ...updates,
+      updatedAt: new Date(),
+    };
+    return this.siteSettings;
   }
 }
 

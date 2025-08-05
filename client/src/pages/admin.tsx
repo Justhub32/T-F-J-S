@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Edit, Trash2, Image, Settings } from "lucide-react";
 import { api } from "@/lib/api";
 import { queryClient } from "@/lib/queryClient";
-import { insertArticleSchema, type InsertArticle, type Article } from "@shared/schema";
+import { insertArticleSchema, insertSiteSettingsSchema, type InsertArticle, type Article, type SiteSettings, type InsertSiteSettings } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,11 +26,18 @@ export default function Admin() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(null);
+  const [backgroundPreview, setBackgroundPreview] = useState<string>("");
   const { toast } = useToast();
 
   const { data: articles, isLoading } = useQuery({
     queryKey: ["/api/articles"],
     queryFn: () => api.articles.getAll(),
+  });
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ["/api/settings"],
+    queryFn: () => api.settings.get(),
   });
 
   const form = useForm<ArticleFormData>({
@@ -128,6 +135,35 @@ export default function Admin() {
     },
   });
 
+  const updateSettingsMutation = useMutation({
+    mutationFn: async (backgroundFile?: File) => {
+      let heroBackgroundUrl = siteSettings?.heroBackgroundUrl;
+      
+      if (backgroundFile) {
+        const uploadResult = await api.upload.image(backgroundFile);
+        heroBackgroundUrl = uploadResult.imageUrl;
+      }
+
+      return api.settings.update({ heroBackgroundUrl });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
+      setBackgroundImageFile(null);
+      setBackgroundPreview("");
+      toast({
+        title: "Settings updated",
+        description: "Site settings have been successfully updated.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update settings. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: ArticleFormData) => {
     if (editingArticle) {
       updateMutation.mutate({ id: editingArticle.id, data });
@@ -170,6 +206,22 @@ export default function Admin() {
     });
     setImagePreview("");
     setEditingArticle(null);
+  };
+
+  const handleBackgroundImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setBackgroundImageFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setBackgroundPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSettingsSubmit = () => {
+    updateSettingsMutation.mutate(backgroundImageFile || undefined);
   };
 
   return (
@@ -465,35 +517,80 @@ export default function Admin() {
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-6">Site Settings</h3>
               
-              <div className="space-y-6 max-w-md">
+              <div className="space-y-6 max-w-2xl">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Site Name
+                    Homepage Background Image
                   </label>
-                  <Input defaultValue="ChillVibes Community" />
+                  <p className="text-sm text-gray-500 mb-4">
+                    Upload a new background image for the homepage hero section
+                  </p>
+                  
+                  {/* Current Background Preview */}
+                  {siteSettings?.heroBackgroundUrl && !backgroundPreview && (
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-gray-700 mb-2">Current Background:</p>
+                      <img 
+                        src={siteSettings.heroBackgroundUrl} 
+                        alt="Current background" 
+                        className="w-full max-w-md h-32 object-cover rounded-lg border"
+                      />
+                    </div>
+                  )}
+                  
+                  {/* New Background Preview */}
+                  {backgroundPreview && (
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-gray-700 mb-2">New Background Preview:</p>
+                      <img 
+                        src={backgroundPreview} 
+                        alt="Background preview" 
+                        className="w-full max-w-md h-32 object-cover rounded-lg border"
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex items-center space-x-4">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleBackgroundImageChange}
+                      className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ocean/10 file:text-ocean hover:file:bg-ocean/20"
+                    />
+                    {backgroundImageFile && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setBackgroundImageFile(null);
+                          setBackgroundPreview("");
+                        }}
+                      >
+                        Clear
+                      </Button>
+                    )}
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Site Description
-                  </label>
-                  <Textarea
-                    rows={3}
-                    defaultValue="A lifestyle digital community spreading chill vibes through tech, finance, jiu-jitsu, and surf culture."
-                  />
+                <div className="pt-4 border-t">
+                  <Button 
+                    onClick={handleSettingsSubmit}
+                    disabled={updateSettingsMutation.isPending || !backgroundImageFile}
+                    className="bg-ocean hover:bg-teal-600"
+                  >
+                    {updateSettingsMutation.isPending ? (
+                      <>
+                        <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Updating...
+                      </>
+                    ) : (
+                      <>
+                        <Settings className="w-4 h-4 mr-2" />
+                        Update Background
+                      </>
+                    )}
+                  </Button>
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    SEO Keywords
-                  </label>
-                  <Input placeholder="lifestyle, tech, finance, jiu-jitsu, surf, community" />
-                </div>
-
-                <Button className="bg-ocean hover:bg-teal-600">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Save Settings
-                </Button>
               </div>
             </div>
           </TabsContent>

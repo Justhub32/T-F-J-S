@@ -29,8 +29,8 @@ export default function Home() {
         
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
-            <span className="text-cyan-300">Tech+Finance</span>, 
-            <span className="text-blue-300"> Jiu-Jitsu+Surf</span>:<br/>
+            <span className="text-red-400">Tech</span><span className="text-white">+</span><span className="text-green-400">Finance</span>, 
+            <span className="text-blue-400"> Jiu-Jitsu</span><span className="text-white">+</span><span className="text-yellow-400">Surf</span>:<br/>
             <span className="text-white font-medium">a lifestyle digital community<br/>spreading chill vibes</span>
           </h1>
           <p className="text-xl text-gray-100 mb-12 max-w-2xl mx-auto drop-shadow-md">

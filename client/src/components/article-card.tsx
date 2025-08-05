@@ -8,13 +8,17 @@ interface ArticleCardProps {
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const categoryColors = {
-    "tech-finance": "bg-ocean/10 text-ocean",
-    "jiu-jitsu-surf": "bg-surf/10 text-surf",
+    "tech": "bg-red-100 text-red-600",
+    "finance": "bg-green-100 text-green-600",
+    "jiu-jitsu": "bg-blue-100 text-blue-600",
+    "surf": "bg-yellow-100 text-yellow-600",
   };
 
   const hoverColors = {
-    "tech-finance": "group-hover:text-ocean",
-    "jiu-jitsu-surf": "group-hover:text-surf",
+    "tech": "group-hover:text-red-600",
+    "finance": "group-hover:text-green-600",
+    "jiu-jitsu": "group-hover:text-blue-600",
+    "surf": "group-hover:text-yellow-600",
   };
 
   return (
@@ -33,7 +37,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${
               categoryColors[article.category as keyof typeof categoryColors] || "bg-gray-100 text-gray-600"
             }`}>
-              {article.category === "tech-finance" ? "Tech+Finance" : "Jiu-Jitsu+Surf"}
+              {article.category.charAt(0).toUpperCase() + article.category.slice(1).replace('-', '-')}
             </span>
             <span className="text-gray-400 ml-auto text-sm">
               {formatDistanceToNow(new Date(article.createdAt), { addSuffix: true })}

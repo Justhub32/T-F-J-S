@@ -8,8 +8,10 @@ export default function Navbar() {
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Tech+Finance", href: "/category/tech-finance" },
-    { name: "Jiu-Jitsu+Surf", href: "/category/jiu-jitsu-surf" },
+    { name: "Tech", href: "/category/tech" },
+    { name: "Finance", href: "/category/finance" },
+    { name: "Jiu-Jitsu", href: "/category/jiu-jitsu" },
+    { name: "Surf", href: "/category/surf" },
   ];
 
   return (

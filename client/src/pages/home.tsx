@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { ChartLine, Waves } from "lucide-react";
+import { ChartLine, Waves, Code, DollarSign, Activity } from "lucide-react";
 import { api } from "@/lib/api";
 import ArticleCard from "@/components/article-card";
 import { Button } from "@/components/ui/button";
@@ -38,24 +38,44 @@ export default function Home() {
           </p>
           
           {/* Category Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Link href="/category/tech-finance">
-              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-white/50 hover:border-cyan-300 cursor-pointer hover:bg-white">
-                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-ocean to-surf rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <ChartLine className="text-white w-8 h-8" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <Link href="/category/tech">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-red-300 cursor-pointer hover:bg-white">
+                <div className="flex items-center justify-center w-12 h-12 bg-red-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Code className="text-white w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Tech+Finance</h3>
-                <p className="text-gray-600">Innovation, markets, and the future of money</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Tech</h3>
+                <p className="text-gray-600 text-sm">Innovation and technology</p>
               </div>
             </Link>
             
-            <Link href="/category/jiu-jitsu-surf">
-              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-white/50 hover:border-blue-300 cursor-pointer hover:bg-white">
-                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-surf to-sunset rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Waves className="text-white w-8 h-8" />
+            <Link href="/category/finance">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-green-300 cursor-pointer hover:bg-white">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <DollarSign className="text-white w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Jiu-Jitsu+Surf</h3>
-                <p className="text-gray-600">Mind, body, and the art of flow</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Finance</h3>
+                <p className="text-gray-600 text-sm">Markets and money</p>
+              </div>
+            </Link>
+            
+            <Link href="/category/jiu-jitsu">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-blue-300 cursor-pointer hover:bg-white">
+                <div className="flex items-center justify-center w-12 h-12 bg-blue-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Activity className="text-white w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Jiu-Jitsu</h3>
+                <p className="text-gray-600 text-sm">Martial arts and mindset</p>
+              </div>
+            </Link>
+            
+            <Link href="/category/surf">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-yellow-300 cursor-pointer hover:bg-white">
+                <div className="flex items-center justify-center w-12 h-12 bg-yellow-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Waves className="text-white w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Surf</h3>
+                <p className="text-gray-600 text-sm">Ocean life and flow</p>
               </div>
             </Link>
           </div>

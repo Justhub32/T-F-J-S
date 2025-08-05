@@ -238,8 +238,10 @@ export default function Admin() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="tech-finance">Tech+Finance</SelectItem>
-                                <SelectItem value="jiu-jitsu-surf">Jiu-Jitsu+Surf</SelectItem>
+                                <SelectItem value="tech">Tech</SelectItem>
+                                <SelectItem value="finance">Finance</SelectItem>
+                                <SelectItem value="jiu-jitsu">Jiu-Jitsu</SelectItem>
+                                <SelectItem value="surf">Surf</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />

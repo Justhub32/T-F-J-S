@@ -36,13 +36,23 @@ export default function Footer() {
             <h4 className="font-bold mb-4">Categories</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <Link href="/category/tech-finance" className="hover:text-ocean transition-colors">
-                  Tech+Finance
+                <Link href="/category/tech" className="hover:text-ocean transition-colors">
+                  Tech
                 </Link>
               </li>
               <li>
-                <Link href="/category/jiu-jitsu-surf" className="hover:text-ocean transition-colors">
-                  Jiu-Jitsu+Surf
+                <Link href="/category/finance" className="hover:text-ocean transition-colors">
+                  Finance
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/jiu-jitsu" className="hover:text-ocean transition-colors">
+                  Jiu-Jitsu
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/surf" className="hover:text-ocean transition-colors">
+                  Surf
                 </Link>
               </li>
             </ul>

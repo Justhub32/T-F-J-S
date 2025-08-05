@@ -13,11 +13,22 @@ export default function Category() {
     enabled: !!category,
   });
 
-  const categoryTitle = category === "tech-finance" ? "Tech+Finance" : "Jiu-Jitsu+Surf";
-  const categoryColor = category === "tech-finance" ? "text-ocean" : "text-surf";
-  const categoryDescription = category === "tech-finance" 
-    ? "Innovation, markets, and the future of money"
-    : "Mind, body, and the art of flow";
+  const getCategoryInfo = (cat: string) => {
+    switch (cat) {
+      case "tech":
+        return { title: "Tech", color: "text-red-500", description: "Innovation and technology" };
+      case "finance":
+        return { title: "Finance", color: "text-green-500", description: "Markets and money" };
+      case "jiu-jitsu":
+        return { title: "Jiu-Jitsu", color: "text-blue-500", description: "Martial arts and mindset" };
+      case "surf":
+        return { title: "Surf", color: "text-yellow-500", description: "Ocean life and flow" };
+      default:
+        return { title: "Unknown", color: "text-gray-500", description: "Category not found" };
+    }
+  };
+
+  const { title: categoryTitle, color: categoryColor, description: categoryDescription } = getCategoryInfo(category || "");
 
   if (!category) {
     return <div>Category not found</div>;

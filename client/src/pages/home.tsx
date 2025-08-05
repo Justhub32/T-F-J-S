@@ -15,33 +15,32 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-wave via-white to-sand py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
-            <path d="M0 300C400 200 600 400 1200 300V600H0V300Z" fill="url(#wave-gradient)"/>
-            <defs>
-              <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style={{stopColor: "var(--ocean)"}}/>
-                <stop offset="100%" style={{stopColor: "var(--surf)"}}/>
-              </linearGradient>
-            </defs>
-          </svg>
+      <section className="relative py-20 overflow-hidden">
+        {/* Surfing Background Image */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"
+            alt="Surfer on a wave"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-ocean/20 to-surf/20"></div>
         </div>
         
         <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            <span className="text-ocean">Tech+Finance</span>, 
-            <span className="text-surf"> Jiu-Jitsu+Surf</span>:<br/>
-            <span className="text-gray-700 font-medium">a lifestyle digital community<br/>spreading chill vibes</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+            <span className="text-cyan-300">Tech+Finance</span>, 
+            <span className="text-blue-300"> Jiu-Jitsu+Surf</span>:<br/>
+            <span className="text-white font-medium">a lifestyle digital community<br/>spreading chill vibes</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-100 mb-12 max-w-2xl mx-auto drop-shadow-md">
             Where innovation meets zen, and hustle meets flow. Join our community of mindful achievers living the balanced life.
           </p>
           
           {/* Category Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Link href="/category/tech-finance">
-              <div className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-gray-100 hover:border-ocean cursor-pointer">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-white/50 hover:border-cyan-300 cursor-pointer hover:bg-white">
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-ocean to-surf rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <ChartLine className="text-white w-8 h-8" />
                 </div>
@@ -51,7 +50,7 @@ export default function Home() {
             </Link>
             
             <Link href="/category/jiu-jitsu-surf">
-              <div className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-gray-100 hover:border-surf cursor-pointer">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-white/50 hover:border-blue-300 cursor-pointer hover:bg-white">
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-surf to-sunset rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Waves className="text-white w-8 h-8" />
                 </div>

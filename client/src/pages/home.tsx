@@ -18,19 +18,20 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* Full Page Background Image */}
+      <div className="fixed inset-0 z-0">
+        <img 
+          src={siteSettings?.heroBackgroundUrl || "https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"}
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-ocean/10 to-surf/10"></div>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        {/* Dynamic Background Image */}
-        <div className="absolute inset-0">
-          <img 
-            src={siteSettings?.heroBackgroundUrl || "https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"}
-            alt="Hero background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-ocean/20 to-surf/20"></div>
-        </div>
+      <section className="relative z-10 py-20 overflow-hidden">
         
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
@@ -46,8 +47,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Category Buttons Section - Moved Outside Hero */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+      {/* Category Buttons Section */}
+      <section className="relative z-10 py-16 bg-black/20 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <Link href="/category/tech">
@@ -94,11 +95,11 @@ export default function Home() {
       </section>
 
       {/* Featured Articles */}
-      <section className="py-16 bg-white">
+      <section className="relative z-10 py-16 bg-black/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Latest from the Community</h2>
-            <p className="text-gray-600 text-lg">Fresh insights on living the balanced life</p>
+            <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Latest from the Community</h2>
+            <p className="text-gray-100 text-lg drop-shadow-md">Fresh insights on living the balanced life</p>
           </div>
           
           {isLoading ? (
@@ -126,10 +127,10 @@ export default function Home() {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="py-16 bg-gradient-to-r from-wave to-sand">
+      <section className="relative z-10 py-16 bg-black/20 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Stay in the Flow</h2>
-          <p className="text-gray-600 text-lg mb-8">Get the latest insights delivered to your inbox. No spam, just chill vibes.</p>
+          <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Stay in the Flow</h2>
+          <p className="text-gray-100 text-lg mb-8 drop-shadow-md">Get the latest insights delivered to your inbox. No spam, just chill vibes.</p>
           
           <div className="max-w-md mx-auto">
             <div className="flex flex-col sm:flex-row gap-4">

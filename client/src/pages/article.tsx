@@ -73,7 +73,7 @@ export default function Article() {
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight highlight-neon">
             {article.title}
           </h1>
 

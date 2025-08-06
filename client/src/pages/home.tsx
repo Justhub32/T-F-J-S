@@ -34,11 +34,11 @@ export default function Home() {
         
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
-            <span className="text-red-400">Tech</span><span className="text-white">+</span><span className="text-green-400">Finance</span>,<br/>
+            <span className="highlight-neon">Tech</span><span className="text-white">+</span><span className="highlight-neon">Finance</span>,<br/>
             <span className="inline-block ml-20 md:ml-32 lg:ml-40">
-              <span className="text-blue-400">Jiu-Jitsu</span><span className="text-white">+</span><span className="text-yellow-400">Surf</span>
+              <span className="highlight-neon">Jiu-Jitsu</span><span className="text-white">+</span><span className="highlight-neon">Surf</span>
             </span><br/>
-            <span className="text-white font-medium text-xl md:text-2xl lg:text-3xl inline-block ml-2 md:ml-4">: a digital lifestyle community spreading chill vibes</span>
+            <span className="text-white font-medium text-xl md:text-2xl lg:text-3xl inline-block ml-2 md:ml-4">: a digital lifestyle community spreading <span className="highlight-glow">chill vibes</span></span>
           </h1>
           <p className="text-xl text-gray-100 mb-20 max-w-2xl mx-auto drop-shadow-md">
             Where innovation meets zen, and hustle meets flow. Join our community of mindful achievers living the balanced life.
@@ -97,7 +97,7 @@ export default function Home() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Latest from the Community</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Latest from the <span className="highlight-neon">Community</span></h2>
             <p className="text-gray-600 text-lg">Fresh insights on living the balanced life</p>
           </div>
           
@@ -118,7 +118,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link href="/category/tech-finance">
               <Button className="bg-gradient-to-r from-ocean to-surf text-white px-8 py-3 rounded-lg hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
-                Explore More Stories
+                <span className="highlight-glow">Explore More Stories</span>
               </Button>
             </Link>
           </div>

@@ -95,7 +95,7 @@ export default function Home() {
       </section>
 
       {/* Featured Articles */}
-      <section className="relative z-10 py-16 bg-black/20 backdrop-blur-sm">
+      <section className="relative z-10 py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Latest from the Community</h2>
@@ -127,7 +127,7 @@ export default function Home() {
       </section>
 
       {/* Newsletter Signup */}
-      <section className="relative z-10 py-16 bg-black/20 backdrop-blur-sm">
+      <section className="relative z-10 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Stay in the Flow</h2>
           <p className="text-gray-100 text-lg mb-8 drop-shadow-md">Get the latest insights delivered to your inbox. No spam, just chill vibes.</p>

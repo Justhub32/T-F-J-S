@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, sql, lt } from "drizzle-orm";
 import { 
   articles, 
   siteSettings, 
@@ -40,8 +40,6 @@ export class DatabaseStorage implements IStorage {
 
   // Article operations
   async getArticles(category?: string, excludeDrafts?: boolean): Promise<Article[]> {
-    let query = db.select().from(articles);
-    
     const conditions = [];
     if (category) {
       conditions.push(eq(articles.category, category));
@@ -51,10 +49,10 @@ export class DatabaseStorage implements IStorage {
     }
     
     if (conditions.length > 0) {
-      query = query.where(and(...conditions));
+      return db.select().from(articles).where(and(...conditions)).orderBy(desc(articles.createdAt));
     }
     
-    return query.orderBy(desc(articles.createdAt));
+    return db.select().from(articles).orderBy(desc(articles.createdAt));
   }
 
   async getArticle(id: string): Promise<Article | undefined> {
@@ -81,7 +79,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteArticle(id: string): Promise<boolean> {
     const result = await db.delete(articles).where(eq(articles.id, id));
-    return result.count > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   async getFeaturedArticles(limit: number = 3): Promise<Article[]> {
@@ -127,7 +125,7 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .delete(comments)
       .where(and(eq(comments.id, id), eq(comments.userId, userId)));
-    return result.count > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   // Site settings operations
@@ -159,5 +157,51 @@ export class DatabaseStorage implements IStorage {
       .where(eq(siteSettings.id, "site"))
       .returning();
     return settings;
+  }
+
+  // News synchronization operations
+  async syncNewsArticles(newsArticles: Article[]): Promise<void> {
+    if (newsArticles.length === 0) return;
+
+    console.log(`Syncing ${newsArticles.length} news articles...`);
+    
+    // Insert new articles in batches to avoid overwhelming the database
+    const batchSize = 10;
+    for (let i = 0; i < newsArticles.length; i += batchSize) {
+      const batch = newsArticles.slice(i, i + batchSize);
+      
+      try {
+        await db.insert(articles).values(batch).onConflictDoUpdate({
+          target: articles.id,
+          set: {
+            title: sql`excluded.title`,
+            content: sql`excluded.content`,
+            excerpt: sql`excluded.excerpt`,
+            imageUrl: sql`excluded.image_url`,
+            updatedAt: new Date(),
+          },
+        });
+      } catch (error) {
+        console.error(`Error inserting news batch ${i / batchSize + 1}:`, error);
+      }
+    }
+
+    console.log(`Successfully synced ${newsArticles.length} news articles`);
+  }
+
+  async clearOldNewsArticles(): Promise<void> {
+    // Clear news articles older than 7 days to keep content fresh
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    try {
+      const result = await db
+        .delete(articles)
+        .where(lt(articles.createdAt, sevenDaysAgo));
+      
+      console.log(`Cleared ${result.rowCount} old news articles`);
+    } catch (error) {
+      console.error("Error clearing old news articles:", error);
+    }
   }
 }

@@ -31,6 +31,10 @@ export interface IStorage {
   // Site settings operations
   getSiteSettings(): Promise<SiteSettings>;
   updateSiteSettings(settings: Partial<InsertSiteSettings>): Promise<SiteSettings>;
+  
+  // News synchronization operations
+  syncNewsArticles(articles: Article[]): Promise<void>;
+  clearOldNewsArticles(): Promise<void>;
 }
 
 export const storage = new DatabaseStorage();

@@ -35,7 +35,7 @@ export default function Home() {
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
             <span className="text-red-400">Tech</span><span className="text-white">+</span><span className="text-green-400">Finance</span>,<br/>
-            <span className="inline-block ml-8 md:ml-16">
+            <span className="inline-block ml-20 md:ml-32 lg:ml-40">
               <span className="text-blue-400">Jiu-Jitsu</span><span className="text-white">+</span><span className="text-yellow-400">Surf</span>
             </span><br/>
             <span className="text-white font-medium text-xl md:text-2xl lg:text-3xl inline-block ml-2 md:ml-4">: a digital lifestyle community spreading chill vibes</span>

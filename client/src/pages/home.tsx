@@ -5,6 +5,7 @@ import { api } from "@/lib/api";
 import ArticleCard from "@/components/article-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AudioController } from "@/components/AudioController";
 
 export default function Home() {
   const { data: featuredArticles, isLoading } = useQuery({
@@ -146,6 +147,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Audio Controls */}
+      <AudioController />
     </div>
   );
 }

@@ -34,9 +34,9 @@ export default function Home() {
         
         <div className="relative max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
-            <span className="text-red-400">Tech</span><span className="text-white">+</span><span className="text-green-400">Finance</span>, 
-            <span className="text-blue-400"> Jiu-Jitsu</span><span className="text-white">+</span><span className="text-yellow-400">Surf</span>:<br/>
-            <span className="text-white font-medium">a lifestyle digital community<br/>spreading chill vibes</span>
+            <span className="text-red-400">Tech</span><span className="text-white">+</span><span className="text-green-400">Finance</span>,<br/>
+            <span className="text-blue-400">Jiu-Jitsu</span><span className="text-white">+</span><span className="text-yellow-400">Surf</span><br/>
+            <span className="text-white font-medium text-xl md:text-2xl lg:text-3xl">: a digital lifestyle community spreading chill vibes</span>
           </h1>
           <p className="text-xl text-gray-100 mb-12 max-w-2xl mx-auto drop-shadow-md">
             Where innovation meets zen, and hustle meets flow. Join our community of mindful achievers living the balanced life.

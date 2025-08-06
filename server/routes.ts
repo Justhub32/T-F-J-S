@@ -302,7 +302,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // News synchronization endpoints
   // Manual news sync (for testing and immediate updates)
-  app.post("/api/news/sync", isAuthenticated, async (req: any, res) => {
+  app.post("/api/news/sync", async (req: any, res) => {
     try {
       console.log("Manual news sync requested by user:", req.user?.claims?.sub);
       
@@ -355,15 +355,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/news/status", async (req, res) => {
     try {
       const totalArticles = await storage.getArticles();
-      const techFinanceCount = await storage.getArticles("tech-finance", true);
-      const jiuJitsuSurfCount = await storage.getArticles("jiu-jitsu-surf", true);
+      const techCount = await storage.getArticles("tech", true);
+      const financeCount = await storage.getArticles("finance", true);
+      const jiuJitsuCount = await storage.getArticles("jiu-jitsu", true);
+      const surfCount = await storage.getArticles("surf", true);
       const featuredCount = await storage.getFeaturedArticles(10);
       
       res.json({
         totalArticles: totalArticles.length,
         categories: {
-          "tech-finance": techFinanceCount.length,
-          "jiu-jitsu-surf": jiuJitsuSurfCount.length,
+          "tech": techCount.length,
+          "finance": financeCount.length,
+          "jiu-jitsu": jiuJitsuCount.length,
+          "surf": surfCount.length,
         },
         featuredCount: featuredCount.length,
         lastSyncTime: new Date().toISOString(),

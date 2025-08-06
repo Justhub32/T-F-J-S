@@ -23,7 +23,7 @@ export interface ProcessedArticle {
   title: string;
   content: string;
   excerpt: string;
-  category: "tech-finance" | "jiu-jitsu-surf";
+  category: "tech" | "finance" | "jiu-jitsu" | "surf";
   imageUrl?: string;
   sourceUrl: string;
   sourceName: string;
@@ -79,7 +79,7 @@ export class NewsService {
     }
   }
 
-  private processArticle(article: NewsArticle, category: "tech-finance" | "jiu-jitsu-surf"): ProcessedArticle {
+  private processArticle(article: NewsArticle, category: "tech" | "finance" | "jiu-jitsu" | "surf"): ProcessedArticle {
     // Clean up content - remove truncation markers and source attributions
     let content = article.content || article.description || "";
     content = content.replace(/\[\+\d+ chars\]$/, ""); // Remove NewsAPI truncation marker
@@ -116,13 +116,13 @@ export class NewsService {
     };
   }
 
-  async fetchTechFinanceNews(): Promise<ProcessedArticle[]> {
+  async fetchTechNews(): Promise<ProcessedArticle[]> {
     const queries = [
-      "fintech OR \"financial technology\"",
-      "cryptocurrency bitcoin ethereum",
-      "startup funding venture capital",
-      "AI artificial intelligence finance",
-      "blockchain technology finance"
+      "artificial intelligence AI technology",
+      "software development programming",
+      "blockchain cryptocurrency tech",
+      "startup technology innovation",
+      "mobile app development"
     ];
 
     const allArticles: ProcessedArticle[] = [];
@@ -130,8 +130,8 @@ export class NewsService {
     for (const query of queries) {
       const articles = await this.fetchFromNewsAPI(query);
       const processed = articles
-        .slice(0, 3) // Limit per query to avoid duplicates
-        .map(article => this.processArticle(article, "tech-finance"));
+        .slice(0, 2) // Limit per query to avoid duplicates
+        .map(article => this.processArticle(article, "tech"));
       
       allArticles.push(...processed);
       
@@ -142,13 +142,13 @@ export class NewsService {
     return allArticles;
   }
 
-  async fetchJiuJitsuSurfNews(): Promise<ProcessedArticle[]> {
+  async fetchFinanceNews(): Promise<ProcessedArticle[]> {
     const queries = [
-      "jiu-jitsu BJJ brazilian jiu-jitsu",
-      "surfing surf competition waves",
-      "mixed martial arts MMA UFC",
-      "surf culture lifestyle surfboard",
-      "martial arts training fitness"
+      "stock market trading investment",
+      "cryptocurrency bitcoin ethereum finance",
+      "venture capital funding startup",
+      "fintech financial technology",
+      "personal finance investing"
     ];
 
     const allArticles: ProcessedArticle[] = [];
@@ -156,8 +156,60 @@ export class NewsService {
     for (const query of queries) {
       const articles = await this.fetchFromNewsAPI(query);
       const processed = articles
-        .slice(0, 3) // Limit per query
-        .map(article => this.processArticle(article, "jiu-jitsu-surf"));
+        .slice(0, 2) // Limit per query to avoid duplicates
+        .map(article => this.processArticle(article, "finance"));
+      
+      allArticles.push(...processed);
+      
+      // Small delay to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    return allArticles;
+  }
+
+  async fetchJiuJitsuNews(): Promise<ProcessedArticle[]> {
+    const queries = [
+      "jiu-jitsu BJJ brazilian jiu-jitsu",
+      "mixed martial arts MMA UFC",
+      "grappling martial arts training",
+      "BJJ competition tournament",
+      "martial arts fitness discipline"
+    ];
+
+    const allArticles: ProcessedArticle[] = [];
+
+    for (const query of queries) {
+      const articles = await this.fetchFromNewsAPI(query);
+      const processed = articles
+        .slice(0, 2) // Limit per query
+        .map(article => this.processArticle(article, "jiu-jitsu"));
+      
+      allArticles.push(...processed);
+      
+      // Small delay to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
+    return allArticles;
+  }
+
+  async fetchSurfNews(): Promise<ProcessedArticle[]> {
+    const queries = [
+      "surfing surf competition waves",
+      "surf culture lifestyle ocean",
+      "surfboard wave riding beach",
+      "surf travel destinations",
+      "ocean conservation surfing"
+    ];
+
+    const allArticles: ProcessedArticle[] = [];
+
+    for (const query of queries) {
+      const articles = await this.fetchFromNewsAPI(query);
+      const processed = articles
+        .slice(0, 2) // Limit per query
+        .map(article => this.processArticle(article, "surf"));
       
       allArticles.push(...processed);
       
@@ -172,12 +224,14 @@ export class NewsService {
     try {
       console.log("Fetching latest news articles...");
       
-      const [techFinanceNews, jiuJitsuSurfNews] = await Promise.all([
-        this.fetchTechFinanceNews(),
-        this.fetchJiuJitsuSurfNews()
+      const [techNews, financeNews, jiuJitsuNews, surfNews] = await Promise.all([
+        this.fetchTechNews(),
+        this.fetchFinanceNews(),
+        this.fetchJiuJitsuNews(),
+        this.fetchSurfNews()
       ]);
 
-      const allArticles = [...techFinanceNews, ...jiuJitsuSurfNews];
+      const allArticles = [...techNews, ...financeNews, ...jiuJitsuNews, ...surfNews];
       
       // Randomly select some articles to be featured
       const shuffled = [...allArticles].sort(() => 0.5 - Math.random());
@@ -186,7 +240,7 @@ export class NewsService {
       });
 
       console.log(`Successfully fetched ${allArticles.length} articles`);
-      console.log(`Tech/Finance: ${techFinanceNews.length}, Jiu-Jitsu/Surf: ${jiuJitsuSurfNews.length}`);
+      console.log(`Tech: ${techNews.length}, Finance: ${financeNews.length}, Jiu-Jitsu: ${jiuJitsuNews.length}, Surf: ${surfNews.length}`);
       
       return allArticles;
     } catch (error) {

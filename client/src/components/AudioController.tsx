@@ -9,141 +9,116 @@ interface AudioControllerProps {
 export function AudioController({ className = '' }: AudioControllerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
-  const oscillatorsRef = useRef<OscillatorNode[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Generate ocean wave sounds using Web Audio API
-  const createOceanWaves = () => {
-    if (!audioContextRef.current || !gainNodeRef.current) return;
-
-    // Clear existing oscillators
-    oscillatorsRef.current.forEach(osc => {
-      osc.stop();
-      osc.disconnect();
-    });
-    oscillatorsRef.current = [];
-
-    const audioContext = audioContextRef.current;
-    const masterGain = gainNodeRef.current;
-
-    // Create multiple oscillators for layered ocean sound
-    const frequencies = [60, 120, 180, 240, 300]; // Bass frequencies for wave sounds
+  // Create ocean wave sounds using HTML5 Audio with data URI
+  const createOceanWaveDataURI = () => {
+    // Create a simple ocean wave sound using data URI with base64 encoded audio
+    // This is a minimal WAV file with ocean-like white noise
+    const sampleRate = 44100;
+    const duration = 10; // 10 seconds, will loop
+    const numSamples = sampleRate * duration;
     
-    frequencies.forEach((baseFreq, index) => {
-      // Main wave oscillator
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      const filter = audioContext.createBiquadFilter();
-      
-      // Configure oscillator
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
-      
-      // Add subtle frequency modulation for wave movement
-      const lfo = audioContext.createOscillator();
-      const lfoGain = audioContext.createGain();
-      lfo.type = 'sine';
-      lfo.frequency.setValueAtTime(0.1 + index * 0.05, audioContext.currentTime);
-      lfoGain.gain.setValueAtTime(5, audioContext.currentTime);
-      
-      lfo.connect(lfoGain);
-      lfoGain.connect(osc.frequency);
-      
-      // Configure filter (low-pass for ocean sound)
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(800 - index * 100, audioContext.currentTime);
-      filter.Q.setValueAtTime(1, audioContext.currentTime);
-      
-      // Configure gain (volume)
-      gain.gain.setValueAtTime(0.1 - index * 0.015, audioContext.currentTime);
-      
-      // Connect the chain
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(masterGain);
-      
-      // Start oscillators
-      osc.start();
-      lfo.start();
-      
-      oscillatorsRef.current.push(osc);
-      oscillatorsRef.current.push(lfo);
-    });
-
-    // Add white noise for wave texture
-    const bufferSize = 4096;
-    const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
+    // Create WAV header
+    const buffer = new ArrayBuffer(44 + numSamples * 2);
+    const view = new DataView(buffer);
     
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
+    // WAV header
+    const writeString = (offset: number, string: string) => {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    };
+    
+    writeString(0, 'RIFF');
+    view.setUint32(4, 36 + numSamples * 2, true);
+    writeString(8, 'WAVE');
+    writeString(12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    writeString(36, 'data');
+    view.setUint32(40, numSamples * 2, true);
+    
+    // Generate ocean wave sound data
+    let offset = 44;
+    for (let i = 0; i < numSamples; i++) {
+      // Create ocean-like sound with multiple frequency components
+      const t = i / sampleRate;
+      
+      // Base wave sound (low frequency)
+      const wave1 = Math.sin(2 * Math.PI * 0.5 * t) * Math.sin(2 * Math.PI * 0.3 * t);
+      
+      // Higher frequency waves
+      const wave2 = Math.sin(2 * Math.PI * 2 * t) * 0.3 * Math.sin(2 * Math.PI * 0.1 * t);
+      
+      // White noise for wave texture (filtered)
+      const noise = (Math.random() * 2 - 1) * 0.1;
+      
+      // Combine and apply envelope
+      const envelope = 0.5 + 0.5 * Math.sin(2 * Math.PI * 0.05 * t); // Slow amplitude modulation
+      const sample = (wave1 * 0.4 + wave2 * 0.3 + noise) * envelope * 0.3;
+      
+      // Convert to 16-bit PCM
+      const pcm = Math.max(-1, Math.min(1, sample));
+      view.setInt16(offset, pcm * 0x7FFF, true);
+      offset += 2;
     }
     
-    const noiseSource = audioContext.createBufferSource();
-    const noiseGain = audioContext.createGain();
-    const noiseFilter = audioContext.createBiquadFilter();
+    // Convert to base64
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
     
-    noiseSource.buffer = noiseBuffer;
-    noiseSource.loop = true;
-    
-    noiseFilter.type = 'bandpass';
-    noiseFilter.frequency.setValueAtTime(200, audioContext.currentTime);
-    noiseFilter.Q.setValueAtTime(0.5, audioContext.currentTime);
-    
-    noiseGain.gain.setValueAtTime(0.05, audioContext.currentTime);
-    
-    noiseSource.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(masterGain);
-    
-    noiseSource.start();
-    oscillatorsRef.current.push(noiseSource as any);
+    return 'data:audio/wav;base64,' + btoa(binary);
   };
 
-  const initAudio = async () => {
-    try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const gainNode = audioContext.createGain();
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.connect(audioContext.destination);
-      
-      audioContextRef.current = audioContext;
-      gainNodeRef.current = gainNode;
-      
-      return true;
-    } catch (error) {
-      console.error('Failed to initialize audio context:', error);
-      return false;
+  const initAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
     }
+    
+    const audio = new Audio();
+    audio.src = createOceanWaveDataURI();
+    audio.loop = true;
+    audio.volume = 0.3;
+    audio.preload = 'auto';
+    
+    audioRef.current = audio;
+    
+    // Event listeners
+    audio.addEventListener('play', () => setIsPlaying(true));
+    audio.addEventListener('pause', () => setIsPlaying(false));
+    audio.addEventListener('ended', () => setIsPlaying(false));
+    
+    return audio;
   };
 
   const startAudio = async () => {
-    if (!audioContextRef.current) {
-      const initialized = await initAudio();
-      if (!initialized) return;
+    try {
+      if (!audioRef.current) {
+        initAudio();
+      }
+      
+      if (audioRef.current) {
+        await audioRef.current.play();
+      }
+    } catch (error) {
+      console.error('Failed to play ocean sounds:', error);
     }
-    
-    if (audioContextRef.current?.state === 'suspended') {
-      await audioContextRef.current.resume();
-    }
-    
-    createOceanWaves();
-    setIsPlaying(true);
   };
 
   const stopAudio = () => {
-    oscillatorsRef.current.forEach(osc => {
-      try {
-        osc.stop();
-        osc.disconnect();
-      } catch (error) {
-        // Oscillator might already be stopped
-      }
-    });
-    oscillatorsRef.current = [];
-    setIsPlaying(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
   };
 
   const toggleAudio = async () => {
@@ -155,33 +130,37 @@ export function AudioController({ className = '' }: AudioControllerProps) {
   };
 
   const toggleMute = () => {
-    if (gainNodeRef.current) {
+    if (audioRef.current) {
       if (isMuted) {
-        gainNodeRef.current.gain.setValueAtTime(0.3, audioContextRef.current!.currentTime);
+        audioRef.current.volume = 0.3;
         setIsMuted(false);
       } else {
-        gainNodeRef.current.gain.setValueAtTime(0, audioContextRef.current!.currentTime);
+        audioRef.current.volume = 0;
         setIsMuted(true);
       }
     }
   };
 
-  // Auto-start on component mount (with user interaction)
+  // Initialize audio on component mount
   useEffect(() => {
+    initAudio();
+    
+    // Auto-start after user interaction
     const handleFirstInteraction = async () => {
       await startAudio();
       document.removeEventListener('click', handleFirstInteraction);
       document.removeEventListener('touchstart', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
     };
 
-    // Auto-start after user interaction
     document.addEventListener('click', handleFirstInteraction, { once: true });
     document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+    document.addEventListener('keydown', handleFirstInteraction, { once: true });
 
     return () => {
-      stopAudio();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
       }
     };
   }, []);
@@ -208,7 +187,6 @@ export function AudioController({ className = '' }: AudioControllerProps) {
         size="icon"
         className="bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg"
         title={isMuted ? 'Unmute ocean sounds' : 'Mute ocean sounds'}
-        disabled={!isPlaying}
       >
         {isMuted ? (
           <VolumeX className="h-4 w-4 text-gray-700" />

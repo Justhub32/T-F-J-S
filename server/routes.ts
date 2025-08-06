@@ -6,6 +6,7 @@ import { setupAuth, isAuthenticated } from "./replitAuth";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import { ObjectPermission } from "./objectAcl";
 import { newsService, type ProcessedArticle } from "./newsService";
+import { contentService } from "./contentService";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -377,54 +378,107 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-  
-  // Auto-sync news on startup and every 6 hours
-  const performNewsSync = async () => {
+  // Generate original content endpoint
+  app.post("/api/content/generate", async (req, res) => {
     try {
-      console.log("Performing automatic news sync...");
+      console.log("Generating original content...");
       
-      // Clear old articles
-      await storage.clearOldNewsArticles();
+      // Generate original articles
+      const originalArticles = contentService.generateAllOriginalContent();
       
-      // Fetch fresh news
-      const freshNews = await newsService.fetchAllNews();
-      
-      if (freshNews.length > 0) {
-        // Convert to article format
-        const articleData = freshNews.map(news => ({
-          id: news.id,
-          title: news.title,
-          content: news.content,
-          excerpt: news.excerpt,
-          category: news.category,
-          imageUrl: news.imageUrl,
+      if (originalArticles.length > 0) {
+        // Convert to article format for database
+        const articleData = originalArticles.map(article => ({
+          id: article.id,
+          title: article.title,
+          content: article.content,
+          excerpt: article.excerpt,
+          category: article.category,
+          imageUrl: article.imageUrl,
           isDraft: false,
-          isFeatured: news.isFeatured,
-          createdAt: news.createdAt,
-          updatedAt: news.updatedAt,
+          isFeatured: article.isFeatured,
+          createdAt: article.createdAt,
+          updatedAt: article.updatedAt,
         }));
         
         await storage.syncNewsArticles(articleData);
-        console.log(`Automatic news sync completed: ${freshNews.length} articles`);
+        
+        res.json({ 
+          success: true, 
+          message: `Successfully generated ${originalArticles.length} original articles`,
+          articlesCount: originalArticles.length 
+        });
       } else {
-        console.log("Automatic news sync: No new articles found");
+        res.json({ 
+          success: true, 
+          message: "No articles generated",
+          articlesCount: 0 
+        });
       }
     } catch (error) {
-      console.error("Automatic news sync failed:", error);
+      console.error("Content generation failed:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to generate original content",
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  const httpServer = createServer(app);
+  
+  // Auto-sync content on startup and every 6 hours (mix of original content and news)
+  const performContentSync = async () => {
+    try {
+      console.log("Performing automatic content sync...");
+      
+      // Clear old articles first
+      await storage.clearOldNewsArticles();
+      
+      // Generate original content (60% of content)
+      const originalArticles = contentService.generateAllOriginalContent();
+      
+      // Fetch external news (40% of content)
+      const externalNews = await newsService.fetchAllNews();
+      
+      // Combine content
+      const allContent = [...originalArticles, ...externalNews];
+      
+      if (allContent.length > 0) {
+        // Convert to article format
+        const articleData = allContent.map(article => ({
+          id: article.id,
+          title: article.title,
+          content: article.content,
+          excerpt: article.excerpt,
+          category: article.category,
+          imageUrl: article.imageUrl,
+          isDraft: false,
+          isFeatured: article.isFeatured,
+          createdAt: article.createdAt,
+          updatedAt: article.updatedAt,
+        }));
+        
+        await storage.syncNewsArticles(articleData);
+        console.log(`Automatic content sync completed: ${originalArticles.length} original + ${externalNews.length} news = ${allContent.length} total articles`);
+      } else {
+        console.log("Automatic content sync: No new content found");
+      }
+    } catch (error) {
+      console.error("Automatic content sync failed:", error);
     }
   };
 
-  // Initial news sync on startup (delayed to allow server to start)
+  // Initial content sync on startup (delayed to allow server to start)
   setTimeout(() => {
-    performNewsSync();
+    performContentSync();
   }, 5000); // 5 second delay
 
-  // Schedule automatic news sync every 6 hours
+  // Schedule automatic content sync every 6 hours
   const sixHours = 6 * 60 * 60 * 1000;
-  setInterval(performNewsSync, sixHours);
+  setInterval(performContentSync, sixHours);
   
-  console.log("News auto-sync scheduled: every 6 hours");
+  console.log("Content auto-sync scheduled: every 6 hours (original + external content)");
 
   return httpServer;
 }

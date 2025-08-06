@@ -35,14 +35,25 @@ export default function Category() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="min-h-screen relative">
+      {/* Full Page Surf Background Image */}
+      <div className="fixed inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"
+          alt="Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-ocean/10 to-surf/10"></div>
+      </div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
         {/* Category Header */}
         <div className="text-center mb-12">
-          <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${categoryColor}`}>
+          <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${categoryColor} drop-shadow-lg`}>
             {categoryTitle}
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-white max-w-2xl mx-auto drop-shadow-md">
             {categoryDescription}
           </p>
         </div>
@@ -62,8 +73,8 @@ export default function Category() {
           </div>
         ) : (
           <div className="text-center py-12">
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No articles yet</h3>
-            <p className="text-gray-600">
+            <h3 className="text-xl font-semibold text-white mb-2 drop-shadow-lg">No articles yet</h3>
+            <p className="text-gray-200 drop-shadow-md">
               Be the first to contribute to the {categoryTitle} section!
             </p>
           </div>

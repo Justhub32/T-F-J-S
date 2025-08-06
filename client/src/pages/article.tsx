@@ -4,6 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { CommentsSection } from "@/components/CommentsSection";
 
 export default function Article() {
   const [, params] = useRoute("/article/:id");
@@ -110,7 +111,7 @@ export default function Article() {
         </div>
 
         {/* Author Bio */}
-        <div className="bg-white rounded-2xl shadow-sm p-8">
+        <div className="bg-white rounded-2xl shadow-sm p-8 mb-12">
           <div className="flex items-start">
             <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex items-center justify-center">
               <span className="text-xl font-bold text-gray-600">
@@ -124,6 +125,11 @@ export default function Article() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Comments Section */}
+        <div className="bg-white rounded-2xl shadow-sm p-8">
+          <CommentsSection articleId={articleId} />
         </div>
       </div>
     </div>

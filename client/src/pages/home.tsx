@@ -48,7 +48,7 @@ export default function Home() {
       </section>
 
       {/* Category Buttons Section */}
-      <section className="relative z-10 py-16 bg-black/20 backdrop-blur-sm">
+      <section className="relative z-10 py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <Link href="/category/tech">

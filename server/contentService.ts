@@ -18,11 +18,18 @@ export class ContentService {
   constructor() {}
 
   generateTechArticles(): OriginalArticle[] {
+    const techBackgrounds = [
+      "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Surfer with laptop on beach
+      "https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Ocean waves
+      "https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"  // Surfboard on sand
+    ];
+    
     return [
       {
         id: nanoid(),
         title: "The Future of Decentralized Web: Web3 and Beyond",
         excerpt: "Exploring how blockchain technology is reshaping the internet, from DeFi protocols to decentralized social networks.",
+        imageUrl: techBackgrounds[0],
         content: `
           <h2>The Dawn of Web3</h2>
           <p>The internet as we know it is evolving. Web3 represents a fundamental shift from centralized platforms to decentralized protocols that put users in control of their data and digital assets.</p>
@@ -50,6 +57,7 @@ export class ContentService {
         id: nanoid(),
         title: "AI-Driven Development: Tools That Actually Matter",
         excerpt: "A practical look at AI coding assistants, automated testing, and the tools that are genuinely changing how we build software.",
+        imageUrl: techBackgrounds[1],
         content: `
           <h2>Beyond the Hype: AI Tools That Work</h2>
           <p>While everyone's talking about AI replacing developers, the reality is more nuanced. AI tools are becoming powerful assistants that enhance productivity rather than replace human creativity.</p>
@@ -79,6 +87,7 @@ export class ContentService {
         id: nanoid(),
         title: "Building Resilient Systems: Lessons from Distributed Architecture",
         excerpt: "How to design systems that gracefully handle failures, scale efficiently, and maintain reliability under pressure.",
+        imageUrl: techBackgrounds[2],
         content: `
           <h2>The Art of System Resilience</h2>
           <p>In today's always-on world, system downtime isn't just inconvenient—it's costly. Building resilient distributed systems requires thinking beyond happy path scenarios.</p>
@@ -109,11 +118,18 @@ export class ContentService {
   }
 
   generateFinanceArticles(): OriginalArticle[] {
+    const financeBackgrounds = [
+      "https://images.unsplash.com/photo-1537519646099-335112b4bd5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Surfer at golden hour
+      "https://images.unsplash.com/photo-1530549387789-4c1017266635?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Tropical surf break
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"  // Perfect barrel wave
+    ];
+    
     return [
       {
         id: nanoid(),
         title: "DeFi Yield Farming: Strategy Beyond the Hype",
         excerpt: "Understanding the risks and rewards of yield farming in decentralized finance, with practical strategies for different risk profiles.",
+        imageUrl: financeBackgrounds[0],
         content: `
           <h2>Yield Farming: Beyond the Marketing</h2>
           <p>Yield farming promises high returns, but like any investment strategy, it requires understanding the underlying mechanisms and risks.</p>
@@ -148,6 +164,7 @@ export class ContentService {
         id: nanoid(),
         title: "Personal Finance in the Digital Age: Beyond Traditional Banking",
         excerpt: "How fintech innovations are changing personal finance management, from neobanks to investment apps to cryptocurrency integration.",
+        imageUrl: financeBackgrounds[1],
         content: `
           <h2>Rethinking Personal Finance</h2>
           <p>Traditional banking is being disrupted by fintech innovations that offer better user experiences, lower fees, and new capabilities.</p>
@@ -180,6 +197,7 @@ export class ContentService {
         id: nanoid(),
         title: "Investment Psychology: Why Smart People Make Bad Financial Decisions",
         excerpt: "Exploring cognitive biases that affect investment decisions and practical strategies to overcome emotional investing pitfalls.",
+        imageUrl: financeBackgrounds[2],
         content: `
           <h2>The Mind of an Investor</h2>
           <p>Technical analysis and fundamental research are important, but investment psychology often determines long-term success more than market knowledge.</p>
@@ -214,11 +232,18 @@ export class ContentService {
   }
 
   generateJiuJitsuArticles(): OriginalArticle[] {
+    const jiuJitsuBackgrounds = [
+      "https://images.unsplash.com/photo-1570197788417-0e82375c9371?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Peaceful beach meditation spot
+      "https://images.unsplash.com/photo-1582550945154-019d532d0fa5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Dawn surf session
+      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"  // Sunset surf lineup
+    ];
+    
     return [
       {
         id: nanoid(),
         title: "The Mental Game: Building Resilience Through Jiu-Jitsu",
         excerpt: "How the mental challenges of Brazilian Jiu-Jitsu translate to stronger resilience, better problem-solving, and emotional regulation in daily life.",
+        imageUrl: jiuJitsuBackgrounds[0],
         content: `
           <h2>More Than Physical Training</h2>
           <p>Brazilian Jiu-Jitsu is often called "physical chess" because it demands strategic thinking under pressure. But the mental benefits extend far beyond the mat.</p>
@@ -251,6 +276,7 @@ export class ContentService {
         id: nanoid(),
         title: "Building Your Home Training Routine: BJJ Fundamentals",
         excerpt: "Essential solo drills, mobility work, and strength training that complement your mat time and accelerate your Brazilian Jiu-Jitsu progress.",
+        imageUrl: jiuJitsuBackgrounds[1],
         content: `
           <h2>Training Beyond Class Time</h2>
           <p>While live rolling and instruction are irreplaceable, a structured home training routine can significantly accelerate your BJJ development.</p>
@@ -292,6 +318,7 @@ export class ContentService {
         id: nanoid(),
         title: "Competition Mindset: Lessons from the Tournament Circuit",
         excerpt: "How competitive Brazilian Jiu-Jitsu builds character, handles pressure, and develops strategic thinking both on and off the mat.",
+        imageUrl: jiuJitsuBackgrounds[2],
         content: `
           <h2>The Forge of Competition</h2>
           <p>Competition isn't for everyone, but the lessons learned from testing your skills under pressure create profound personal growth.</p>
@@ -328,11 +355,18 @@ export class ContentService {
   }
 
   generateSurfArticles(): OriginalArticle[] {
+    const surfBackgrounds = [
+      "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Epic surf break aerial view
+      "https://images.unsplash.com/photo-1483653085484-eb63c9f02547?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Surfer in perfect tube
+      "https://images.unsplash.com/photo-1529659240567-57999e7b376c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"  // Longboard session at sunset
+    ];
+    
     return [
       {
         id: nanoid(),
         title: "Reading the Ocean: A Surfer's Guide to Wave Forecasting",
         excerpt: "Understanding swell direction, wind patterns, and tidal influences to predict optimal surf conditions and find uncrowded sessions.",
+        imageUrl: surfBackgrounds[0],
         content: `
           <h2>The Language of Waves</h2>
           <p>Great surfers aren't just skilled on their boards—they're students of oceanography, meteorology, and local knowledge.</p>
@@ -370,6 +404,7 @@ export class ContentService {
         id: nanoid(),
         title: "Surf Fitness: Building Ocean-Ready Strength and Endurance",
         excerpt: "Specific training routines that develop the functional strength, paddle endurance, and flexibility needed for peak surfing performance.",
+        imageUrl: surfBackgrounds[1],
         content: `
           <h2>Training for the Ocean</h2>
           <p>Surfing demands a unique combination of upper body endurance, core stability, explosive power, and flexibility. Generic fitness doesn't always translate to surf performance.</p>
@@ -411,6 +446,7 @@ export class ContentService {
         id: nanoid(),
         title: "Sustainable Surfing: Protecting the Oceans We Love",
         excerpt: "How the surf community is leading environmental conservation efforts, from local beach cleanups to supporting ocean protection policies.",
+        imageUrl: surfBackgrounds[2],
         content: `
           <h2>Guardians of the Ocean</h2>
           <p>Surfers have a unique relationship with the ocean. We witness water quality changes, see plastic pollution firsthand, and depend on healthy marine ecosystems for our passion.</p>
@@ -457,6 +493,32 @@ export class ContentService {
       ...this.generateJiuJitsuArticles(),
       ...this.generateSurfArticles()
     ];
+  }
+
+  // Generate only 2-3 daily articles per category as requested
+  generateDailyOriginalContent(): OriginalArticle[] {
+    const techArticles = this.generateTechArticles();
+    const financeArticles = this.generateFinanceArticles();
+    const jiuJitsuArticles = this.generateJiuJitsuArticles();
+    const surfArticles = this.generateSurfArticles();
+
+    // Select 2-3 random articles from each category for daily content
+    const dailyTech = this.selectRandomArticles(techArticles, 3);
+    const dailyFinance = this.selectRandomArticles(financeArticles, 2);
+    const dailyJiuJitsu = this.selectRandomArticles(jiuJitsuArticles, 2);
+    const dailySurf = this.selectRandomArticles(surfArticles, 3);
+
+    return [
+      ...dailyTech,
+      ...dailyFinance,
+      ...dailyJiuJitsu,
+      ...dailySurf
+    ];
+  }
+
+  private selectRandomArticles(articles: OriginalArticle[], count: number): OriginalArticle[] {
+    const shuffled = [...articles].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
   }
 }
 

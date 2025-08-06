@@ -383,8 +383,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Generating original content...");
       
-      // Generate original articles
-      const originalArticles = contentService.generateAllOriginalContent();
+      // Generate daily original articles (2-3 per category)
+      const originalArticles = contentService.generateDailyOriginalContent();
       
       if (originalArticles.length > 0) {
         // Convert to article format for database
@@ -435,18 +435,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Clear old articles first
       await storage.clearOldNewsArticles();
       
-      // Generate original content (60% of content)
-      const originalArticles = contentService.generateAllOriginalContent();
+      // Generate only original content (2-3 articles per category as requested)
+      const originalArticles = contentService.generateDailyOriginalContent();
       
-      // Fetch external news (40% of content)
-      const externalNews = await newsService.fetchAllNews();
-      
-      // Combine content
-      const allContent = [...originalArticles, ...externalNews];
-      
-      if (allContent.length > 0) {
+      if (originalArticles.length > 0) {
         // Convert to article format
-        const articleData = allContent.map(article => ({
+        const articleData = originalArticles.map(article => ({
           id: article.id,
           title: article.title,
           content: article.content,
@@ -460,7 +454,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }));
         
         await storage.syncNewsArticles(articleData);
-        console.log(`Automatic content sync completed: ${originalArticles.length} original + ${externalNews.length} news = ${allContent.length} total articles`);
+        console.log(`Automatic content sync completed: ${originalArticles.length} original articles (2-3 per category)`);
       } else {
         console.log("Automatic content sync: No new content found");
       }
@@ -478,7 +472,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const sixHours = 6 * 60 * 60 * 1000;
   setInterval(performContentSync, sixHours);
   
-  console.log("Content auto-sync scheduled: every 6 hours (original + external content)");
+  console.log("Content auto-sync scheduled: every 6 hours (2-3 original articles per category)");
 
   return httpServer;
 }

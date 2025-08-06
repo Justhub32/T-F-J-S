@@ -2,15 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { ChartLine, Waves, Code, DollarSign, Activity } from "lucide-react";
 import { api } from "@/lib/api";
-import ArticleCard from "@/components/article-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function Home() {
-  const { data: featuredArticles, isLoading } = useQuery({
-    queryKey: ["/api/articles/featured"],
-    queryFn: () => api.articles.getFeatured(3),
-  });
 
   const { data: siteSettings } = useQuery({
     queryKey: ["/api/settings"],
@@ -94,37 +89,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Articles */}
-      <section className="relative z-10 py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Latest from the Community</h2>
-            <p className="text-gray-100 text-lg drop-shadow-md">Fresh insights on living the balanced life</p>
-          </div>
-          
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="bg-gray-200 rounded-2xl h-96 animate-pulse"></div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredArticles?.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </div>
-          )}
-          
-          <div className="text-center mt-12">
-            <Link href="/category/tech-finance">
-              <Button className="bg-gradient-to-r from-ocean to-surf text-white px-8 py-3 rounded-lg hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
-                Explore More Stories
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+
 
       {/* Newsletter Signup */}
       <section className="relative z-10 py-16">

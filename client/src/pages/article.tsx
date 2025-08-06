@@ -50,16 +50,42 @@ export default function Article() {
     );
   }
 
-  const categoryColor = article.category === "tech-finance" ? "text-ocean" : "text-surf";
-  const categoryBg = article.category === "tech-finance" ? "bg-ocean/10" : "bg-surf/10";
-  const categoryTitle = article.category === "tech-finance" ? "Tech+Finance" : "Jiu-Jitsu+Surf";
+  const getCategoryInfo = (cat: string) => {
+    switch (cat) {
+      case "tech":
+        return { title: "Tech", color: "text-red-400" };
+      case "finance":
+        return { title: "Finance", color: "text-green-400" };
+      case "jiu-jitsu":
+        return { title: "Jiu-Jitsu", color: "text-blue-400" };
+      case "surf":
+        return { title: "Surf", color: "text-yellow-400" };
+      default:
+        return { title: "ChillVibes", color: "text-white" };
+    }
+  };
+
+  const { title: categoryTitle, color: categoryColor } = getCategoryInfo(article.category);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
+    <div className="min-h-screen relative">
+      {/* Article Background Image */}
+      {article?.imageUrl && (
+        <div className="fixed inset-0 z-0">
+          <img 
+            src={article.imageUrl}
+            alt="Article background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
+        </div>
+      )}
+      
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
         {/* Back Button */}
         <Link href={`/category/${article.category}`}>
-          <Button variant="ghost" className="mb-8 hover:bg-gray-100">
+          <Button variant="ghost" className="mb-8 hover:bg-white/20 text-white backdrop-blur-sm">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to {categoryTitle}
           </Button>
@@ -68,16 +94,16 @@ export default function Article() {
         {/* Article Header */}
         <header className="mb-8">
           <div className="flex items-center mb-4">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${categoryBg} ${categoryColor}`}>
+            <span className={`px-3 py-1 rounded-full text-sm font-medium bg-white/20 backdrop-blur-sm text-white`}>
               {categoryTitle}
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
             {article.title}
           </h1>
 
-          <div className="flex items-center text-gray-600 space-x-6">
+          <div className="flex items-center text-gray-200 space-x-6">
             <div className="flex items-center">
               <User className="w-4 h-4 mr-2" />
               <span>{article.author}</span>
@@ -89,19 +115,8 @@ export default function Article() {
           </div>
         </header>
 
-        {/* Featured Image */}
-        {article.imageUrl && (
-          <div className="mb-8">
-            <img
-              src={article.imageUrl}
-              alt={article.title}
-              className="w-full h-96 object-cover rounded-2xl shadow-lg"
-            />
-          </div>
-        )}
-
-        {/* Article Content */}
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-12">
+        {/* Article Content with transparent background */}
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8 mb-12">
           <div className="prose prose-lg max-w-none">
             <div 
               dangerouslySetInnerHTML={{ __html: article.content }}
@@ -111,7 +126,7 @@ export default function Article() {
         </div>
 
         {/* Author Bio */}
-        <div className="bg-white rounded-2xl shadow-sm p-8 mb-12">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8 mb-12">
           <div className="flex items-start">
             <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex items-center justify-center">
               <span className="text-xl font-bold text-gray-600">
@@ -128,7 +143,7 @@ export default function Article() {
         </div>
 
         {/* Comments Section */}
-        <div className="bg-white rounded-2xl shadow-sm p-8">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8">
           <CommentsSection articleId={articleId} />
         </div>
       </div>

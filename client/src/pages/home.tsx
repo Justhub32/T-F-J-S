@@ -40,12 +40,16 @@ export default function Home() {
             </span><br/>
             <span className="text-white font-medium text-xl md:text-2xl lg:text-3xl inline-block ml-2 md:ml-4">: a digital lifestyle community spreading chill vibes</span>
           </h1>
-          <p className="text-xl text-gray-100 mb-12 max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-xl text-gray-100 mb-20 max-w-2xl mx-auto drop-shadow-md">
             Where innovation meets zen, and hustle meets flow. Join our community of mindful achievers living the balanced life.
           </p>
-          
-          {/* Category Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        </div>
+      </section>
+
+      {/* Category Buttons Section - Moved Outside Hero */}
+      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <Link href="/category/tech">
               <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-red-300 cursor-pointer hover:bg-white">
                 <div className="flex items-center justify-center w-12 h-12 bg-red-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">

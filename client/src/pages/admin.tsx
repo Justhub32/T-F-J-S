@@ -15,19 +15,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import RichTextEditor from "@/components/rich-text-editor";
+import { ObjectUploader } from "@/components/ObjectUploader";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import type { UploadResult } from "@uppy/core";
 
 interface ArticleFormData extends Omit<InsertArticle, 'imageUrl'> {
   imageFile?: File;
 }
 
+const handleGetUploadParameters = async () => {
+  const response = await fetch('/api/objects/upload', {
+    method: 'POST',
+    credentials: 'include',
+  });
+  if (!response.ok) {
+    throw new Error('Failed to get upload URL');
+  }
+  const { uploadURL } = await response.json();
+  return {
+    method: 'PUT' as const,
+    url: uploadURL,
+  };
+};
+
 export default function Admin() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
-  const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(null);
-  const [backgroundPreview, setBackgroundPreview] = useState<string>("");
+  const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
   const { toast } = useToast();
 
   const { data: articles, isLoading } = useQuery({
@@ -56,16 +72,9 @@ export default function Admin() {
 
   const createMutation = useMutation({
     mutationFn: async (data: ArticleFormData) => {
-      let imageUrl = "";
-      
-      if (data.imageFile) {
-        const uploadResult = await api.upload.image(data.imageFile);
-        imageUrl = uploadResult.imageUrl;
-      }
-
       const articleData: InsertArticle = {
         ...data,
-        imageUrl: imageUrl || undefined,
+        imageUrl: backgroundImageUrl || undefined, // Use the uploaded backdrop image
       };
       delete (articleData as any).imageFile;
 
@@ -76,6 +85,7 @@ export default function Admin() {
       setIsCreateDialogOpen(false);
       form.reset();
       setImagePreview("");
+      setBackgroundImageUrl("");
       toast({ title: "Success", description: "Article created successfully!" });
     },
     onError: (error) => {
@@ -148,8 +158,7 @@ export default function Admin() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
-      setBackgroundImageFile(null);
-      setBackgroundPreview("");
+      setBackgroundImageUrl("");
       toast({
         title: "Settings updated",
         description: "Site settings have been successfully updated.",
@@ -208,20 +217,38 @@ export default function Admin() {
     setEditingArticle(null);
   };
 
-  const handleBackgroundImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setBackgroundImageFile(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setBackgroundPreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+  const handleBackdropUploadComplete = async (result: UploadResult<Record<string, unknown>, Record<string, unknown>>) => {
+    if (result.successful && result.successful.length > 0) {
+      const uploadURL = result.successful[0].uploadURL;
+      
+      // Set ACL policy for the uploaded image
+      try {
+        const response = await fetch('/api/article-backdrops', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ imageURL: uploadURL }),
+        });
+        
+        if (response.ok) {
+          const { publicUrl } = await response.json();
+          setBackgroundImageUrl(publicUrl);
+          toast({
+            title: "Success",
+            description: "Backdrop image uploaded successfully",
+          });
+        }
+      } catch (error) {
+        console.error('Error setting backdrop ACL:', error);
+        toast({
+          title: "Error",
+          description: "Failed to process uploaded image",
+          variant: "destructive",
+        });
+      }
     }
-  };
-
-  const handleSettingsSubmit = () => {
-    updateSettingsMutation.mutate(backgroundImageFile || undefined);
   };
 
   return (
@@ -346,6 +373,46 @@ export default function Admin() {
                             </>
                           )}
                         </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Article Backdrop Image
+                        </label>
+                        <p className="text-sm text-gray-500 mb-4">
+                          Upload a custom backdrop image that will appear behind the article text
+                        </p>
+                        
+                        {backgroundImageUrl && (
+                          <div className="mb-4">
+                            <p className="text-sm font-medium text-gray-700 mb-2">Current Backdrop:</p>
+                            <img 
+                              src={backgroundImageUrl} 
+                              alt="Article backdrop preview" 
+                              className="w-full max-w-md h-32 object-cover rounded-lg border"
+                            />
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setBackgroundImageUrl("")}
+                              className="mt-2"
+                            >
+                              Remove Backdrop
+                            </Button>
+                          </div>
+                        )}
+                        
+                        <ObjectUploader
+                          maxNumberOfFiles={1}
+                          maxFileSize={10485760} // 10MB
+                          onGetUploadParameters={handleGetUploadParameters}
+                          onComplete={handleBackdropUploadComplete}
+                          buttonClassName="bg-ocean hover:bg-teal-600 text-white"
+                        >
+                          <Image className="w-4 h-4 mr-2" />
+                          Upload Backdrop Image
+                        </ObjectUploader>
                       </div>
 
                       <FormField
@@ -527,7 +594,7 @@ export default function Admin() {
                   </p>
                   
                   {/* Current Background Preview */}
-                  {siteSettings?.heroBackgroundUrl && !backgroundPreview && (
+                  {siteSettings?.heroBackgroundUrl && (
                     <div className="mb-4">
                       <p className="text-sm font-medium text-gray-700 mb-2">Current Background:</p>
                       <img 
@@ -537,59 +604,10 @@ export default function Admin() {
                       />
                     </div>
                   )}
-                  
-                  {/* New Background Preview */}
-                  {backgroundPreview && (
-                    <div className="mb-4">
-                      <p className="text-sm font-medium text-gray-700 mb-2">New Background Preview:</p>
-                      <img 
-                        src={backgroundPreview} 
-                        alt="Background preview" 
-                        className="w-full max-w-md h-32 object-cover rounded-lg border"
-                      />
-                    </div>
-                  )}
 
-                  <div className="flex items-center space-x-4">
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleBackgroundImageChange}
-                      className="file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-ocean/10 file:text-ocean hover:file:bg-ocean/20"
-                    />
-                    {backgroundImageFile && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setBackgroundImageFile(null);
-                          setBackgroundPreview("");
-                        }}
-                      >
-                        Clear
-                      </Button>
-                    )}
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t">
-                  <Button 
-                    onClick={handleSettingsSubmit}
-                    disabled={updateSettingsMutation.isPending || !backgroundImageFile}
-                    className="bg-ocean hover:bg-teal-600"
-                  >
-                    {updateSettingsMutation.isPending ? (
-                      <>
-                        <div className="w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                        Updating...
-                      </>
-                    ) : (
-                      <>
-                        <Settings className="w-4 h-4 mr-2" />
-                        Update Background
-                      </>
-                    )}
-                  </Button>
+                  <p className="text-sm text-gray-500 mb-4">
+                    Note: Use the Object Storage panel to upload homepage background images directly to the 'public' directory.
+                  </p>
                 </div>
               </div>
             </div>

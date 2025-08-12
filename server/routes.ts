@@ -301,6 +301,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Object storage endpoints for admin photo uploads
+  app.post("/api/objects/upload", isAuthenticated, async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error("Error getting upload URL:", error);
+      res.status(500).json({ error: "Failed to get upload URL" });
+    }
+  });
+
+  app.put("/api/article-backdrops", isAuthenticated, async (req, res) => {
+    if (!req.body.imageURL) {
+      return res.status(400).json({ error: "imageURL is required" });
+    }
+
+    const userId = req.user?.claims?.sub;
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const objectPath = await objectStorageService.trySetObjectEntityAclPolicy(
+        req.body.imageURL,
+        {
+          owner: userId,
+          visibility: "public", // Article backdrops should be publicly accessible
+        }
+      );
+
+      res.status(200).json({
+        objectPath: objectPath,
+        publicUrl: `${req.protocol}://${req.get('host')}/objects${objectPath}`
+      });
+    } catch (error) {
+      console.error("Error setting article backdrop:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Serve uploaded objects
+  app.get("/objects/:objectPath(*)", async (req, res) => {
+    const objectStorageService = new ObjectStorageService();
+    try {
+      const objectFile = await objectStorageService.getObjectEntityFile(
+        req.path,
+      );
+      objectStorageService.downloadObject(objectFile, res);
+    } catch (error) {
+      console.error("Error accessing object:", error);
+      if (error instanceof ObjectNotFoundError) {
+        return res.sendStatus(404);
+      }
+      return res.sendStatus(500);
+    }
+  });
+
   // News synchronization endpoints
   // Manual news sync (for testing and immediate updates)
   app.post("/api/news/sync", async (req: any, res) => {

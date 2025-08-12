@@ -63,6 +63,7 @@ export function ObjectUploader({
     new Uppy({
       restrictions: {
         maxNumberOfFiles,
+        allowedFileTypes: ['image/*'],
         maxFileSize,
       },
       autoProceed: false,
@@ -73,6 +74,7 @@ export function ObjectUploader({
       })
       .on("complete", (result) => {
         onComplete?.(result);
+        setShowModal(false);
       })
   );
 

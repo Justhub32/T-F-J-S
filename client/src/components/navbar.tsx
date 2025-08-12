@@ -26,19 +26,26 @@ export default function Navbar() {
           </Link>
           
           <div className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`font-medium transition-colors ${
-                  location === item.href
-                    ? "text-ocean"
-                    : "text-gray-700 hover:text-ocean"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              let textColorClass = "";
+              if (item.name === "Jiu-Jitsu") {
+                textColorClass = "category-jiu-jitsu";
+              } else if (item.name === "Surf") {
+                textColorClass = "category-surf";
+              } else {
+                textColorClass = location === item.href ? "text-ocean" : "text-gray-700 hover:text-ocean";
+              }
+              
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`font-medium transition-colors ${textColorClass}`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="flex items-center space-x-4">
@@ -62,16 +69,27 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-gray-100">
           <div className="px-4 py-3 space-y-2">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="block py-2 text-gray-700 hover:text-ocean transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              let mobileTextColorClass = "";
+              if (item.name === "Jiu-Jitsu") {
+                mobileTextColorClass = "category-jiu-jitsu";
+              } else if (item.name === "Surf") {
+                mobileTextColorClass = "category-surf";
+              } else {
+                mobileTextColorClass = "text-gray-700 hover:text-ocean";
+              }
+              
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`block py-2 transition-colors ${mobileTextColorClass}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}

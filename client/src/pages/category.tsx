@@ -20,9 +20,9 @@ export default function Category() {
       case "finance":
         return { title: "Finance", color: "text-green-500", description: "Markets and money" };
       case "jiu-jitsu":
-        return { title: "Jiu-Jitsu", color: "text-blue-500", description: "Martial arts and mindset" };
+        return { title: "Jiu-Jitsu", color: "category-jiu-jitsu", description: "Martial arts and mindset" };
       case "surf":
-        return { title: "Surf", color: "text-yellow-500", description: "Ocean life and flow" };
+        return { title: "Surf", color: "category-surf", description: "Ocean life and flow" };
       default:
         return { title: "Unknown", color: "text-gray-500", description: "Category not found" };
     }

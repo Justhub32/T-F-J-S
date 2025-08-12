@@ -10,15 +10,15 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const categoryColors = {
     "tech": "bg-red-100 text-red-600",
     "finance": "bg-green-100 text-green-600",
-    "jiu-jitsu": "bg-blue-100 text-blue-600",
-    "surf": "bg-yellow-100 text-yellow-600",
+    "jiu-jitsu": "bg-yellow-100 text-yellow-600",
+    "surf": "bg-blue-100 text-blue-600",
   };
 
   const hoverColors = {
     "tech": "group-hover:text-red-600",
     "finance": "group-hover:text-green-600",
-    "jiu-jitsu": "group-hover:text-blue-600",
-    "surf": "group-hover:text-yellow-600",
+    "jiu-jitsu": "group-hover:text-yellow-600",
+    "surf": "group-hover:text-blue-600",
   };
 
   return (

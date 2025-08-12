@@ -319,8 +319,12 @@ export default function Admin() {
                               <SelectContent>
                                 <SelectItem value="tech">Tech</SelectItem>
                                 <SelectItem value="finance">Finance</SelectItem>
-                                <SelectItem value="jiu-jitsu">Jiu-Jitsu</SelectItem>
-                                <SelectItem value="surf">Surf</SelectItem>
+                                <SelectItem value="jiu-jitsu">
+                                  <span className="category-jiu-jitsu">Jiu-Jitsu</span>
+                                </SelectItem>
+                                <SelectItem value="surf">
+                                  <span className="category-surf">Surf</span>
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />

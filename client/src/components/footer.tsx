@@ -46,12 +46,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/category/jiu-jitsu" className="hover:text-ocean transition-colors">
+                <Link href="/category/jiu-jitsu" className="category-jiu-jitsu hover:opacity-80 transition-opacity">
                   Jiu-Jitsu
                 </Link>
               </li>
               <li>
-                <Link href="/category/surf" className="hover:text-ocean transition-colors">
+                <Link href="/category/surf" className="category-surf hover:opacity-80 transition-opacity">
                   Surf
                 </Link>
               </li>

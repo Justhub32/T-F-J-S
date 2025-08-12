@@ -141,4 +141,13 @@
   .text-surf {
     color: var(--surf);
   }
+  
+  /* Category text colors */
+  .category-jiu-jitsu {
+    color: rgb(234 179 8); /* yellow-500 */
+  }
+  
+  .category-surf {
+    color: rgb(59 130 246); /* blue-500 */
+  }
 }

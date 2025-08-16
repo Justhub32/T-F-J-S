@@ -32,7 +32,7 @@ export default function Home() {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
             <span className="text-red-400">Tech</span><span className="text-white">+</span><span className="text-green-400">Finance</span>,<br/>
             <span className="inline-block ml-20 md:ml-32 lg:ml-40">
-              <span className="text-blue-400">Jiu-Jitsu</span><span className="text-white">+</span><span className="text-yellow-400">Surf</span>
+              <span className="text-yellow-400">Jiu-Jitsu</span><span className="text-white">+</span><span className="text-blue-400">Surf</span>
             </span><br/>
             <span className="text-white font-medium text-xl md:text-2xl lg:text-3xl inline-block ml-2 md:ml-4">: a digital lifestyle community spreading chill vibes</span>
           </h1>
@@ -67,21 +67,21 @@ export default function Home() {
             </Link>
             
             <Link href="/category/jiu-jitsu">
-              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-blue-300 cursor-pointer hover:bg-white">
-                <div className="flex items-center justify-center w-12 h-12 bg-blue-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-yellow-300 cursor-pointer hover:bg-white">
+                <div className="flex items-center justify-center w-12 h-12 bg-yellow-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Activity className="text-white w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Jiu-Jitsu</h3>
+                <h3 className="text-xl font-bold category-jiu-jitsu mb-2">Jiu-Jitsu</h3>
                 <p className="text-gray-600 text-sm">Martial arts and mindset</p>
               </div>
             </Link>
             
             <Link href="/category/surf">
-              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-yellow-300 cursor-pointer hover:bg-white">
-                <div className="flex items-center justify-center w-12 h-12 bg-yellow-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="group bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-white/50 hover:border-blue-300 cursor-pointer hover:bg-white">
+                <div className="flex items-center justify-center w-12 h-12 bg-blue-500 rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Waves className="text-white w-6 h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Surf</h3>
+                <h3 className="text-xl font-bold category-surf mb-2">Surf</h3>
                 <p className="text-gray-600 text-sm">Ocean life and flow</p>
               </div>
             </Link>

@@ -8,10 +8,43 @@ export default function Navbar() {
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Tech", href: "/category/tech" },
-    { name: "Finance", href: "/category/finance" },
-    { name: "Jiu-Jitsu", href: "/category/jiu-jitsu" },
-    { name: "Surf", href: "/category/surf" },
+    { 
+      name: "Tech", 
+      href: "/category/tech",
+      subcategories: [
+        { name: "AI & Innovation", href: "/category/tech/ai" },
+        { name: "Blockchain", href: "/category/tech/blockchain" },
+        { name: "Mobile Apps", href: "/category/tech/mobile" }
+      ]
+    },
+    { 
+      name: "Finance", 
+      href: "/category/finance",
+      subcategories: [
+        { name: "Travel Rewards", href: "/category/finance/travel-rewards" },
+        { name: "Crypto/DeFi", href: "/category/finance/crypto" },
+        { name: "Markets", href: "/category/finance/markets" }
+      ]
+    },
+    { 
+      name: "Jiu-Jitsu", 
+      href: "/category/jiu-jitsu",
+      subcategories: [
+        { name: "Training & Mindset", href: "/category/jiu-jitsu/training" },
+        { name: "Destinations", href: "/category/jiu-jitsu/destinations" },
+        { name: "Competitions", href: "/category/jiu-jitsu/competitions" }
+      ]
+    },
+    { 
+      name: "Surf", 
+      href: "/category/surf",
+      subcategories: [
+        { name: "Forecasting", href: "/category/surf/forecasting" },
+        { name: "Destinations", href: "/category/surf/destinations" },
+        { name: "Conservation", href: "/category/surf/conservation" },
+        { name: "Gear Reviews", href: "/category/surf/gear" }
+      ]
+    },
   ];
 
   return (

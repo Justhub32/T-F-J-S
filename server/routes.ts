@@ -7,6 +7,7 @@ import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import { ObjectPermission } from "./objectAcl";
 import { newsService, type ProcessedArticle } from "./newsService";
 import { contentService } from "./contentService";
+import { enhancedContentService } from "./enhancedContentService";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -136,11 +137,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all articles with optional category filter
+  // Get all articles with optional category and subcategory filters
   app.get("/api/articles", async (req, res) => {
     try {
       const category = req.query.category as string;
-      const articles = await storage.getArticles(category);
+      const subcategory = req.query.subcategory as string;
+      const articles = await storage.getArticles(category, subcategory);
       res.json(articles);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch articles" });
@@ -492,27 +494,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Clear old articles first
       await storage.clearOldNewsArticles();
       
-      // Generate only original content (2-3 articles per category as requested)
-      const originalArticles = contentService.generateDailyOriginalContent();
+      // Generate comprehensive content with real-time news integration
+      const originalArticles = await enhancedContentService.generateDailyContent();
       
       if (originalArticles.length > 0) {
-        // Convert to article format
+        // Convert to article format with enhanced fields
         const articleData = originalArticles.map(article => ({
           id: article.id,
           title: article.title,
           content: article.content,
           excerpt: article.excerpt,
           category: article.category,
+          subcategory: article.subcategory || null,
           imageUrl: article.imageUrl || null,
           author: article.author,
           isDraft: false,
           isFeatured: article.isFeatured,
+          isRealtime: article.isRealtime,
+          sourceUrl: article.sourceUrl || null,
+          tags: article.tags || null,
           createdAt: article.createdAt,
           updatedAt: article.updatedAt,
         }));
         
         await storage.syncNewsArticles(articleData);
-        console.log(`Automatic content sync completed: ${originalArticles.length} original articles (2-3 per category)`);
+        console.log(`Automatic content sync completed: ${originalArticles.length} comprehensive articles with real-time integration`);
       } else {
         console.log("Automatic content sync: No new content found");
       }
@@ -530,7 +536,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const sixHours = 6 * 60 * 60 * 1000;
   setInterval(performContentSync, sixHours);
   
-  console.log("Content auto-sync scheduled: every 6 hours (2-3 original articles per category)");
+  console.log("Content auto-sync scheduled: every 6 hours (comprehensive lifestyle media with real-time updates)");
 
   return httpServer;
 }

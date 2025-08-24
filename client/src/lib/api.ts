@@ -6,6 +6,9 @@ export const api = {
     getAll: (category?: string): Promise<Article[]> => 
       apiRequest("GET", `/api/articles${category ? `?category=${category}` : ""}`).then(res => res.json()),
     
+    getBySubcategory: (category?: string, subcategory?: string): Promise<Article[]> => 
+      apiRequest("GET", `/api/articles?category=${category}&subcategory=${subcategory}`).then(res => res.json()),
+    
     getFeatured: (limit?: number): Promise<Article[]> => 
       apiRequest("GET", `/api/articles/featured${limit ? `?limit=${limit}` : ""}`).then(res => res.json()),
     

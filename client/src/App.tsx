@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/home";
 import Category from "@/pages/category";
+import Subcategory from "@/pages/subcategory";
 import Article from "@/pages/article";
 import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
@@ -18,6 +19,7 @@ function Router() {
       <main className="flex-1">
         <Switch>
           <Route path="/" component={Home} />
+          <Route path="/category/:category/:subcategory" component={Subcategory} />
           <Route path="/category/:category" component={Category} />
           <Route path="/article/:id" component={Article} />
           <Route path="/admin" component={Admin} />

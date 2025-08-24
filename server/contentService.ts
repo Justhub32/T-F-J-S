@@ -6,10 +6,14 @@ export interface OriginalArticle {
   content: string;
   excerpt: string;
   category: "tech" | "finance" | "jiu-jitsu" | "surf";
+  subcategory?: string;
   imageUrl?: string;
   author: string;
   isDraft: boolean;
   isFeatured: boolean;
+  isRealtime: boolean;
+  sourceUrl?: string;
+  tags?: string[];
   createdAt: Date;
   updatedAt: Date;
 }

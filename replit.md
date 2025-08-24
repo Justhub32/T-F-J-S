@@ -1,8 +1,27 @@
-# ChillVibes Blog Platform
+# ChillVibes Lifestyle Media Community
 
 ## Overview
 
-This is a full-stack blog platform for a lifestyle digital community called "ChillVibes" that combines Tech+Finance and Jiu-Jitsu+Surf content. The application features a modern, ocean-themed design with a focus on mindful content and balanced living.
+ChillVibes is a comprehensive lifestyle media platform - "Red Bull meets CNBC" - combining Tech+Finance and Jiu-Jitsu+Surf content with real-time information updates. The community features AI-powered content generation, user engagement through comments and photo sharing, and monetization through targeted advertising.
+
+**Vision**: A digital lifestyle community spreading chill vibes across technology, finance, adventure sports, and wellness.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## Recent Enhancements (January 2025)
+
+### Comprehensive Lifestyle Media Platform
+- **Real-time News Integration**: Enhanced content service now fetches real-time tech and finance news via NEWS_API_KEY
+- **Subcategory System**: Added detailed subcategories across all content areas:
+  - **Tech**: AI & Innovation, Blockchain, Mobile Apps
+  - **Finance**: Travel Rewards, Crypto/DeFi, Markets
+  - **Jiu-Jitsu**: Training & Mindset, Destinations, Competitions
+  - **Surf**: Forecasting, Destinations, Conservation, Gear Reviews
+- **Advanced Content Generation**: Combines AI-generated original content with real-time news feeds
+- **Enhanced Database Schema**: Added subcategory, realtime flags, source URLs, and tags to articles
+- **Lifestyle-First Approach**: All content filtered through ChillVibes perspective of balanced living
 
 ## User Preferences
 

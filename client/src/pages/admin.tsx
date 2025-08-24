@@ -25,9 +25,11 @@ interface ArticleFormData extends Omit<InsertArticle, 'imageUrl'> {
 }
 
 const handleGetUploadParameters = async () => {
-  const response = await fetch('/api/objects/upload', {
+  const response = await fetch('/api/objects/upload/public', {
     method: 'POST',
-    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
   if (!response.ok) {
     throw new Error('Failed to get upload URL');

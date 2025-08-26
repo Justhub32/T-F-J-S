@@ -12,11 +12,11 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolumeState] = useState(0.3);
 
-  // Create realistic beach wave audio with crashing and foam sounds
+  // Create large, powerful ocean wave crashes
   const createOceanWaveAudio = () => {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const sampleRate = audioContext.sampleRate;
-    const duration = 15; // 15 seconds for complete wave cycle
+    const duration = 20; // 20 seconds for powerful wave cycle
     const numSamples = sampleRate * duration;
     
     // Create buffer for ocean wave sound
@@ -29,73 +29,97 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
         const t = i / sampleRate;
         let sample = 0;
         
-        // Wave cycle: 8 seconds buildup, 2 seconds crash, 5 seconds retreat
+        // Large wave cycle: 12 seconds buildup, 4 seconds massive crash, 4 seconds powerful retreat
         const cyclePos = (t % duration) / duration;
         
-        if (cyclePos < 0.53) { // Buildup phase (0-8 seconds)
-          const buildupPos = cyclePos / 0.53;
+        if (cyclePos < 0.6) { // Extended buildup phase (0-12 seconds)
+          const buildupPos = cyclePos / 0.6;
+          const intensity = Math.pow(buildupPos, 1.5); // Exponential buildup
           
-          // Gradual ocean swell building up
-          const deepSwell = Math.sin(2 * Math.PI * 0.08 * t) * 0.2 * buildupPos;
-          const mediumWaves = Math.sin(2 * Math.PI * 0.15 * t) * 0.15 * buildupPos;
-          const smallWaves = Math.sin(2 * Math.PI * 0.3 * t) * 0.1 * buildupPos;
+          // Deep ocean swells building to massive size
+          const deepSwell = Math.sin(2 * Math.PI * 0.04 * t) * 0.4 * intensity;
+          const largeSwell = Math.sin(2 * Math.PI * 0.07 * t) * 0.3 * intensity;
+          const mediumWaves = Math.sin(2 * Math.PI * 0.12 * t) * 0.25 * intensity;
+          const surfaceChop = Math.sin(2 * Math.PI * 0.25 * t) * 0.15 * intensity;
           
-          // Add filtered white noise for water movement
+          // Rumbling undertone for large waves
+          const rumble = Math.sin(2 * Math.PI * 0.02 * t) * 0.2 * intensity;
+          
+          // Progressive water movement noise
           let noise = 0;
-          for (let j = 0; j < 8; j++) {
-            noise += (Math.random() * 2 - 1) / Math.pow(2, j + 2);
+          for (let j = 0; j < 12; j++) {
+            noise += (Math.random() * 2 - 1) / Math.pow(2, j + 1);
           }
-          noise *= buildupPos * 0.03;
+          noise *= intensity * 0.08;
           
-          sample = deepSwell + mediumWaves + smallWaves + noise;
+          sample = deepSwell + largeSwell + mediumWaves + surfaceChop + rumble + noise;
           
-        } else if (cyclePos < 0.66) { // Crash phase (8-10 seconds)
-          const crashPos = (cyclePos - 0.53) / 0.13;
+        } else if (cyclePos < 0.8) { // Massive crash phase (12-16 seconds)
+          const crashPos = (cyclePos - 0.6) / 0.2;
           
-          // Intense wave crash with white noise and harmonics
-          let crashNoise = 0;
+          // Extremely intense wave crash - multiple impact stages
+          let massiveCrashNoise = 0;
+          for (let j = 0; j < 64; j++) {
+            massiveCrashNoise += (Math.random() * 2 - 1) / Math.pow(1.3, j);
+          }
+          
+          // Multi-stage crash envelope for large wave
+          const mainImpact = Math.exp(-crashPos * 6) * Math.sin(crashPos * Math.PI * 2);
+          const secondaryImpact = Math.exp(-(crashPos - 0.3) * 8) * Math.sin((crashPos - 0.3) * Math.PI * 3);
+          const aftershock = Math.exp(-(crashPos - 0.6) * 10) * Math.sin((crashPos - 0.6) * Math.PI * 4);
+          
+          const totalImpactEnvelope = Math.max(0, mainImpact) + Math.max(0, secondaryImpact * 0.7) + Math.max(0, aftershock * 0.4);
+          
+          // Multiple frequency components for massive crash
+          const lowCrash = Math.sin(2 * Math.PI * 25 * t) * totalImpactEnvelope * 0.5;
+          const midCrash = Math.sin(2 * Math.PI * 60 * t) * totalImpactEnvelope * 0.4;
+          const highCrash = Math.sin(2 * Math.PI * 120 * t) * totalImpactEnvelope * 0.3;
+          const splashCrash = Math.sin(2 * Math.PI * 250 * t) * totalImpactEnvelope * 0.2;
+          
+          // Thunder-like rumble from large wave impact
+          const thunderRumble = Math.sin(2 * Math.PI * 15 * t + Math.sin(3 * t)) * totalImpactEnvelope * 0.3;
+          
+          sample = (massiveCrashNoise * totalImpactEnvelope * 0.6) + lowCrash + midCrash + highCrash + splashCrash + thunderRumble;
+          
+        } else { // Powerful retreat phase (16-20 seconds)
+          const retreatPos = (cyclePos - 0.8) / 0.2;
+          const retreatIntensity = Math.exp(-retreatPos * 3); // Slower fade for large waves
+          
+          // Massive foam and turbulent water retreat
+          let heavyFoamNoise = 0;
           for (let j = 0; j < 32; j++) {
-            crashNoise += (Math.random() * 2 - 1) / Math.pow(1.5, j);
+            heavyFoamNoise += (Math.random() * 2 - 1) / Math.pow(1.8, j);
           }
           
-          // Wave impact envelope - sharp attack, quick decay
-          const impactEnvelope = Math.exp(-crashPos * 8) * Math.sin(crashPos * Math.PI);
+          // Large bubbling and churning sounds
+          const largeBubbles = Math.sin(2 * Math.PI * 12 * t + Math.sin(4 * t)) * retreatIntensity * 0.2;
+          const mediumBubbles = Math.sin(2 * Math.PI * 28 * t + Math.sin(6 * t)) * retreatIntensity * 0.15;
+          const smallBubbles = Math.sin(2 * Math.PI * 45 * t + Math.sin(8 * t)) * retreatIntensity * 0.1;
           
-          // Multiple frequency components for realistic crash
-          const crash1 = Math.sin(2 * Math.PI * 40 * t) * impactEnvelope * 0.3;
-          const crash2 = Math.sin(2 * Math.PI * 80 * t) * impactEnvelope * 0.2;
-          const crash3 = Math.sin(2 * Math.PI * 160 * t) * impactEnvelope * 0.1;
+          // Powerful water drainage and undertow
+          const heavyDrainage = Math.sin(2 * Math.PI * 0.3 * t) * retreatIntensity * 0.25;
+          const undertow = Math.sin(2 * Math.PI * 0.8 * t) * retreatIntensity * 0.2;
           
-          sample = (crashNoise * impactEnvelope * 0.4) + crash1 + crash2 + crash3;
+          // Residual rumbling from large wave energy
+          const residualRumble = Math.sin(2 * Math.PI * 0.15 * t) * retreatIntensity * 0.15;
           
-        } else { // Retreat phase (10-15 seconds)
-          const retreatPos = (cyclePos - 0.66) / 0.34;
-          const retreatFade = 1 - retreatPos;
-          
-          // Gentle foam and water retreat
-          let foamNoise = 0;
-          for (let j = 0; j < 16; j++) {
-            foamNoise += (Math.random() * 2 - 1) / Math.pow(2, j + 1);
-          }
-          
-          // Bubbling and foam sounds
-          const bubble1 = Math.sin(2 * Math.PI * 20 * t + Math.sin(5 * t)) * retreatFade * 0.1;
-          const bubble2 = Math.sin(2 * Math.PI * 35 * t + Math.sin(3 * t)) * retreatFade * 0.08;
-          
-          // Water drainage sound
-          const drainage = Math.sin(2 * Math.PI * 0.5 * t) * retreatFade * 0.15;
-          
-          sample = (foamNoise * retreatFade * 0.2) + bubble1 + bubble2 + drainage;
+          sample = (heavyFoamNoise * retreatIntensity * 0.4) + largeBubbles + mediumBubbles + smallBubbles + heavyDrainage + undertow + residualRumble;
         }
         
-        // Slight stereo separation for depth
+        // Enhanced stereo separation for dramatic effect
         if (channel === 1) {
-          sample *= 0.95; // Right channel slightly quieter
+          sample *= 0.9; // More pronounced stereo difference for large waves
+          // Add slight delay for spatial depth
+          const delayedSample = channelData[Math.max(0, i-5)] || 0;
+          sample = sample * 0.85 + delayedSample * 0.15;
         }
         
-        // Apply gentle low-pass filtering for natural sound
-        const filtered = sample * 0.7 + (channelData[Math.max(0, i-1)] || 0) * 0.3;
-        channelData[i] = Math.max(-1, Math.min(1, filtered));
+        // Dynamic compression for powerful sound
+        const compressed = sample > 0 ? Math.pow(Math.abs(sample), 0.8) * Math.sign(sample) : -Math.pow(Math.abs(sample), 0.8);
+        
+        // Apply filtering for natural large wave sound
+        const filtered = compressed * 0.6 + (channelData[Math.max(0, i-1)] || 0) * 0.4;
+        channelData[i] = Math.max(-0.95, Math.min(0.95, filtered));
       }
     }
     

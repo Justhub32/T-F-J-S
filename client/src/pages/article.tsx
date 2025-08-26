@@ -115,27 +115,27 @@ export default function Article() {
           </div>
         </header>
 
-        {/* Article Content with transparent background */}
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8 mb-12">
+        {/* Article Content */}
+        <div className="mb-12">
           <div className="prose prose-lg max-w-none">
             <div 
               dangerouslySetInnerHTML={{ __html: article.content }}
-              className="prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-a:text-ocean hover:prose-a:text-teal-600"
+              className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-a:text-blue-300 hover:prose-a:text-blue-200 drop-shadow-lg"
             />
           </div>
         </div>
 
         {/* Author Bio */}
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8 mb-12">
+        <div className="mb-12">
           <div className="flex items-start">
-            <div className="w-16 h-16 bg-gray-200 rounded-full mr-4 flex items-center justify-center">
-              <span className="text-xl font-bold text-gray-600">
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mr-4 flex items-center justify-center">
+              <span className="text-xl font-bold text-white">
                 {article.author.charAt(0)}
               </span>
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{article.author}</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold text-white mb-2 drop-shadow-lg">{article.author}</h3>
+              <p className="text-gray-200 drop-shadow-lg">
                 Contributing writer for ChillVibes community, sharing insights on the balanced lifestyle.
               </p>
             </div>
@@ -143,7 +143,7 @@ export default function Article() {
         </div>
 
         {/* Comments Section */}
-        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-lg p-8">
+        <div className="bg-black/30 backdrop-blur-md rounded-2xl shadow-lg p-8">
           <CommentsSection articleId={articleId} />
         </div>
       </div>

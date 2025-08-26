@@ -215,15 +215,15 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
-        <MessageCircle className="h-5 w-5" />
-        <h3 className="text-lg font-semibold">Comments ({comments.length})</h3>
+        <MessageCircle className="h-5 w-5 text-white" />
+        <h3 className="text-lg font-semibold text-white drop-shadow-lg">Comments ({comments.length})</h3>
       </div>
 
       {/* Comment Form */}
       {isAuthenticated ? (
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-sm border-white/20">
           <CardHeader>
-            <h4 className="font-medium">Add a Comment</h4>
+            <h4 className="font-medium text-white">Add a Comment</h4>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -233,12 +233,12 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
                   name="content"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Your Comment</FormLabel>
+                      <FormLabel className="text-white">Your Comment</FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           placeholder="Share your thoughts..."
-                          className="min-h-[100px]"
+                          className="min-h-[100px] bg-white/20 border-white/30 text-white placeholder:text-white/70"
                         />
                       </FormControl>
                       <FormMessage />
@@ -279,11 +279,11 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
           </CardContent>
         </Card>
       ) : (
-        <Card>
+        <Card className="bg-white/10 backdrop-blur-sm border-white/20">
           <CardContent className="pt-6">
             <div className="text-center space-y-4">
-              <p className="text-muted-foreground">Sign in to join the conversation</p>
-              <Button onClick={() => window.location.href = "/api/login"}>
+              <p className="text-white/80">Sign in to join the conversation</p>
+              <Button onClick={() => window.location.href = "/api/login"} className="bg-ocean hover:bg-teal-600">
                 Sign In
               </Button>
             </div>
@@ -312,7 +312,7 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
           </div>
         ) : comments.length > 0 ? (
           comments.map((comment) => (
-            <Card key={comment.id}>
+            <Card key={comment.id} className="bg-white/10 backdrop-blur-sm border-white/20">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-3">
                   <Avatar className="h-10 w-10">
@@ -325,10 +325,10 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
                   <div className="flex-1 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium">
+                        <span className="font-medium text-white">
                           {comment.authorName || "Anonymous User"}
                         </span>
-                        <span className="text-sm text-muted-foreground">
+                        <span className="text-sm text-white/70">
                           {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                         </span>
                       </div>
@@ -339,14 +339,14 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
                           size="sm"
                           onClick={() => handleDeleteComment(comment.id)}
                           disabled={deleteCommentMutation.isPending}
-                          className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                          className="h-8 w-8 p-0 text-red-400 hover:text-red-300 hover:bg-red-500/20"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       )}
                     </div>
 
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap text-white">
                       {comment.content}
                     </p>
 
@@ -366,9 +366,9 @@ export function CommentsSection({ articleId }: CommentsSectionProps) {
             </Card>
           ))
         ) : (
-          <Card>
+          <Card className="bg-white/10 backdrop-blur-sm border-white/20">
             <CardContent className="pt-6">
-              <div className="text-center text-muted-foreground">
+              <div className="text-center text-white/70">
                 <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-50" />
                 <p>No comments yet. Be the first to share your thoughts!</p>
               </div>

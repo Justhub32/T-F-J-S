@@ -74,9 +74,16 @@ export default function Admin() {
 
   const createMutation = useMutation({
     mutationFn: async (data: ArticleFormData) => {
+      let imageUrl = backgroundImageUrl;
+      
+      if (data.imageFile) {
+        const uploadResult = await api.upload.image(data.imageFile);
+        imageUrl = uploadResult.imageUrl;
+      }
+
       const articleData: InsertArticle = {
         ...data,
-        imageUrl: backgroundImageUrl || undefined, // Use the uploaded backdrop image
+        imageUrl,
       };
       delete (articleData as any).imageFile;
 
@@ -106,6 +113,8 @@ export default function Admin() {
       if (data.imageFile) {
         const uploadResult = await api.upload.image(data.imageFile);
         imageUrl = uploadResult.imageUrl;
+      } else if (backgroundImageUrl) {
+        imageUrl = backgroundImageUrl;
       }
 
       const articleData: Partial<InsertArticle> = {
@@ -148,22 +157,14 @@ export default function Admin() {
   });
 
   const updateSettingsMutation = useMutation({
-    mutationFn: async (backgroundFile?: File) => {
-      let heroBackgroundUrl = siteSettings?.heroBackgroundUrl;
-      
-      if (backgroundFile) {
-        const uploadResult = await api.upload.image(backgroundFile);
-        heroBackgroundUrl = uploadResult.imageUrl;
-      }
-
+    mutationFn: async (heroBackgroundUrl: string) => {
       return api.settings.update({ heroBackgroundUrl });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
-      setBackgroundImageUrl("");
       toast({
         title: "Settings updated",
-        description: "Site settings have been successfully updated.",
+        description: "Homepage backdrop has been updated successfully.",
       });
     },
     onError: (error) => {
@@ -409,16 +410,41 @@ export default function Admin() {
                           </div>
                         )}
                         
-                        <ObjectUploader
-                          maxNumberOfFiles={1}
-                          maxFileSize={10485760} // 10MB
-                          onGetUploadParameters={handleGetUploadParameters}
-                          onComplete={handleBackdropUploadComplete}
-                          buttonClassName="bg-ocean hover:bg-teal-600 text-white"
-                        >
-                          <Image className="w-4 h-4 mr-2" />
-                          Upload Backdrop Image
-                        </ObjectUploader>
+                        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-ocean transition-colors">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+
+                              try {
+                                const uploadResult = await api.upload.image(file);
+                                setBackgroundImageUrl(uploadResult.imageUrl);
+                                toast({
+                                  title: "Success",
+                                  description: "Backdrop image uploaded successfully",
+                                });
+                              } catch (error) {
+                                toast({
+                                  title: "Error", 
+                                  description: "Failed to upload backdrop image",
+                                  variant: "destructive"
+                                });
+                              }
+                            }}
+                            className="hidden"
+                            id="backdrop-upload"
+                          />
+                          <Button
+                            type="button"
+                            onClick={() => document.getElementById('backdrop-upload')?.click()}
+                            className="bg-ocean hover:bg-teal-600 text-white"
+                          >
+                            <Image className="w-4 h-4 mr-2" />
+                            Upload Backdrop Image
+                          </Button>
+                        </div>
                       </div>
 
                       <FormField
@@ -611,9 +637,38 @@ export default function Admin() {
                     </div>
                   )}
 
-                  <p className="text-sm text-gray-500 mb-4">
-                    Note: Use the Object Storage panel to upload homepage background images directly to the 'public' directory.
-                  </p>
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-ocean transition-colors">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+
+                        try {
+                          const uploadResult = await api.upload.image(file);
+                          await updateSettingsMutation.mutateAsync(uploadResult.imageUrl);
+                        } catch (error) {
+                          toast({
+                            title: "Error", 
+                            description: "Failed to upload background image",
+                            variant: "destructive"
+                          });
+                        }
+                      }}
+                      className="hidden"
+                      id="homepage-background-upload"
+                    />
+                    <Button
+                      type="button"
+                      onClick={() => document.getElementById('homepage-background-upload')?.click()}
+                      className="bg-ocean hover:bg-teal-600 text-white"
+                      disabled={updateSettingsMutation.isPending}
+                    >
+                      <Image className="w-4 h-4 mr-2" />
+                      {updateSettingsMutation.isPending ? "Uploading..." : "Upload Background Image"}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

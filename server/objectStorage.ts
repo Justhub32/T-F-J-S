@@ -154,6 +154,31 @@ export class ObjectStorageService {
     });
   }
 
+  // Gets the upload URL for a public object.
+  async getPublicObjectUploadURL(): Promise<string> {
+    const publicSearchPaths = this.getPublicObjectSearchPaths();
+    if (publicSearchPaths.length === 0) {
+      throw new Error(
+        "PUBLIC_OBJECT_SEARCH_PATHS not set. Create a bucket in 'Object Storage' " +
+          "tool and set PUBLIC_OBJECT_SEARCH_PATHS env var."
+      );
+    }
+
+    const objectId = randomUUID();
+    const publicPath = publicSearchPaths[0]; // Use first public path
+    const fullPath = `${publicPath}/uploads/${objectId}`;
+
+    const { bucketName, objectName } = parseObjectPath(fullPath);
+
+    // Sign URL for PUT method with TTL
+    return signObjectURL({
+      bucketName,
+      objectName,
+      method: "PUT",
+      ttlSec: 900,
+    });
+  }
+
   // Gets the object entity file from the object path.
   async getObjectEntityFile(objectPath: string): Promise<File> {
     if (!objectPath.startsWith("/objects/")) {
@@ -204,6 +229,30 @@ export class ObjectStorageService {
     // Extract the entity ID from the path
     const entityId = rawObjectPath.slice(objectEntityDir.length);
     return `/objects/${entityId}`;
+  }
+
+  // Normalize public object path from upload URL to public serving path
+  normalizePublicObjectPath(rawPath: string): string {
+    if (!rawPath.startsWith("https://storage.googleapis.com/")) {
+      return rawPath;
+    }
+  
+    // Extract the path from the URL by removing query parameters and domain
+    const url = new URL(rawPath);
+    const rawObjectPath = url.pathname;
+    
+    const publicSearchPaths = this.getPublicObjectSearchPaths();
+    
+    // Find which public path this belongs to
+    for (const publicPath of publicSearchPaths) {
+      if (rawObjectPath.startsWith(publicPath)) {
+        const relativePath = rawObjectPath.slice(publicPath.length);
+        return `/public-objects${relativePath}`;
+      }
+    }
+    
+    // If not found in public paths, return as-is
+    return rawObjectPath;
   }
 
   // Tries to set the ACL policy for the object entity and return the normalized path.

@@ -1,138 +1,133 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface UseBackgroundAudioProps {
-  src: string;
-  volume?: number;
-  autoPlay?: boolean;
+interface UseBackgroundAudioReturn {
+  isPlaying: boolean;
+  toggle: () => void;
+  setVolume: (volume: number) => void;
+  volume: number;
 }
 
-export function useBackgroundAudio({ 
-  src, 
-  volume = 0.3, 
-  autoPlay = true 
-}: UseBackgroundAudioProps) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+export function useBackgroundAudio(autoPlay: boolean = false): UseBackgroundAudioReturn {
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolumeState] = useState(0.3);
 
-  useEffect(() => {
-    // Create audio element
-    const audio = new Audio(src);
-    audio.loop = true;
-    audio.volume = volume;
-    audio.preload = 'auto';
-    
-    audioRef.current = audio;
-
-    // Handle play/pause state
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-    const handleEnded = () => setIsPlaying(false);
-
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('ended', handleEnded);
-
-    // Auto-play if enabled (with user interaction requirement)
-    if (autoPlay) {
-      // Attempt to play, but handle the case where user interaction is required
-      const attemptPlay = async () => {
-        try {
-          await audio.play();
-        } catch (error) {
-          // Browser requires user interaction before playing audio
-          console.log('Audio autoplay blocked - user interaction required');
-          
-          // Add a one-time click listener to start audio
-          const handleFirstInteraction = async () => {
-            try {
-              await audio.play();
-              document.removeEventListener('click', handleFirstInteraction);
-              document.removeEventListener('touchstart', handleFirstInteraction);
-            } catch (err) {
-              console.error('Failed to play audio:', err);
-            }
-          };
-
-          document.addEventListener('click', handleFirstInteraction, { once: true });
-          document.addEventListener('touchstart', handleFirstInteraction, { once: true });
-        }
-      };
-
-      attemptPlay();
+  // Generate ocean wave sounds using Web Audio API
+  const createOceanSound = async () => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
 
-    // Cleanup
-    return () => {
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('ended', handleEnded);
-      audio.pause();
-      audioRef.current = null;
-    };
-  }, [src, volume, autoPlay]);
+    const audioContext = audioContextRef.current;
+    const bufferSize = audioContext.sampleRate * 60; // 60 seconds of audio
+    const buffer = audioContext.createBuffer(2, bufferSize, audioContext.sampleRate);
 
-  const play = async () => {
-    if (audioRef.current) {
-      try {
-        await audioRef.current.play();
-      } catch (error) {
-        console.error('Failed to play audio:', error);
+    // Generate ocean wave sound using white noise and filtering
+    for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
+      const channelData = buffer.getChannelData(channel);
+      
+      for (let i = 0; i < bufferSize; i++) {
+        // Create brown noise (more natural ocean sound)
+        let brownNoise = 0;
+        for (let j = 0; j < 16; j++) {
+          brownNoise += (Math.random() * 2 - 1) / Math.pow(2, j);
+        }
+        
+        // Add wave-like modulation
+        const waveModulation = Math.sin(i * 0.001) * 0.3;
+        const deepWaveModulation = Math.sin(i * 0.0003) * 0.5;
+        
+        channelData[i] = (brownNoise * 0.4 + waveModulation + deepWaveModulation) * 0.15;
       }
+    }
+
+    return buffer;
+  };
+
+  const startOceanSound = async () => {
+    try {
+      if (!audioContextRef.current || audioContextRef.current.state === 'suspended') {
+        if (audioContextRef.current) {
+          await audioContextRef.current.resume();
+        }
+      }
+
+      if (sourceNodeRef.current) {
+        sourceNodeRef.current.stop();
+      }
+
+      const audioContext = audioContextRef.current!;
+      const buffer = await createOceanSound();
+      
+      const source = audioContext.createBufferSource();
+      const gainNode = audioContext.createGain();
+      
+      source.buffer = buffer;
+      source.loop = true;
+      
+      gainNode.gain.value = volume;
+      
+      source.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      source.start();
+      
+      sourceNodeRef.current = source;
+      gainNodeRef.current = gainNode;
+      setIsPlaying(true);
+    } catch (error) {
+      console.warn('Could not start ocean sounds:', error);
     }
   };
 
-  const pause = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
+  const stopOceanSound = () => {
+    if (sourceNodeRef.current) {
+      sourceNodeRef.current.stop();
+      sourceNodeRef.current = null;
     }
+    setIsPlaying(false);
   };
 
   const toggle = () => {
     if (isPlaying) {
-      pause();
+      stopOceanSound();
     } else {
-      play();
+      startOceanSound();
     }
   };
 
   const setVolume = (newVolume: number) => {
-    if (audioRef.current) {
-      audioRef.current.volume = Math.max(0, Math.min(1, newVolume));
+    setVolumeState(newVolume);
+    if (gainNodeRef.current) {
+      gainNodeRef.current.gain.value = newVolume;
     }
   };
 
-  const mute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = true;
-      setIsMuted(true);
+  useEffect(() => {
+    if (autoPlay) {
+      // Add a small delay for user interaction requirement
+      const timer = setTimeout(() => {
+        startOceanSound();
+      }, 1000);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [autoPlay]);
 
-  const unmute = () => {
-    if (audioRef.current) {
-      audioRef.current.muted = false;
-      setIsMuted(false);
-    }
-  };
-
-  const toggleMute = () => {
-    if (isMuted) {
-      unmute();
-    } else {
-      mute();
-    }
-  };
+  useEffect(() => {
+    return () => {
+      stopOceanSound();
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
+  }, []);
 
   return {
     isPlaying,
-    isMuted,
-    play,
-    pause,
     toggle,
     setVolume,
-    mute,
-    unmute,
-    toggleMute,
+    volume,
   };
 }

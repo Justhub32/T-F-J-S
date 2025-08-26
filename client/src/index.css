@@ -150,4 +150,24 @@
   .category-surf {
     color: rgb(59 130 246); /* blue-500 */
   }
+  
+  /* Custom range slider styling for volume control */
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 2px solid #0891b2;
+  }
+  
+  input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: 2px solid #0891b2;
+  }
 }

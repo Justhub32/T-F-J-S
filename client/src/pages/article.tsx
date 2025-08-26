@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRoute, Link } from "wouter";
 import { formatDistanceToNow } from "date-fns";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft, Calendar, User, Volume2, VolumeX } from "lucide-react";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { CommentsSection } from "@/components/CommentsSection";
+import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
 
 export default function Article() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
+  
+  const { isPlaying, toggle, setVolume, volume } = useBackgroundAudio(true);
 
   const { data: article, isLoading, error } = useQuery({
     queryKey: ["/api/articles", articleId],
@@ -83,13 +86,40 @@ export default function Article() {
       )}
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
-        {/* Back Button */}
-        <Link href={`/category/${article.category}`}>
-          <Button variant="ghost" className="mb-8 hover:bg-white/20 text-white backdrop-blur-sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to {categoryTitle}
-          </Button>
-        </Link>
+        {/* Navigation and Audio Controls */}
+        <div className="flex justify-between items-center mb-8">
+          <Link href={`/category/${article.category}`}>
+            <Button variant="ghost" className="hover:bg-white/20 text-white backdrop-blur-sm">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to {categoryTitle}
+            </Button>
+          </Link>
+          
+          {/* Ocean Sound Controls */}
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggle}
+              className="hover:bg-white/20 text-white backdrop-blur-sm"
+              title={isPlaying ? "Pause ocean sounds" : "Play ocean sounds"}
+            >
+              {isPlaying ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            </Button>
+            {isPlaying && (
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+                className="w-16 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+                title="Adjust ocean sound volume"
+              />
+            )}
+          </div>
+        </div>
 
         {/* Article Header */}
         <header className="mb-8">

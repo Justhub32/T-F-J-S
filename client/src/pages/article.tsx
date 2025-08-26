@@ -146,7 +146,7 @@ export default function Article() {
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight enhanced-title">
             {article.title}
           </h1>
 
@@ -162,18 +162,32 @@ export default function Article() {
           </div>
         </header>
 
-        {/* Enhanced Article Content with Visual Effects */}
+        {/* Enhanced Article Content with Premium Typography */}
         <article className="mb-12">
           <div className="content-container relative">
-            <div className="prose prose-lg max-w-none">
+            {/* Excerpt/Lead paragraph if available */}
+            {article.excerpt && (
+              <div className="lead-paragraph mb-8 p-6 bg-gradient-to-r from-white/10 via-white/5 to-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+                <p className="text-xl md:text-2xl text-white leading-relaxed font-light italic drop-shadow-lg">
+                  "{article.excerpt}"
+                </p>
+              </div>
+            )}
+            
+            {/* Main content with enhanced typography */}
+            <div className="prose prose-xl max-w-none enhanced-article-prose">
               <div 
                 dangerouslySetInnerHTML={{ __html: article.content }}
-                className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-a:text-blue-300 hover:prose-a:text-blue-200 content-text"
-                style={{ 
-                  textShadow: '3px 3px 6px rgba(0,0,0,0.9), 1px 1px 3px rgba(0,0,0,0.7)',
-                  lineHeight: '1.8'
-                }}
+                className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-em:text-blue-200 prose-a:text-cyan-300 hover:prose-a:text-cyan-200 prose-blockquote:text-gray-200 prose-code:text-green-300 content-text"
               />
+            </div>
+            
+            {/* Reading progress indicator */}
+            <div className="reading-progress-container mt-8">
+              <div className="flex items-center justify-between text-sm text-gray-300">
+                <span>Reading time: ~{Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)} min</span>
+                <span>Published {new Date(article.createdAt).toLocaleDateString()}</span>
+              </div>
             </div>
             
             {/* Content enhancement overlays */}

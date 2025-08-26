@@ -72,16 +72,33 @@ export default function Article() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Article Background Image */}
+      {/* Enhanced Article Background with Parallax Effect */}
       {article?.imageUrl && (
         <div className="fixed inset-0 z-0">
-          <img 
-            src={article.imageUrl}
-            alt="Article background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50"></div>
+          <div className="parallax-container">
+            <img 
+              src={article.imageUrl}
+              alt="Article background"
+              className="w-full h-full object-cover scale-110 parallax-image"
+            />
+          </div>
+          
+          {/* Multi-layer visual enhancement */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-teal-900/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40"></div>
+          
+          {/* Dynamic overlay patterns */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10"></div>
+            <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-emerald-500/8 via-transparent to-transparent"></div>
+          </div>
+          
+          {/* Animated floating elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="floating-element floating-element-1"></div>
+            <div className="floating-element floating-element-2"></div>
+            <div className="floating-element floating-element-3"></div>
+          </div>
         </div>
       )}
       
@@ -145,29 +162,41 @@ export default function Article() {
           </div>
         </header>
 
-        {/* Article Content */}
-        <div className="mb-12">
-          <div className="prose prose-lg max-w-none">
-            <div 
-              dangerouslySetInnerHTML={{ __html: article.content }}
-              className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-a:text-blue-300 hover:prose-a:text-blue-200 drop-shadow-lg"
-            />
-          </div>
-        </div>
-
-        {/* Author Bio */}
-        <div className="mb-12">
-          <div className="flex items-start">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full mr-4 flex items-center justify-center">
-              <span className="text-xl font-bold text-white">
-                {article.author.charAt(0)}
-              </span>
+        {/* Enhanced Article Content with Visual Effects */}
+        <article className="mb-12">
+          <div className="content-container relative">
+            <div className="prose prose-lg max-w-none">
+              <div 
+                dangerouslySetInnerHTML={{ __html: article.content }}
+                className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-a:text-blue-300 hover:prose-a:text-blue-200 content-text"
+                style={{ 
+                  textShadow: '3px 3px 6px rgba(0,0,0,0.9), 1px 1px 3px rgba(0,0,0,0.7)',
+                  lineHeight: '1.8'
+                }}
+              />
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-white mb-2 drop-shadow-lg">{article.author}</h3>
-              <p className="text-gray-200 drop-shadow-lg">
-                Contributing writer for ChillVibes community, sharing insights on the balanced lifestyle.
-              </p>
+            
+            {/* Content enhancement overlays */}
+            <div className="content-backdrop absolute inset-0 -z-10"></div>
+          </div>
+        </article>
+
+        {/* Enhanced Author Bio */}
+        <div className="mb-12 author-bio-container relative">
+          <div className="p-6 bg-gradient-to-r from-white/15 via-white/10 to-white/15 backdrop-blur-md rounded-xl border border-white/30 shadow-2xl">
+            <div className="author-bio-glow absolute inset-0 rounded-xl opacity-30"></div>
+            <div className="flex items-start relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-br from-white/30 to-white/20 backdrop-blur-sm rounded-full mr-4 flex items-center justify-center shadow-lg border border-white/20">
+                <span className="text-xl font-bold text-white drop-shadow-lg">
+                  {article.author.charAt(0)}
+                </span>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white mb-2 drop-shadow-lg">{article.author}</h3>
+                <p className="text-gray-200 drop-shadow-lg leading-relaxed">
+                  Contributing writer for ChillVibes community, sharing insights on the balanced lifestyle of tech, finance, jiu-jitsu, and surf culture.
+                </p>
+              </div>
             </div>
           </div>
         </div>

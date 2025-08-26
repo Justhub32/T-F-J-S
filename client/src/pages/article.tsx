@@ -11,7 +11,7 @@ export default function Article() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
   
-  const { isPlaying, toggle, setVolume, volume } = useBackgroundAudio(true);
+  const { isPlaying, toggle, setVolume, volume } = useBackgroundAudio();
 
   const { data: article, isLoading, error } = useQuery({
     queryKey: ["/api/articles", articleId],
@@ -102,7 +102,7 @@ export default function Article() {
               size="sm"
               onClick={toggle}
               className="hover:bg-white/20 text-white backdrop-blur-sm"
-              title={isPlaying ? "Pause ocean sounds" : "Play ocean sounds"}
+              title={isPlaying ? "Pause ocean waves" : "Play ocean waves"}
             >
               {isPlaying ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </Button>
@@ -115,7 +115,7 @@ export default function Article() {
                 value={volume}
                 onChange={(e) => setVolume(parseFloat(e.target.value))}
                 className="w-16 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
-                title="Adjust ocean sound volume"
+                title="Adjust ocean wave volume"
               />
             )}
           </div>

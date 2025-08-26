@@ -7,85 +7,115 @@ interface UseBackgroundAudioReturn {
   volume: number;
 }
 
-export function useBackgroundAudio(autoPlay: boolean = false): UseBackgroundAudioReturn {
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceNodeRef = useRef<AudioBufferSourceNode | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
+export function useBackgroundAudio(): UseBackgroundAudioReturn {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolumeState] = useState(0.3);
 
-  // Generate ocean wave sounds using Web Audio API
-  const createOceanSound = async () => {
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
-
-    const audioContext = audioContextRef.current;
-    const bufferSize = audioContext.sampleRate * 60; // 60 seconds of audio
-    const buffer = audioContext.createBuffer(2, bufferSize, audioContext.sampleRate);
-
-    // Generate ocean wave sound using white noise and filtering
-    for (let channel = 0; channel < buffer.numberOfChannels; channel++) {
-      const channelData = buffer.getChannelData(channel);
+  // Create ocean wave audio using data URL (sine wave ocean simulation)
+  const createOceanWaveAudio = () => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const sampleRate = audioContext.sampleRate;
+    const duration = 10; // 10 seconds loop
+    const numSamples = sampleRate * duration;
+    
+    // Create buffer for ocean wave sound
+    const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
+    const channelData = buffer.getChannelData(0);
+    
+    // Generate ocean wave sound with multiple overlapping sine waves
+    for (let i = 0; i < numSamples; i++) {
+      const t = i / sampleRate;
       
-      for (let i = 0; i < bufferSize; i++) {
-        // Create brown noise (more natural ocean sound)
-        let brownNoise = 0;
-        for (let j = 0; j < 16; j++) {
-          brownNoise += (Math.random() * 2 - 1) / Math.pow(2, j);
-        }
-        
-        // Add wave-like modulation
-        const waveModulation = Math.sin(i * 0.001) * 0.3;
-        const deepWaveModulation = Math.sin(i * 0.0003) * 0.5;
-        
-        channelData[i] = (brownNoise * 0.4 + waveModulation + deepWaveModulation) * 0.15;
-      }
+      // Multiple wave frequencies to simulate ocean
+      const wave1 = Math.sin(2 * Math.PI * 0.05 * t) * 0.3; // Deep ocean swell
+      const wave2 = Math.sin(2 * Math.PI * 0.1 * t) * 0.2;  // Medium waves
+      const wave3 = Math.sin(2 * Math.PI * 0.2 * t) * 0.15; // Surface waves
+      const wave4 = Math.sin(2 * Math.PI * 0.5 * t) * 0.1;  // Small waves
+      
+      // Add some white noise for foam/splash effect
+      const noise = (Math.random() * 2 - 1) * 0.05;
+      
+      // Combine all waves with envelope for natural sound
+      const envelope = Math.sin(Math.PI * t / duration); // Fade in/out
+      channelData[i] = (wave1 + wave2 + wave3 + wave4 + noise) * envelope * 0.4;
     }
+    
+    // Convert buffer to WAV data URL
+    const wavData = audioBufferToWav(buffer);
+    const blob = new Blob([wavData], { type: 'audio/wav' });
+    return URL.createObjectURL(blob);
+  };
 
-    return buffer;
+  // Convert AudioBuffer to WAV format
+  const audioBufferToWav = (buffer: AudioBuffer) => {
+    const length = buffer.length;
+    const arrayBuffer = new ArrayBuffer(44 + length * 2);
+    const view = new DataView(arrayBuffer);
+    const channelData = buffer.getChannelData(0);
+    
+    // WAV header
+    const writeString = (offset: number, string: string) => {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    };
+    
+    writeString(0, 'RIFF');
+    view.setUint32(4, 36 + length * 2, true);
+    writeString(8, 'WAVE');
+    writeString(12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    view.setUint16(22, 1, true);
+    view.setUint32(24, buffer.sampleRate, true);
+    view.setUint32(28, buffer.sampleRate * 2, true);
+    view.setUint16(32, 2, true);
+    view.setUint16(34, 16, true);
+    writeString(36, 'data');
+    view.setUint32(40, length * 2, true);
+    
+    // Convert float samples to 16-bit PCM
+    let offset = 44;
+    for (let i = 0; i < length; i++) {
+      const sample = Math.max(-1, Math.min(1, channelData[i]));
+      view.setInt16(offset, sample * 0x7FFF, true);
+      offset += 2;
+    }
+    
+    return arrayBuffer;
+  };
+
+  const initializeAudio = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.loop = true;
+      audioRef.current.volume = volume;
+      audioRef.current.preload = 'auto';
+      
+      // Generate and set ocean wave audio
+      const oceanWaveUrl = createOceanWaveAudio();
+      audioRef.current.src = oceanWaveUrl;
+    }
   };
 
   const startOceanSound = async () => {
     try {
-      if (!audioContextRef.current || audioContextRef.current.state === 'suspended') {
-        if (audioContextRef.current) {
-          await audioContextRef.current.resume();
-        }
+      initializeAudio();
+      if (audioRef.current) {
+        await audioRef.current.play();
+        setIsPlaying(true);
       }
-
-      if (sourceNodeRef.current) {
-        sourceNodeRef.current.stop();
-      }
-
-      const audioContext = audioContextRef.current!;
-      const buffer = await createOceanSound();
-      
-      const source = audioContext.createBufferSource();
-      const gainNode = audioContext.createGain();
-      
-      source.buffer = buffer;
-      source.loop = true;
-      
-      gainNode.gain.value = volume;
-      
-      source.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      source.start();
-      
-      sourceNodeRef.current = source;
-      gainNodeRef.current = gainNode;
-      setIsPlaying(true);
     } catch (error) {
       console.warn('Could not start ocean sounds:', error);
+      setIsPlaying(false);
     }
   };
 
   const stopOceanSound = () => {
-    if (sourceNodeRef.current) {
-      sourceNodeRef.current.stop();
-      sourceNodeRef.current = null;
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
     setIsPlaying(false);
   };
@@ -100,26 +130,16 @@ export function useBackgroundAudio(autoPlay: boolean = false): UseBackgroundAudi
 
   const setVolume = (newVolume: number) => {
     setVolumeState(newVolume);
-    if (gainNodeRef.current) {
-      gainNodeRef.current.gain.value = newVolume;
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
     }
   };
 
   useEffect(() => {
-    if (autoPlay) {
-      // Add a small delay for user interaction requirement
-      const timer = setTimeout(() => {
-        startOceanSound();
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [autoPlay]);
-
-  useEffect(() => {
     return () => {
-      stopOceanSound();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
       }
     };
   }, []);

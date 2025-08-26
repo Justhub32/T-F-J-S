@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import { ChartLine, Waves, Code, DollarSign, Activity } from "lucide-react";
+import { ChartLine, Waves, Code, DollarSign, Activity, Volume2, VolumeX } from "lucide-react";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useHomepageAudio } from "@/hooks/useHomepageAudio";
 
 export default function Home() {
+  const { isPlaying, toggle, setVolume, volume } = useHomepageAudio();
 
   const { data: siteSettings } = useQuery({
     queryKey: ["/api/settings"],
@@ -23,6 +25,31 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-black/30"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-ocean/10 to-surf/10"></div>
+      </div>
+
+      {/* Music Controls */}
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-3">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={toggle}
+          className="hover:bg-white/20 text-white backdrop-blur-sm border border-white/20"
+          title={isPlaying ? "Pause Sweetness-inspired music" : "Play Sweetness-inspired music"}
+        >
+          {isPlaying ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+        </Button>
+        {isPlaying && (
+          <input
+            type="range"
+            min="0"
+            max="0.5"
+            step="0.05"
+            value={volume}
+            onChange={(e) => setVolume(parseFloat(e.target.value))}
+            className="w-16 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+            title="Adjust music volume"
+          />
+        )}
       </div>
 
       {/* Hero Section */}

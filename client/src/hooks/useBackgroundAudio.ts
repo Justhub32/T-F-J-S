@@ -12,33 +12,91 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolumeState] = useState(0.3);
 
-  // Create ocean wave audio using data URL (sine wave ocean simulation)
+  // Create realistic beach wave audio with crashing and foam sounds
   const createOceanWaveAudio = () => {
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const sampleRate = audioContext.sampleRate;
-    const duration = 10; // 10 seconds loop
+    const duration = 15; // 15 seconds for complete wave cycle
     const numSamples = sampleRate * duration;
     
     // Create buffer for ocean wave sound
-    const buffer = audioContext.createBuffer(1, numSamples, sampleRate);
-    const channelData = buffer.getChannelData(0);
+    const buffer = audioContext.createBuffer(2, numSamples, sampleRate); // Stereo for depth
     
-    // Generate ocean wave sound with multiple overlapping sine waves
-    for (let i = 0; i < numSamples; i++) {
-      const t = i / sampleRate;
+    for (let channel = 0; channel < 2; channel++) {
+      const channelData = buffer.getChannelData(channel);
       
-      // Multiple wave frequencies to simulate ocean
-      const wave1 = Math.sin(2 * Math.PI * 0.05 * t) * 0.3; // Deep ocean swell
-      const wave2 = Math.sin(2 * Math.PI * 0.1 * t) * 0.2;  // Medium waves
-      const wave3 = Math.sin(2 * Math.PI * 0.2 * t) * 0.15; // Surface waves
-      const wave4 = Math.sin(2 * Math.PI * 0.5 * t) * 0.1;  // Small waves
-      
-      // Add some white noise for foam/splash effect
-      const noise = (Math.random() * 2 - 1) * 0.05;
-      
-      // Combine all waves with envelope for natural sound
-      const envelope = Math.sin(Math.PI * t / duration); // Fade in/out
-      channelData[i] = (wave1 + wave2 + wave3 + wave4 + noise) * envelope * 0.4;
+      for (let i = 0; i < numSamples; i++) {
+        const t = i / sampleRate;
+        let sample = 0;
+        
+        // Wave cycle: 8 seconds buildup, 2 seconds crash, 5 seconds retreat
+        const cyclePos = (t % duration) / duration;
+        
+        if (cyclePos < 0.53) { // Buildup phase (0-8 seconds)
+          const buildupPos = cyclePos / 0.53;
+          
+          // Gradual ocean swell building up
+          const deepSwell = Math.sin(2 * Math.PI * 0.08 * t) * 0.2 * buildupPos;
+          const mediumWaves = Math.sin(2 * Math.PI * 0.15 * t) * 0.15 * buildupPos;
+          const smallWaves = Math.sin(2 * Math.PI * 0.3 * t) * 0.1 * buildupPos;
+          
+          // Add filtered white noise for water movement
+          let noise = 0;
+          for (let j = 0; j < 8; j++) {
+            noise += (Math.random() * 2 - 1) / Math.pow(2, j + 2);
+          }
+          noise *= buildupPos * 0.03;
+          
+          sample = deepSwell + mediumWaves + smallWaves + noise;
+          
+        } else if (cyclePos < 0.66) { // Crash phase (8-10 seconds)
+          const crashPos = (cyclePos - 0.53) / 0.13;
+          
+          // Intense wave crash with white noise and harmonics
+          let crashNoise = 0;
+          for (let j = 0; j < 32; j++) {
+            crashNoise += (Math.random() * 2 - 1) / Math.pow(1.5, j);
+          }
+          
+          // Wave impact envelope - sharp attack, quick decay
+          const impactEnvelope = Math.exp(-crashPos * 8) * Math.sin(crashPos * Math.PI);
+          
+          // Multiple frequency components for realistic crash
+          const crash1 = Math.sin(2 * Math.PI * 40 * t) * impactEnvelope * 0.3;
+          const crash2 = Math.sin(2 * Math.PI * 80 * t) * impactEnvelope * 0.2;
+          const crash3 = Math.sin(2 * Math.PI * 160 * t) * impactEnvelope * 0.1;
+          
+          sample = (crashNoise * impactEnvelope * 0.4) + crash1 + crash2 + crash3;
+          
+        } else { // Retreat phase (10-15 seconds)
+          const retreatPos = (cyclePos - 0.66) / 0.34;
+          const retreatFade = 1 - retreatPos;
+          
+          // Gentle foam and water retreat
+          let foamNoise = 0;
+          for (let j = 0; j < 16; j++) {
+            foamNoise += (Math.random() * 2 - 1) / Math.pow(2, j + 1);
+          }
+          
+          // Bubbling and foam sounds
+          const bubble1 = Math.sin(2 * Math.PI * 20 * t + Math.sin(5 * t)) * retreatFade * 0.1;
+          const bubble2 = Math.sin(2 * Math.PI * 35 * t + Math.sin(3 * t)) * retreatFade * 0.08;
+          
+          // Water drainage sound
+          const drainage = Math.sin(2 * Math.PI * 0.5 * t) * retreatFade * 0.15;
+          
+          sample = (foamNoise * retreatFade * 0.2) + bubble1 + bubble2 + drainage;
+        }
+        
+        // Slight stereo separation for depth
+        if (channel === 1) {
+          sample *= 0.95; // Right channel slightly quieter
+        }
+        
+        // Apply gentle low-pass filtering for natural sound
+        const filtered = sample * 0.7 + (channelData[Math.max(0, i-1)] || 0) * 0.3;
+        channelData[i] = Math.max(-1, Math.min(1, filtered));
+      }
     }
     
     // Convert buffer to WAV data URL
@@ -47,12 +105,12 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
     return URL.createObjectURL(blob);
   };
 
-  // Convert AudioBuffer to WAV format
+  // Convert AudioBuffer to WAV format (stereo)
   const audioBufferToWav = (buffer: AudioBuffer) => {
     const length = buffer.length;
-    const arrayBuffer = new ArrayBuffer(44 + length * 2);
+    const channels = buffer.numberOfChannels;
+    const arrayBuffer = new ArrayBuffer(44 + length * channels * 2);
     const view = new DataView(arrayBuffer);
-    const channelData = buffer.getChannelData(0);
     
     // WAV header
     const writeString = (offset: number, string: string) => {
@@ -62,25 +120,28 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
     };
     
     writeString(0, 'RIFF');
-    view.setUint32(4, 36 + length * 2, true);
+    view.setUint32(4, 36 + length * channels * 2, true);
     writeString(8, 'WAVE');
     writeString(12, 'fmt ');
     view.setUint32(16, 16, true);
     view.setUint16(20, 1, true);
-    view.setUint16(22, 1, true);
+    view.setUint16(22, channels, true);
     view.setUint32(24, buffer.sampleRate, true);
-    view.setUint32(28, buffer.sampleRate * 2, true);
-    view.setUint16(32, 2, true);
+    view.setUint32(28, buffer.sampleRate * channels * 2, true);
+    view.setUint16(32, channels * 2, true);
     view.setUint16(34, 16, true);
     writeString(36, 'data');
-    view.setUint32(40, length * 2, true);
+    view.setUint32(40, length * channels * 2, true);
     
-    // Convert float samples to 16-bit PCM
+    // Convert float samples to 16-bit PCM (interleaved stereo)
     let offset = 44;
     for (let i = 0; i < length; i++) {
-      const sample = Math.max(-1, Math.min(1, channelData[i]));
-      view.setInt16(offset, sample * 0x7FFF, true);
-      offset += 2;
+      for (let channel = 0; channel < channels; channel++) {
+        const channelData = buffer.getChannelData(channel);
+        const sample = Math.max(-1, Math.min(1, channelData[i]));
+        view.setInt16(offset, sample * 0x7FFF, true);
+        offset += 2;
+      }
     }
     
     return arrayBuffer;

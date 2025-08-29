@@ -236,12 +236,12 @@
   .content-text {
     position: relative;
     z-index: 20;
-    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.06) 100%);
-    backdrop-filter: blur(2px);
+    background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.6) 100%);
+    backdrop-filter: blur(8px);
     border-radius: 16px;
     padding: 2.5rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.2);
   }
   
   .content-backdrop {
@@ -276,17 +276,14 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   }
   
-  /* Enhanced headings with dynamic gradients */
+  /* Enhanced headings with bright white text */
   .content-text h1 {
     font-size: 2.5rem !important;
     font-weight: 800 !important;
-    text-shadow: 5px 5px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8) !important;
+    text-shadow: 6px 6px 20px rgba(0,0,0,1), 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9), 0 0 15px rgba(0,0,0,0.8) !important;
     margin-bottom: 2rem !important;
     margin-top: 3rem !important;
-    background: linear-gradient(135deg, #ffffff 0%, #ffffff 30%, #f8fafc 70%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff !important;
     letter-spacing: -0.02em;
     line-height: 1.2 !important;
   }
@@ -294,13 +291,10 @@
   .content-text h2 {
     font-size: 2rem !important;
     font-weight: 700 !important;
-    text-shadow: 5px 5px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.8) !important;
+    text-shadow: 6px 6px 18px rgba(0,0,0,1), 4px 4px 10px rgba(0,0,0,1), 2px 2px 5px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8) !important;
     margin-bottom: 1.75rem !important;
     margin-top: 2.5rem !important;
-    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 30%, #f3f4f6 70%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff !important;
     letter-spacing: -0.01em;
     line-height: 1.3 !important;
   }
@@ -308,21 +302,18 @@
   .content-text h3 {
     font-size: 1.5rem !important;
     font-weight: 600 !important;
-    text-shadow: 4px 4px 10px rgba(0,0,0,1), 2px 2px 5px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8) !important;
+    text-shadow: 5px 5px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,1), 2px 2px 4px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.8) !important;
     margin-bottom: 1.5rem !important;
     margin-top: 2rem !important;
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 30%, #e2e8f0 70%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff !important;
     line-height: 1.4 !important;
   }
   
   /* Enhanced paragraph styling */
   .content-text p {
     font-size: 1.125rem !important;
-    font-weight: 400 !important;
-    text-shadow: 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8) !important;
+    font-weight: 500 !important;
+    text-shadow: 5px 5px 15px rgba(0,0,0,1), 3px 3px 10px rgba(0,0,0,1), 1px 1px 5px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.8) !important;
     margin-bottom: 1.5rem !important;
     line-height: 1.9 !important;
     color: #ffffff !important;
@@ -336,40 +327,47 @@
     font-weight: 700;
     line-height: 3rem;
     margin: 0.5rem 0.75rem 0 0;
-    text-shadow: 4px 4px 8px rgba(0,0,0,0.9);
-    background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    text-shadow: 6px 6px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,1), 0 0 12px rgba(0,0,0,0.8);
+    color: #ffffff !important;
   }
   
   /* Enhanced links */
   .content-text a {
-    color: #7dd3fc !important;
+    color: #ffffff !important;
     text-decoration: none !important;
-    border-bottom: 2px solid rgba(125, 211, 252, 0.5) !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8) !important;
     transition: all 0.3s ease !important;
-    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
-    font-weight: 500 !important;
+    text-shadow: 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.9) !important;
+    font-weight: 600 !important;
+    background: rgba(255,255,255,0.1) !important;
+    padding: 2px 4px !important;
+    border-radius: 4px !important;
   }
   
   .content-text a:hover {
-    color: #38bdf8 !important;
-    border-bottom-color: rgba(56, 189, 248, 0.8) !important;
-    text-shadow: 3px 3px 8px rgba(56, 189, 248, 0.3), 3px 3px 8px rgba(0,0,0,1) !important;
+    color: #ffffff !important;
+    border-bottom-color: rgba(255, 255, 255, 1) !important;
+    text-shadow: 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,1), 0 0 10px rgba(255,255,255,0.3) !important;
+    background: rgba(255,255,255,0.2) !important;
   }
   
   /* Enhanced emphasis and strong text */
   .content-text strong {
     font-weight: 700 !important;
-    color: #fde047 !important;
-    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
+    color: #ffffff !important;
+    text-shadow: 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.9) !important;
+    background: rgba(255,255,255,0.1) !important;
+    padding: 1px 3px !important;
+    border-radius: 3px !important;
   }
   
   .content-text em {
-    color: #c4b5fd !important;
+    color: #ffffff !important;
     font-style: italic !important;
-    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
+    text-shadow: 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.9) !important;
+    background: rgba(255,255,255,0.05) !important;
+    padding: 1px 2px !important;
+    border-radius: 2px !important;
   }
   
   /* Enhanced blockquotes */
@@ -457,11 +455,8 @@
   
   /* Enhanced article title */
   .enhanced-title {
-    text-shadow: 4px 4px 12px rgba(0,0,0,0.9), 2px 2px 6px rgba(0,0,0,0.7), 0 0 20px rgba(96, 165, 250, 0.3) !important;
-    background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 25%, #ffffff 50%, #f3f4f6 75%, #ffffff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    text-shadow: 6px 6px 20px rgba(0,0,0,1), 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9), 0 0 15px rgba(0,0,0,0.8) !important;
+    color: #ffffff !important;
     letter-spacing: -0.02em;
     position: relative;
   }

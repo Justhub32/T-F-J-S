@@ -167,8 +167,8 @@ export default function Article() {
           <div className="content-container relative">
             {/* Excerpt/Lead paragraph if available */}
             {article.excerpt && (
-              <div className="lead-paragraph mb-8 p-6 bg-gradient-to-r from-white/15 via-white/8 to-white/15 backdrop-blur-md rounded-2xl border border-white/25 shadow-xl">
-                <p className="text-xl md:text-2xl text-white leading-relaxed font-light italic" style={{ textShadow: '4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9)' }}>
+              <div className="lead-paragraph mb-8 p-6 bg-gradient-to-r from-black/60 via-black/40 to-black/60 backdrop-blur-lg rounded-2xl border-2 border-white/40 shadow-2xl">
+                <p className="text-xl md:text-2xl text-white leading-relaxed font-medium italic" style={{ textShadow: '5px 5px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.9)' }}>
                   "{article.excerpt}"
                 </p>
               </div>

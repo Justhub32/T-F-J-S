@@ -236,11 +236,12 @@
   .content-text {
     position: relative;
     z-index: 20;
-    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-    backdrop-filter: blur(1px);
-    border-radius: 12px;
-    padding: 2rem;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.06) 100%);
+    backdrop-filter: blur(2px);
+    border-radius: 16px;
+    padding: 2.5rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.1);
   }
   
   .content-backdrop {
@@ -279,10 +280,10 @@
   .content-text h1 {
     font-size: 2.5rem !important;
     font-weight: 800 !important;
-    text-shadow: 4px 4px 12px rgba(0,0,0,0.9), 2px 2px 6px rgba(0,0,0,0.8) !important;
+    text-shadow: 5px 5px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8) !important;
     margin-bottom: 2rem !important;
     margin-top: 3rem !important;
-    background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 50%, #ffffff 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 30%, #f8fafc 70%, #ffffff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -293,10 +294,10 @@
   .content-text h2 {
     font-size: 2rem !important;
     font-weight: 700 !important;
-    text-shadow: 4px 4px 10px rgba(0,0,0,0.9), 2px 2px 5px rgba(0,0,0,0.8) !important;
+    text-shadow: 5px 5px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.8) !important;
     margin-bottom: 1.75rem !important;
     margin-top: 2.5rem !important;
-    background: linear-gradient(135deg, #f9fafb 0%, #d1d5db 50%, #f9fafb 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 30%, #f3f4f6 70%, #ffffff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -307,10 +308,10 @@
   .content-text h3 {
     font-size: 1.5rem !important;
     font-weight: 600 !important;
-    text-shadow: 3px 3px 8px rgba(0,0,0,0.9), 1px 1px 4px rgba(0,0,0,0.8) !important;
+    text-shadow: 4px 4px 10px rgba(0,0,0,1), 2px 2px 5px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8) !important;
     margin-bottom: 1.5rem !important;
     margin-top: 2rem !important;
-    background: linear-gradient(135deg, #f3f4f6 0%, #9ca3af 50%, #f3f4f6 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 30%, #e2e8f0 70%, #ffffff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -321,10 +322,10 @@
   .content-text p {
     font-size: 1.125rem !important;
     font-weight: 400 !important;
-    text-shadow: 3px 3px 8px rgba(0,0,0,0.95), 1px 1px 4px rgba(0,0,0,0.8) !important;
+    text-shadow: 4px 4px 12px rgba(0,0,0,1), 2px 2px 6px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.8) !important;
     margin-bottom: 1.5rem !important;
     line-height: 1.9 !important;
-    color: #f9fafb !important;
+    color: #ffffff !important;
     letter-spacing: 0.01em;
   }
   
@@ -344,30 +345,31 @@
   
   /* Enhanced links */
   .content-text a {
-    color: #67e8f9 !important;
+    color: #7dd3fc !important;
     text-decoration: none !important;
-    border-bottom: 2px solid rgba(103, 232, 249, 0.3) !important;
+    border-bottom: 2px solid rgba(125, 211, 252, 0.5) !important;
     transition: all 0.3s ease !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
+    font-weight: 500 !important;
   }
   
   .content-text a:hover {
-    color: #22d3ee !important;
-    border-bottom-color: rgba(34, 211, 238, 0.6) !important;
-    text-shadow: 2px 2px 6px rgba(34, 211, 238, 0.4), 2px 2px 4px rgba(0,0,0,0.8) !important;
+    color: #38bdf8 !important;
+    border-bottom-color: rgba(56, 189, 248, 0.8) !important;
+    text-shadow: 3px 3px 8px rgba(56, 189, 248, 0.3), 3px 3px 8px rgba(0,0,0,1) !important;
   }
   
   /* Enhanced emphasis and strong text */
   .content-text strong {
     font-weight: 700 !important;
-    color: #fbbf24 !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.9) !important;
+    color: #fde047 !important;
+    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
   }
   
   .content-text em {
-    color: #a78bfa !important;
+    color: #c4b5fd !important;
     font-style: italic !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
   }
   
   /* Enhanced blockquotes */
@@ -384,20 +386,22 @@
   .content-text blockquote p {
     font-style: italic !important;
     font-size: 1.25rem !important;
-    color: #e5e7eb !important;
+    color: #ffffff !important;
     margin-bottom: 0 !important;
+    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
   }
   
   /* Enhanced code blocks */
   .content-text code {
-    background: rgba(16, 185, 129, 0.2) !important;
-    color: #6ee7b7 !important;
+    background: rgba(16, 185, 129, 0.3) !important;
+    color: #86efac !important;
     padding: 0.25rem 0.5rem !important;
     border-radius: 6px !important;
     font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
     font-size: 0.9em !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
-    border: 1px solid rgba(110, 231, 183, 0.3) !important;
+    text-shadow: 2px 2px 6px rgba(0,0,0,1), 1px 1px 3px rgba(0,0,0,0.9) !important;
+    border: 1px solid rgba(134, 239, 172, 0.5) !important;
+    font-weight: 500 !important;
   }
   
   /* Enhanced lists */
@@ -409,7 +413,8 @@
   .content-text li {
     margin-bottom: 0.75rem !important;
     line-height: 1.8 !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+    text-shadow: 3px 3px 8px rgba(0,0,0,1), 1px 1px 4px rgba(0,0,0,0.9) !important;
+    color: #ffffff !important;
   }
   
   .content-text ul li::marker {

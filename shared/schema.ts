@@ -26,6 +26,11 @@ export const insertArticleSchema = createInsertSchema(articles).omit({
   id: true,
   createdAt: true,
   updatedAt: true,
+}).extend({
+  subcategory: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  sourceUrl: z.string().optional(),
+  isRealtime: z.boolean().optional().default(false),
 });
 
 export type InsertArticle = z.infer<typeof insertArticleSchema>;

@@ -39,13 +39,13 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Article operations
-  async getArticles(category?: string, excludeDrafts?: boolean): Promise<Article[]> {
+  async getArticles(category?: string, subcategory?: string): Promise<Article[]> {
     const conditions = [];
     if (category) {
       conditions.push(eq(articles.category, category));
     }
-    if (excludeDrafts) {
-      conditions.push(eq(articles.isDraft, false));
+    if (subcategory) {
+      conditions.push(eq(articles.subcategory, subcategory));
     }
     
     if (conditions.length > 0) {

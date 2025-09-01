@@ -16,7 +16,7 @@ export interface IStorage {
   upsertUser(user: UpsertUser): Promise<User>;
   
   // Article operations
-  getArticles(category?: string, excludeDrafts?: boolean): Promise<Article[]>;
+  getArticles(category?: string, subcategory?: string): Promise<Article[]>;
   getArticle(id: string): Promise<Article | undefined>;
   createArticle(article: InsertArticle): Promise<Article>;
   updateArticle(id: string, article: Partial<InsertArticle>): Promise<Article | undefined>;

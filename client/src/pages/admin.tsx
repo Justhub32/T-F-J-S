@@ -84,6 +84,11 @@ export default function Admin() {
       const articleData: InsertArticle = {
         ...data,
         imageUrl,
+        subcategory: undefined,
+        isRealtime: false,
+        sourceUrl: undefined,
+        tags: [],
+        isFeatured: false,
       };
       delete (articleData as any).imageFile;
 

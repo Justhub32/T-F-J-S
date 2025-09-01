@@ -178,7 +178,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const category = req.query.category as string;
       const subcategory = req.query.subcategory as string;
-      const articles = await storage.getArticles(category, subcategory);
+      const articles = await storage.getArticles(category, subcategory as string);
       res.json(articles);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch articles" });
@@ -283,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create comment (requires authentication)
   app.post("/api/articles/:articleId/comments", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = req.user?.id || req.user?.claims?.sub;
       const validatedData = insertCommentSchema.parse({
         ...req.body,
         articleId: req.params.articleId,
@@ -303,7 +303,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Delete comment (requires authentication and ownership)
   app.delete("/api/comments/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user?.claims?.sub;
+      const userId = req.user?.id || req.user?.claims?.sub;
       const success = await storage.deleteComment(req.params.id, userId);
       if (!success) {
         return res.status(404).json({ message: "Comment not found or not authorized" });

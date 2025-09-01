@@ -308,9 +308,9 @@ export default function Admin() {
               <div className="text-right">
                 <p className="text-sm text-gray-600">Signed in as</p>
                 <p className="font-medium text-gray-900">
-                  {user?.firstName && user?.lastName 
-                    ? `${user.firstName} ${user.lastName}`
-                    : user?.email || 'Admin User'}
+                  {(user as any)?.firstName && (user as any)?.lastName 
+                    ? `${(user as any).firstName} ${(user as any).lastName}`
+                    : (user as any)?.email || 'Admin User'}
                 </p>
               </div>
               <Button

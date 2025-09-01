@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Edit, Trash2, Image, Settings } from "lucide-react";
+import { Plus, Edit, Trash2, Image, Settings, LogIn, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
 import { queryClient } from "@/lib/queryClient";
 import { insertArticleSchema, insertSiteSettingsSchema, type InsertArticle, type Article, type SiteSettings, type InsertSiteSettings } from "@shared/schema";
@@ -42,11 +43,46 @@ const handleGetUploadParameters = async () => {
 };
 
 export default function Admin() {
+  const { user, isLoading: authLoading, isAuthenticated } = useAuth();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
   const { toast } = useToast();
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ocean mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login prompt if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
+          <User className="h-16 w-16 text-ocean mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Access Required</h1>
+          <p className="text-gray-600 mb-6">
+            You need to sign in to access the admin panel and create articles.
+          </p>
+          <Button 
+            onClick={() => window.location.href = '/api/login'}
+            className="bg-ocean hover:bg-teal-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mx-auto"
+          >
+            <LogIn className="h-5 w-5" />
+            Sign In with Replit
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const { data: articles, isLoading } = useQuery({
     queryKey: ["/api/articles"],
@@ -263,8 +299,31 @@ export default function Admin() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Content Management</h1>
-          <p className="text-gray-600">Manage your articles and community content</p>
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Content Management</h1>
+              <p className="text-gray-600">Manage your articles and community content</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <p className="text-sm text-gray-600">Signed in as</p>
+                <p className="font-medium text-gray-900">
+                  {user?.firstName && user?.lastName 
+                    ? `${user.firstName} ${user.lastName}`
+                    : user?.email || 'Admin User'}
+                </p>
+              </div>
+              <Button
+                onClick={() => window.location.href = '/api/logout'}
+                variant="outline"
+                className="flex items-center gap-2"
+                data-testid="button-logout"
+              >
+                <User className="h-4 w-4" />
+                Sign Out
+              </Button>
+            </div>
+          </div>
         </div>
 
         <Tabs defaultValue="articles" className="space-y-6">

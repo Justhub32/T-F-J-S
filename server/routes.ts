@@ -3,6 +3,21 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertArticleSchema, insertSiteSettingsSchema, insertCommentSchema } from "@shared/schema";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+
+// Extended user type for authenticated requests
+interface AuthenticatedUser {
+  claims: {
+    sub: string;
+    email?: string;
+    first_name?: string;
+    last_name?: string;
+    profile_image_url?: string;
+    exp?: number;
+  };
+  access_token?: string;
+  refresh_token?: string;
+  expires_at?: number;
+}
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 import { ObjectPermission } from "./objectAcl";
 import { newsService, type ProcessedArticle } from "./newsService";
@@ -45,7 +60,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = (req.user as AuthenticatedUser).claims.sub;
       const user = await storage.getUser(userId);
       res.json(user);
     } catch (error) {
@@ -71,7 +86,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/objects/:objectPath(*)", isAuthenticated, async (req: any, res) => {
-    const userId = req.user?.claims?.sub;
+    const userId = (req.user as AuthenticatedUser)?.claims?.sub;
     const objectStorageService = new ObjectStorageService();
     try {
       const objectFile = await objectStorageService.getObjectEntityFile(
@@ -142,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(400).json({ error: "imageURL is required" });
     }
 
-    const userId = req.user?.claims?.sub;
+    const userId = (req.user as AuthenticatedUser)?.claims?.sub;
 
     try {
       const objectStorageService = new ObjectStorageService();
@@ -356,7 +371,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(400).json({ error: "imageURL is required" });
     }
 
-    const userId = req.user?.claims?.sub;
+    const userId = (req.user as AuthenticatedUser)?.claims?.sub;
     try {
       const objectStorageService = new ObjectStorageService();
       const objectPath = await objectStorageService.trySetObjectEntityAclPolicy(
@@ -414,10 +429,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           content: news.content,
           excerpt: news.excerpt,
           category: news.category,
+          subcategory: null,
           imageUrl: news.imageUrl || null,
           author: "ChillVibes Team",
           isDraft: false,
           isFeatured: news.isFeatured,
+          isRealtime: true,
+          sourceUrl: news.sourceUrl,
+          tags: null,
           createdAt: news.createdAt,
           updatedAt: news.updatedAt,
         }));
@@ -450,10 +469,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/news/status", async (req, res) => {
     try {
       const totalArticles = await storage.getArticles();
-      const techCount = await storage.getArticles("tech", true);
-      const financeCount = await storage.getArticles("finance", true);
-      const jiuJitsuCount = await storage.getArticles("jiu-jitsu", true);
-      const surfCount = await storage.getArticles("surf", true);
+      const techCount = await storage.getArticles("tech");
+      const financeCount = await storage.getArticles("finance");
+      const jiuJitsuCount = await storage.getArticles("jiu-jitsu");
+      const surfCount = await storage.getArticles("surf");
       const featuredCount = await storage.getFeaturedArticles(10);
       
       res.json({
@@ -488,10 +507,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           content: article.content,
           excerpt: article.excerpt,
           category: article.category,
+          subcategory: article.subcategory || null,
           imageUrl: article.imageUrl || null,
           author: article.author,
           isDraft: false,
           isFeatured: article.isFeatured,
+          isRealtime: article.isRealtime || false,
+          sourceUrl: article.sourceUrl || null,
+          tags: article.tags || null,
           createdAt: article.createdAt,
           updatedAt: article.updatedAt,
         }));

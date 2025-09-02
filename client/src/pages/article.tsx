@@ -6,6 +6,7 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { CommentsSection } from "@/components/CommentsSection";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
+import jiujitsuBg from "@assets/generated_images/Jiu-jitsu_training_background_26446023.png";
 
 export default function Article() {
   const [, params] = useRoute("/article/:id");
@@ -73,11 +74,11 @@ export default function Article() {
   return (
     <div className="min-h-screen relative">
       {/* Enhanced Article Background with Parallax Effect */}
-      {article?.imageUrl && (
+      {(article?.imageUrl || article?.category === "jiu-jitsu") && (
         <div className="fixed inset-0 z-0">
           <div className="parallax-container">
             <img 
-              src={article.imageUrl}
+              src={article.category === "jiu-jitsu" ? jiujitsuBg : article.imageUrl}
               alt="Article background"
               className="w-full h-full object-cover scale-110 parallax-image"
             />

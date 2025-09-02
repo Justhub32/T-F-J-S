@@ -12,6 +12,12 @@ import jiujitsuBg3 from "@assets/generated_images/Traditional_academy_training_b
 import jiujitsuBg4 from "@assets/generated_images/Championship_podium_ceremony_background_d9b7471a.png";
 import jiujitsuBg5 from "@assets/generated_images/Technical_guard_position_background_68ab40d8.png";
 
+// Jiu-jitsu cover images
+import jiujitsuCover1 from "@assets/generated_images/Jiu-jitsu_competition_cover_photo_81aa2f4f.png";
+import jiujitsuCover2 from "@assets/generated_images/Jiu-jitsu_instruction_cover_photo_87e9f438.png";
+import jiujitsuCover3 from "@assets/generated_images/Championship_victory_cover_photo_bc411842.png";
+import jiujitsuCover4 from "@assets/generated_images/Training_session_cover_photo_484e2d2e.png";
+
 export default function Article() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
@@ -20,6 +26,9 @@ export default function Article() {
 
   // Array of jiu-jitsu background images
   const jiujitsuBackgrounds = [jiujitsuBg1, jiujitsuBg2, jiujitsuBg3, jiujitsuBg4, jiujitsuBg5];
+  
+  // Array of jiu-jitsu cover images
+  const jiujitsuCovers = [jiujitsuCover1, jiujitsuCover2, jiujitsuCover3, jiujitsuCover4];
   
   // Function to get a consistent but varied background for each article
   const getJiujitsuBackground = (articleId: string) => {
@@ -30,6 +39,17 @@ export default function Article() {
     }, 0);
     const index = Math.abs(hash) % jiujitsuBackgrounds.length;
     return jiujitsuBackgrounds[index];
+  };
+
+  // Function to get a consistent cover image for each jiu-jitsu article
+  const getJiujitsuCover = (articleId: string) => {
+    // Use article ID to create a consistent but distributed selection for covers
+    const hash = articleId.split('').reduce((a, b) => {
+      a = ((a << 7) - a) + b.charCodeAt(0); // Different hash for covers
+      return a & a;
+    }, 0);
+    const index = Math.abs(hash) % jiujitsuCovers.length;
+    return jiujitsuCovers[index];
   };
 
   const { data: article, isLoading, error } = useQuery({
@@ -180,6 +200,26 @@ export default function Article() {
             </div>
           </div>
         </header>
+
+        {/* Jiu-Jitsu Cover Image */}
+        {article.category === "jiu-jitsu" && (
+          <div className="mb-8 relative overflow-hidden rounded-2xl shadow-2xl">
+            <div className="aspect-video relative">
+              <img 
+                src={getJiujitsuCover(articleId!)}
+                alt="Jiu-jitsu article cover"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute bottom-4 left-6">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                  <span className="text-white text-sm font-medium">Featured Jiu-Jitsu Content</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Enhanced Article Content with Premium Typography */}
         <article className="mb-12">

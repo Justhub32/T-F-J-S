@@ -18,6 +18,12 @@ import jiujitsuCover2 from "@assets/generated_images/Jiu-jitsu_instruction_cover
 import jiujitsuCover3 from "@assets/generated_images/Championship_victory_cover_photo_bc411842.png";
 import jiujitsuCover4 from "@assets/generated_images/Training_session_cover_photo_484e2d2e.png";
 
+// Surfing background images
+import surfBg1 from "@assets/generated_images/Ocean_surfing_waves_background_b972c499.png";
+import surfBg2 from "@assets/generated_images/Beach_sunset_waves_background_9a90e60c.png";
+import surfBg3 from "@assets/generated_images/Underwater_ocean_light_background_82da04c1.png";
+import surfBg4 from "@assets/generated_images/Aerial_ocean_view_background_a4eee5b2.png";
+
 export default function Article() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
@@ -27,18 +33,30 @@ export default function Article() {
   // Array of jiu-jitsu background images
   const jiujitsuBackgrounds = [jiujitsuBg1, jiujitsuBg2, jiujitsuBg3, jiujitsuBg4, jiujitsuBg5];
   
+  // Array of surfing background images
+  const surfBackgrounds = [surfBg1, surfBg2, surfBg3, surfBg4];
+  
   // Array of jiu-jitsu cover images
   const jiujitsuCovers = [jiujitsuCover1, jiujitsuCover2, jiujitsuCover3, jiujitsuCover4];
   
-  // Function to get a consistent but varied background for each article
+  // Function to get a consistent background for jiu-jitsu articles
   const getJiujitsuBackground = (articleId: string) => {
-    // Use article ID to create a consistent but distributed selection
     const hash = articleId.split('').reduce((a, b) => {
       a = ((a << 5) - a) + b.charCodeAt(0);
       return a & a;
     }, 0);
     const index = Math.abs(hash) % jiujitsuBackgrounds.length;
     return jiujitsuBackgrounds[index];
+  };
+
+  // Function to get a consistent surfing background for non-jiu-jitsu articles
+  const getSurfBackground = (articleId: string) => {
+    const hash = articleId.split('').reduce((a, b) => {
+      a = ((a << 3) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    const index = Math.abs(hash) % surfBackgrounds.length;
+    return surfBackgrounds[index];
   };
 
   // Function to get a consistent cover image for each jiu-jitsu article
@@ -111,8 +129,16 @@ export default function Article() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Clean background for better readability */}
-      <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+      {/* Background Image with Text Readability */}
+      <div className="fixed inset-0 z-0">
+        <img 
+          src={article.category === "jiu-jitsu" ? getJiujitsuBackground(articleId!) : getSurfBackground(articleId!)}
+          alt="Article background"
+          className="w-full h-full object-cover"
+        />
+        {/* Light overlay for text readability without dark shading */}
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+      </div>
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
         {/* Navigation and Audio Controls */}

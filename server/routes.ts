@@ -177,6 +177,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Internal server error" });
     }
   });
+
+  // Background audio upload endpoint
+  app.put("/api/background-audio", isAuthenticated, async (req: any, res) => {
+    if (!req.body.audioURL) {
+      return res.status(400).json({ error: "audioURL is required" });
+    }
+
+    const userId = (req.user as AuthenticatedUser)?.claims?.sub;
+
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const objectPath = await objectStorageService.trySetObjectEntityAclPolicy(
+        req.body.audioURL,
+        {
+          owner: userId,
+          visibility: "public", // Background audio can be public
+        }
+      );
+
+      // Store the audio URL in site settings
+      await storage.updateSiteSettings({
+        backgroundAudioUrl: objectPath
+      });
+
+      res.status(200).json({
+        objectPath: objectPath,
+      });
+    } catch (error) {
+      console.error("Error setting background audio:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
   
   // Serve uploaded images
   app.use('/uploads', (req, res, next) => {

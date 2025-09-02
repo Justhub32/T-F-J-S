@@ -17,6 +17,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Checkbox } from "@/components/ui/checkbox";
 import RichTextEditor from "@/components/rich-text-editor";
 import { ObjectUploader } from "@/components/ObjectUploader";
+import { AudioUploader } from "@/components/AudioUploader";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import type { UploadResult } from "@uppy/core";
@@ -733,6 +734,37 @@ export default function Admin() {
                       {updateSettingsMutation.isPending ? "Uploading..." : "Upload Background Image"}
                     </Button>
                   </div>
+                </div>
+
+                <div className="border-t pt-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Background Audio
+                  </label>
+                  <p className="text-sm text-gray-500 mb-4">
+                    Upload a custom audio file to play as background music instead of the default ocean sounds
+                  </p>
+                  
+                  {/* Current Audio Preview */}
+                  {siteSettings?.backgroundAudioUrl && (
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-gray-700 mb-2">Current Background Audio:</p>
+                      <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg border">
+                        <audio controls className="flex-1">
+                          <source src={siteSettings.backgroundAudioUrl} />
+                          Your browser does not support the audio element.
+                        </audio>
+                      </div>
+                    </div>
+                  )}
+
+                  <AudioUploader
+                    onUploadComplete={(audioUrl) => {
+                      toast({
+                        title: "Background audio updated!",
+                        description: "Your custom background audio is now ready to use.",
+                      });
+                    }}
+                  />
                 </div>
               </div>
             </div>

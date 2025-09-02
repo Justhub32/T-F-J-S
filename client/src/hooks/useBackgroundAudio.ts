@@ -1,16 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 interface UseBackgroundAudioReturn {
   isPlaying: boolean;
   toggle: () => void;
   setVolume: (volume: number) => void;
   volume: number;
+  loadCustomAudio: (audioUrl: string) => void;
+  isCustomAudio: boolean;
 }
 
 export function useBackgroundAudio(): UseBackgroundAudioReturn {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolumeState] = useState(0.3);
+  const [customAudioUrl, setCustomAudioUrl] = useState<string | null>(null);
+  const [isCustomAudio, setIsCustomAudio] = useState(false);
+
+  // Fetch site settings to check for custom background audio
+  const { data: siteSettings } = useQuery({
+    queryKey: ['/api/settings'],
+    staleTime: 30 * 1000, // 30 seconds
+  });
 
   // Create large, powerful ocean wave crashes
   const createOceanWaveAudio = () => {
@@ -178,9 +189,15 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
       audioRef.current.volume = volume;
       audioRef.current.preload = 'auto';
       
-      // Generate and set ocean wave audio
-      const oceanWaveUrl = createOceanWaveAudio();
-      audioRef.current.src = oceanWaveUrl;
+      // Use custom audio if available, otherwise generate ocean waves
+      if (customAudioUrl) {
+        audioRef.current.src = customAudioUrl;
+        setIsCustomAudio(true);
+      } else {
+        const oceanWaveUrl = createOceanWaveAudio();
+        audioRef.current.src = oceanWaveUrl;
+        setIsCustomAudio(false);
+      }
     }
   };
 
@@ -220,6 +237,28 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
     }
   };
 
+  const loadCustomAudio = (audioUrl: string) => {
+    setCustomAudioUrl(audioUrl);
+    
+    // Stop current audio and reinitialize with new source
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
+      audioRef.current = null;
+    }
+    setIsPlaying(false);
+    
+    // Initialize with new audio source
+    initializeAudio();
+  };
+
+  // Load custom audio from site settings
+  useEffect(() => {
+    if (siteSettings?.backgroundAudioUrl && !customAudioUrl) {
+      setCustomAudioUrl(siteSettings.backgroundAudioUrl);
+    }
+  }, [siteSettings, customAudioUrl]);
+
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -234,5 +273,7 @@ export function useBackgroundAudio(): UseBackgroundAudioReturn {
     toggle,
     setVolume,
     volume,
+    loadCustomAudio,
+    isCustomAudio,
   };
 }

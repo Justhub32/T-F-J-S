@@ -111,35 +111,8 @@ export default function Article() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Enhanced Article Background with Parallax Effect */}
-      {(article?.imageUrl || article?.category === "jiu-jitsu") && (
-        <div className="fixed inset-0 z-0">
-          <div className="parallax-container">
-            <img 
-              src={article.category === "jiu-jitsu" ? getJiujitsuBackground(articleId!) : (article.imageUrl || "")}
-              alt="Article background"
-              className="w-full h-full object-cover scale-110 parallax-image"
-            />
-          </div>
-          
-          {/* Multi-layer visual enhancement */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-teal-900/30"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/40"></div>
-          
-          {/* Dynamic overlay patterns */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10"></div>
-            <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-emerald-500/8 via-transparent to-transparent"></div>
-          </div>
-          
-          {/* Animated floating elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="floating-element floating-element-1"></div>
-            <div className="floating-element floating-element-2"></div>
-            <div className="floating-element floating-element-3"></div>
-          </div>
-        </div>
-      )}
+      {/* Clean background for better readability */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
         {/* Navigation and Audio Controls */}

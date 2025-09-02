@@ -2,6 +2,12 @@ import { Link } from "wouter";
 import { Article } from "@shared/schema";
 import { formatDistanceToNow } from "date-fns";
 
+// Jiu-jitsu cover images
+import jiujitsuCover1 from "@assets/generated_images/Jiu-jitsu_competition_cover_photo_81aa2f4f.png";
+import jiujitsuCover2 from "@assets/generated_images/Jiu-jitsu_instruction_cover_photo_87e9f438.png";
+import jiujitsuCover3 from "@assets/generated_images/Championship_victory_cover_photo_bc411842.png";
+import jiujitsuCover4 from "@assets/generated_images/Training_session_cover_photo_484e2d2e.png";
+
 interface ArticleCardProps {
   article: Article;
 }
@@ -21,12 +27,30 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     "surf": "group-hover:text-blue-600",
   };
 
+  // Array of jiu-jitsu cover images
+  const jiujitsuCovers = [jiujitsuCover1, jiujitsuCover2, jiujitsuCover3, jiujitsuCover4];
+  
+  // Function to get a consistent cover image for each jiu-jitsu article
+  const getJiujitsuCover = (articleId: string) => {
+    const hash = articleId.split('').reduce((a, b) => {
+      a = ((a << 7) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    const index = Math.abs(hash) % jiujitsuCovers.length;
+    return jiujitsuCovers[index];
+  };
+
+  // Determine which image to show
+  const displayImage = article.category === "jiu-jitsu" 
+    ? getJiujitsuCover(article.id)
+    : article.imageUrl;
+
   return (
     <Link href={`/article/${article.id}`}>
       <article className="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 cursor-pointer">
-        {article.imageUrl && (
+        {(displayImage || article.category === "jiu-jitsu") && (
           <img
-            src={article.imageUrl}
+            src={displayImage || ""}
             alt={article.title}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
           />

@@ -6,13 +6,31 @@ import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { CommentsSection } from "@/components/CommentsSection";
 import { useBackgroundAudio } from "@/hooks/useBackgroundAudio";
-import jiujitsuBg from "@assets/generated_images/Jiu-jitsu_training_background_26446023.png";
+import jiujitsuBg1 from "@assets/generated_images/Jiu-jitsu_training_background_26446023.png";
+import jiujitsuBg2 from "@assets/generated_images/IBJJF_tournament_competition_background_500eecc8.png";
+import jiujitsuBg3 from "@assets/generated_images/Traditional_academy_training_background_8ea2cd6f.png";
+import jiujitsuBg4 from "@assets/generated_images/Championship_podium_ceremony_background_d9b7471a.png";
+import jiujitsuBg5 from "@assets/generated_images/Technical_guard_position_background_68ab40d8.png";
 
 export default function Article() {
   const [, params] = useRoute("/article/:id");
   const articleId = params?.id;
   
   const { isPlaying, toggle, setVolume, volume } = useBackgroundAudio();
+
+  // Array of jiu-jitsu background images
+  const jiujitsuBackgrounds = [jiujitsuBg1, jiujitsuBg2, jiujitsuBg3, jiujitsuBg4, jiujitsuBg5];
+  
+  // Function to get a consistent but varied background for each article
+  const getJiujitsuBackground = (articleId: string) => {
+    // Use article ID to create a consistent but distributed selection
+    const hash = articleId.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    const index = Math.abs(hash) % jiujitsuBackgrounds.length;
+    return jiujitsuBackgrounds[index];
+  };
 
   const { data: article, isLoading, error } = useQuery({
     queryKey: ["/api/articles", articleId],
@@ -78,7 +96,7 @@ export default function Article() {
         <div className="fixed inset-0 z-0">
           <div className="parallax-container">
             <img 
-              src={article.category === "jiu-jitsu" ? jiujitsuBg : article.imageUrl}
+              src={article.category === "jiu-jitsu" ? getJiujitsuBackground(articleId!) : (article.imageUrl || "")}
               alt="Article background"
               className="w-full h-full object-cover scale-110 parallax-image"
             />

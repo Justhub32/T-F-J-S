@@ -200,25 +200,6 @@ export default function Article() {
           </div>
         </header>
 
-        {/* Jiu-Jitsu Cover Image */}
-        {article.category === "jiu-jitsu" && (
-          <div className="mb-8 relative overflow-hidden rounded-2xl shadow-2xl">
-            <div className="aspect-video relative">
-              <img 
-                src={getJiujitsuCover(articleId!)}
-                alt="Jiu-jitsu article cover"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-4 left-6">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white text-sm font-medium">Featured Jiu-Jitsu Content</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Enhanced Article Content with Premium Typography */}
         <article className="mb-12">

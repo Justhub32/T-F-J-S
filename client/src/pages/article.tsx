@@ -255,7 +255,7 @@ export default function Article() {
         </div>
 
         {/* Comments Section */}
-        <div className="bg-black/30 backdrop-blur-md rounded-2xl shadow-lg p-8">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl shadow-lg p-8 border border-white/20">
           <CommentsSection articleId={articleId} />
         </div>
       </div>

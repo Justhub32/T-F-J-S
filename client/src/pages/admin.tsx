@@ -219,6 +219,9 @@ export default function Admin() {
   });
 
   const onSubmit = (data: ArticleFormData) => {
+    console.log('Form submission attempted with data:', data);
+    console.log('Form errors:', form.formState.errors);
+    
     if (editingArticle) {
       updateMutation.mutate({ id: editingArticle.id, data });
     } else {

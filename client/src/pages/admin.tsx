@@ -44,6 +44,7 @@ const handleGetUploadParameters = async () => {
 };
 
 export default function Admin() {
+  // ALL hooks must be called before any conditional returns
   const { user, isLoading: authLoading, isAuthenticated } = useAuth();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingArticle, setEditingArticle] = useState<Article | null>(null);
@@ -51,48 +52,16 @@ export default function Admin() {
   const [backgroundImageUrl, setBackgroundImageUrl] = useState<string>("");
   const { toast } = useToast();
 
-  // Show loading while checking authentication
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ocean mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show login prompt if not authenticated
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
-          <User className="h-16 w-16 text-ocean mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Access Required</h1>
-          <p className="text-gray-600 mb-6">
-            You need to sign in to access the admin panel and create articles.
-          </p>
-          <Button 
-            onClick={() => window.location.href = '/api/login'}
-            className="bg-ocean hover:bg-teal-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mx-auto"
-          >
-            <LogIn className="h-5 w-5" />
-            Sign In with Replit
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
   const { data: articles, isLoading } = useQuery({
     queryKey: ["/api/articles"],
     queryFn: () => api.articles.getAll(),
+    enabled: isAuthenticated, // Only run when authenticated
   });
 
   const { data: siteSettings } = useQuery({
     queryKey: ["/api/settings"],
     queryFn: () => api.settings.get(),
+    enabled: isAuthenticated, // Only run when authenticated
   });
 
   const form = useForm<ArticleFormData>({
@@ -223,10 +192,41 @@ export default function Admin() {
     },
   });
 
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ocean mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login prompt if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-md">
+          <User className="h-16 w-16 text-ocean mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Access Required</h1>
+          <p className="text-gray-600 mb-6">
+            You need to sign in to access the admin panel and create articles.
+          </p>
+          <Button 
+            onClick={() => window.location.href = '/api/login'}
+            className="bg-ocean hover:bg-teal-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 mx-auto"
+          >
+            <LogIn className="h-5 w-5" />
+            Sign In with Replit
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   const onSubmit = (data: ArticleFormData) => {
-    console.log('Form submission attempted with data:', data);
-    console.log('Form errors:', form.formState.errors);
-    
     if (editingArticle) {
       updateMutation.mutate({ id: editingArticle.id, data });
     } else {

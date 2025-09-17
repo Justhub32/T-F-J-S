@@ -61,7 +61,9 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => {
               let textColorClass = "";
-              if (item.name === "Jiu-Jitsu") {
+              if (item.name === "Tech") {
+                textColorClass = "text-red-500";
+              } else if (item.name === "Jiu-Jitsu") {
                 textColorClass = "category-jiu-jitsu";
               } else if (item.name === "Surf") {
                 textColorClass = "category-surf";
@@ -104,7 +106,9 @@ export default function Navbar() {
           <div className="px-4 py-3 space-y-2">
             {navigation.map((item) => {
               let mobileTextColorClass = "";
-              if (item.name === "Jiu-Jitsu") {
+              if (item.name === "Tech") {
+                mobileTextColorClass = "text-red-500";
+              } else if (item.name === "Jiu-Jitsu") {
                 mobileTextColorClass = "category-jiu-jitsu";
               } else if (item.name === "Surf") {
                 mobileTextColorClass = "category-surf";

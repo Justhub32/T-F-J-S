@@ -63,6 +63,8 @@ export default function Navbar() {
               let textColorClass = "";
               if (item.name === "Tech") {
                 textColorClass = "text-red-500";
+              } else if (item.name === "Finance") {
+                textColorClass = "text-green-500";
               } else if (item.name === "Jiu-Jitsu") {
                 textColorClass = "category-jiu-jitsu";
               } else if (item.name === "Surf") {
@@ -108,6 +110,8 @@ export default function Navbar() {
               let mobileTextColorClass = "";
               if (item.name === "Tech") {
                 mobileTextColorClass = "text-red-500";
+              } else if (item.name === "Finance") {
+                mobileTextColorClass = "text-green-500";
               } else if (item.name === "Jiu-Jitsu") {
                 mobileTextColorClass = "category-jiu-jitsu";
               } else if (item.name === "Surf") {

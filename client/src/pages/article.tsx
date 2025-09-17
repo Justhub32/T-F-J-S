@@ -136,8 +136,8 @@ export default function Article() {
           alt="Article background"
           className="w-full h-full object-cover"
         />
-        {/* Light overlay for text readability without dark shading */}
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+        {/* Enhanced overlay for better text readability while preserving background visibility */}
+        <div className="absolute inset-0 bg-white/25 backdrop-blur-[2px]"></div>
       </div>
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">
@@ -184,11 +184,11 @@ export default function Article() {
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight enhanced-title">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight enhanced-title" style={{ textShadow: '3px 3px 10px rgba(0,0,0,0.9), 2px 2px 6px rgba(0,0,0,0.7), 0 0 8px rgba(0,0,0,0.5)' }}>
             {article.title}
           </h1>
 
-          <div className="flex items-center text-gray-200 space-x-6">
+          <div className="flex items-center text-gray-200 space-x-6" style={{ textShadow: '1px 1px 4px rgba(0,0,0,0.8), 0 0 3px rgba(0,0,0,0.6)' }}>
             <div className="flex items-center">
               <User className="w-4 h-4 mr-2" />
               <span>{article.author}</span>
@@ -213,11 +213,15 @@ export default function Article() {
               </div>
             )}
             
-            {/* Main content with enhanced typography */}
+            {/* Main content with enhanced typography and text shadows for visibility */}
             <div className="prose prose-xl max-w-none enhanced-article-prose">
               <div 
                 dangerouslySetInnerHTML={{ __html: article.content }}
                 className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-em:text-blue-200 prose-a:text-cyan-300 hover:prose-a:text-cyan-200 prose-blockquote:text-gray-200 prose-code:text-green-300 content-text"
+                style={{ 
+                  textShadow: '2px 2px 8px rgba(0,0,0,0.8), 1px 1px 4px rgba(0,0,0,0.6), 0 0 6px rgba(0,0,0,0.4)',
+                  letterSpacing: '0.01em'
+                }}
               />
             </div>
             

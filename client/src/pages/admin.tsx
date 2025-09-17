@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Plus, Edit, Trash2, Image, Settings, LogIn, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
@@ -65,9 +66,11 @@ export default function Admin() {
   });
 
   const form = useForm<ArticleFormData>({
-    resolver: zodResolver(insertArticleSchema.extend({
-      imageFile: insertArticleSchema.shape.imageUrl.optional()
-    }).omit({ imageUrl: true })),
+    resolver: zodResolver(
+      insertArticleSchema
+        .omit({ imageUrl: true })
+        .extend({ imageFile: z.instanceof(File).optional() })
+    ),
     defaultValues: {
       title: "",
       content: "",

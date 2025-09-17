@@ -126,17 +126,7 @@ export default function RichTextEditor({ content, onChange, placeholder = "Start
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onPaste={handlePaste}
-        className={`min-h-[300px] p-4 outline-none prose prose-sm max-w-none ${
-          !content && !isFocused ? 'text-gray-400' : ''
-        }`}
-        style={{ 
-          ...(content || isFocused ? {} : { 
-            '::before': { 
-              content: `"${placeholder}"`,
-              color: '#9CA3AF'
-            }
-          })
-        }}
+        className={`min-h-[300px] p-4 outline-none prose prose-sm max-w-none relative`}
       />
       
       {!content && !isFocused && (

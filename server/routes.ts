@@ -257,7 +257,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create new article
-  app.post("/api/articles", async (req, res) => {
+  app.post("/api/articles", isAuthenticated, async (req, res) => {
     try {
       const validatedData = insertArticleSchema.parse(req.body);
       const article = await storage.createArticle(validatedData);
@@ -272,7 +272,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update article
-  app.put("/api/articles/:id", async (req, res) => {
+  app.put("/api/articles/:id", isAuthenticated, async (req, res) => {
     try {
       const updates = insertArticleSchema.partial().parse(req.body);
       const article = await storage.updateArticle(req.params.id, updates);
@@ -290,7 +290,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete article
-  app.delete("/api/articles/:id", async (req, res) => {
+  app.delete("/api/articles/:id", isAuthenticated, async (req, res) => {
     try {
       const success = await storage.deleteArticle(req.params.id);
       if (!success) {
@@ -303,7 +303,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Upload image
-  app.post("/api/upload", upload.single('image'), (req, res) => {
+  app.post("/api/upload", isAuthenticated, upload.single('image'), (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No image file provided" });

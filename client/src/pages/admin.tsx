@@ -104,8 +104,13 @@ export default function Admin() {
       content: "",
       excerpt: "",
       category: "",
+      subcategory: "",
       author: "Admin",
       isDraft: false,
+      isFeatured: false,
+      isRealtime: false,
+      sourceUrl: "",
+      tags: [],
     },
   });
 
@@ -121,11 +126,11 @@ export default function Admin() {
       const articleData: InsertArticle = {
         ...data,
         imageUrl,
-        subcategory: undefined,
-        isRealtime: false,
-        sourceUrl: undefined,
-        tags: [],
-        isFeatured: false,
+        subcategory: data.subcategory || undefined,
+        isRealtime: data.isRealtime || false,
+        sourceUrl: data.sourceUrl || undefined,
+        tags: data.tags || [],
+        isFeatured: data.isFeatured || false,
       };
       delete (articleData as any).imageFile;
 
@@ -258,8 +263,13 @@ export default function Admin() {
       content: "",
       excerpt: "",
       category: "",
+      subcategory: "",
       author: "Admin",
       isDraft: false,
+      isFeatured: false,
+      isRealtime: false,
+      sourceUrl: "",
+      tags: [],
     });
     setImagePreview("");
     setEditingArticle(null);

@@ -76,6 +76,27 @@ export default function Article() {
     enabled: !!articleId,
   });
 
+  const { data: siteSettings } = useQuery({
+    queryKey: ["/api/settings"],
+    queryFn: () => api.settings.get(),
+  });
+
+  // Helper function to get text size multiplier
+  const getTextSizeMultiplier = (textSize: string) => {
+    switch (textSize) {
+      case 'small': return 0.85;
+      case 'large': return 1.15;
+      case 'extra-large': return 1.3;
+      default: return 1; // medium
+    }
+  };
+
+  // Get custom text styles
+  const customTextStyles = {
+    color: siteSettings?.textColor || '#ffffff',
+    fontSize: `${getTextSizeMultiplier(siteSettings?.textSize || 'medium')}em`,
+  };
+
   if (!articleId) {
     return <div>Article ID not found</div>;
   }
@@ -207,7 +228,11 @@ export default function Article() {
             {/* Excerpt/Lead paragraph if available */}
             {article.excerpt && (
               <div className="lead-paragraph mb-8 p-6 bg-transparent backdrop-blur-none rounded-2xl border-none shadow-none">
-                <p className="text-xl md:text-2xl text-white leading-relaxed font-medium italic" style={{ textShadow: '5px 5px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.9)' }}>
+                <p className="text-xl md:text-2xl text-white leading-relaxed font-medium italic" style={{ 
+                  textShadow: '5px 5px 15px rgba(0,0,0,1), 3px 3px 8px rgba(0,0,0,1), 0 0 10px rgba(0,0,0,0.9)',
+                  color: customTextStyles.color,
+                  fontSize: `calc(1.25rem * ${getTextSizeMultiplier(siteSettings?.textSize || 'medium')})`
+                }}>
                   "{article.excerpt}"
                 </p>
               </div>
@@ -220,8 +245,12 @@ export default function Article() {
                 className="prose-headings:text-white prose-p:text-white prose-strong:text-white prose-em:text-blue-200 prose-a:text-cyan-300 hover:prose-a:text-cyan-200 prose-blockquote:text-gray-200 prose-code:text-green-300 content-text"
                 style={{ 
                   textShadow: '2px 2px 8px rgba(0,0,0,0.8), 1px 1px 4px rgba(0,0,0,0.6), 0 0 6px rgba(0,0,0,0.4)',
-                  letterSpacing: '0.01em'
-                }}
+                  letterSpacing: '0.01em',
+                  color: customTextStyles.color,
+                  fontSize: customTextStyles.fontSize,
+                  '--custom-text-color': customTextStyles.color,
+                  '--custom-text-size-multiplier': getTextSizeMultiplier(siteSettings?.textSize || 'medium').toString(),
+                } as React.CSSProperties & { [key: string]: string }}
               />
             </div>
             

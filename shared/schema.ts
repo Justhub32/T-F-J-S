@@ -42,7 +42,7 @@ export const siteSettings = pgTable("site_settings", {
   id: varchar("id").primaryKey().default("site"),
   heroBackgroundUrl: text("hero_background_url").default("https://images.unsplash.com/photo-1502680390469-be75c86b636f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80"),
   backgroundAudioUrl: text("background_audio_url"),
-  textSize: varchar("text_size", { length: 10 }).default("medium"),
+  textSize: varchar("text_size", { length: 20 }).default("medium"),
   textColor: varchar("text_color", { length: 7 }).default("#ffffff"),
   updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
 });

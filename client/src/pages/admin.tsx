@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Edit, Trash2, Image, Settings, LogIn, User } from "lucide-react";
+import { Plus, Edit, Trash2, Image, Settings, LogIn, User, Type, Palette } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
 import { queryClient } from "@/lib/queryClient";
@@ -176,14 +176,14 @@ export default function Admin() {
   });
 
   const updateSettingsMutation = useMutation({
-    mutationFn: async (heroBackgroundUrl: string) => {
-      return api.settings.update({ heroBackgroundUrl });
+    mutationFn: async (updates: { heroBackgroundUrl?: string; textSize?: string; textColor?: string }) => {
+      return api.settings.update(updates);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/settings"] });
       toast({
         title: "Settings updated",
-        description: "Homepage backdrop has been updated successfully.",
+        description: "Settings have been updated successfully.",
       });
     },
     onError: (error) => {
@@ -728,7 +728,7 @@ export default function Admin() {
 
                         try {
                           const uploadResult = await api.upload.image(file);
-                          await updateSettingsMutation.mutateAsync(uploadResult.imageUrl);
+                          await updateSettingsMutation.mutateAsync({ heroBackgroundUrl: uploadResult.imageUrl });
                         } catch (error) {
                           toast({
                             title: "Error", 
@@ -781,6 +781,78 @@ export default function Admin() {
                       });
                     }}
                   />
+                </div>
+
+                <div className="border-t pt-6">
+                  <h4 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
+                    <Type className="w-5 h-5 mr-2" />
+                    Text Appearance
+                  </h4>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Text Size
+                      </label>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Choose the size of text displayed on articles
+                      </p>
+                      <Select 
+                        value={siteSettings?.textSize || "medium"}
+                        onValueChange={(value) => updateSettingsMutation.mutate({ textSize: value })}
+                        data-testid="select-textsize"
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select text size" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="small" data-testid="option-small">Small</SelectItem>
+                          <SelectItem value="medium" data-testid="option-medium">Medium (Default)</SelectItem>
+                          <SelectItem value="large" data-testid="option-large">Large</SelectItem>
+                          <SelectItem value="extra-large" data-testid="option-extra-large">Extra Large</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                        <Palette className="w-4 h-4 mr-1" />
+                        Text Color
+                      </label>
+                      <p className="text-sm text-gray-500 mb-3">
+                        Choose the color of text displayed on articles
+                      </p>
+                      <div className="flex items-center space-x-3">
+                        <input
+                          type="color"
+                          value={siteSettings?.textColor || "#ffffff"}
+                          onChange={(e) => updateSettingsMutation.mutate({ textColor: e.target.value })}
+                          className="w-12 h-10 rounded border border-gray-300 cursor-pointer"
+                          data-testid="input-textcolor"
+                        />
+                        <div className="flex-1">
+                          <Input
+                            type="text"
+                            value={siteSettings?.textColor || "#ffffff"}
+                            onChange={(e) => updateSettingsMutation.mutate({ textColor: e.target.value })}
+                            placeholder="#ffffff"
+                            className="font-mono text-sm"
+                            data-testid="input-colorhex"
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Color Preview */}
+                      <div className="mt-3 p-3 bg-gray-800 rounded-lg">
+                        <p className="text-sm font-medium mb-1" style={{ color: siteSettings?.textColor || "#ffffff" }}>
+                          Preview: This is how your text will appear
+                        </p>
+                        <p className="text-xs" style={{ color: siteSettings?.textColor || "#ffffff" }}>
+                          Text size: {siteSettings?.textSize || "medium"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

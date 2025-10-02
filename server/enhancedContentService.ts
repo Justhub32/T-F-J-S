@@ -27,6 +27,14 @@ export class EnhancedContentService {
     "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Beach lifestyle
   ];
 
+  private snowboardingBackgrounds = [
+    "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder action
+    "https://images.unsplash.com/photo-1519315901367-f34ff9154487?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Mountain snowboarding
+    "https://images.unsplash.com/photo-1418985991508-e47386d96a71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snow mountain peaks
+    "https://images.unsplash.com/photo-1609099222661-615f749c62fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder jumping
+    "https://images.unsplash.com/photo-1470219556762-1771e7f9427d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snow terrain
+  ];
+
   constructor() {}
 
   // Generate real-time news using external API (when available)
@@ -61,7 +69,7 @@ export class EnhancedContentService {
             content: this.generateExpandedContent(article.title, article.description, article.content),
             category: mappedCategory,
             subcategory,
-            imageUrl: this.surfBackgrounds[Math.floor(Math.random() * this.surfBackgrounds.length)],
+            imageUrl: this.getBackgroundForSubcategory(subcategory),
             author: "ChillVibes News",
             isDraft: false,
             isFeatured: Math.random() > 0.8,
@@ -126,6 +134,8 @@ export class EnhancedContentService {
         return 'training';
         
       case 'surf':
+        if (text.includes('snowboard') || text.includes('snow') || text.includes('mountain')) return 'snowboarding';
+        if (text.includes('yoga') || text.includes('mindfulness')) return 'yoga';
         if (text.includes('competition') || text.includes('championship')) return 'competitions';
         if (text.includes('destination') || text.includes('spot')) return 'destinations';
         if (text.includes('board') || text.includes('gear')) return 'gear';
@@ -134,6 +144,13 @@ export class EnhancedContentService {
       default:
         return undefined;
     }
+  }
+
+  private getBackgroundForSubcategory(subcategory?: string): string {
+    if (subcategory === 'snowboarding') {
+      return this.snowboardingBackgrounds[Math.floor(Math.random() * this.snowboardingBackgrounds.length)];
+    }
+    return this.surfBackgrounds[Math.floor(Math.random() * this.surfBackgrounds.length)];
   }
 
   private generateTags(category: string, title: string): string[] {

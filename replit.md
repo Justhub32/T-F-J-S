@@ -22,6 +22,8 @@ Preferred communication style: Simple, everyday language.
 - **Advanced Content Generation**: Combines AI-generated original content with real-time news feeds
 - **Enhanced Database Schema**: Added subcategory, realtime flags, source URLs, and tags to articles
 - **Lifestyle-First Approach**: All content filtered through ChillVibes perspective of balanced living
+- **Admin Text Customization**: Site-wide text size and color controls for dynamic styling
+- **Travel Rewards Content**: Comprehensive credit card and travel points section featuring latest 2025 offers including Chase Sapphire Reserve (125,000 points + $500 credit), Citi Strata Elite (190,000 points), and strategic optimization advice
 
 ## User Preferences
 

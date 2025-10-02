@@ -42,7 +42,8 @@ export default function Navbar() {
         { name: "Forecasting", href: "/category/surf/forecasting" },
         { name: "Destinations", href: "/category/surf/destinations" },
         { name: "Conservation", href: "/category/surf/conservation" },
-        { name: "Gear Reviews", href: "/category/surf/gear" }
+        { name: "Gear Reviews", href: "/category/surf/gear" },
+        { name: "Yoga", href: "/category/surf/yoga" }
       ]
     },
   ];

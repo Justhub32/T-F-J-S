@@ -477,6 +477,47 @@ export class EnhancedContentService {
     return [
       {
         id: nanoid(),
+        title: "Surf Yoga: Finding Balance Between Wave Riding and Inner Peace",
+        excerpt: "How yoga practice enhances surfing performance, prevents injuries, and deepens the connection between mind, body, and ocean.",
+        subcategory: "yoga",
+        content: `
+          <h2>The Perfect Complement to Wave Riding</h2>
+          <p>Yoga and surfing share a deep connection—both practices emphasize breath control, balance, flexibility, and mindful presence. For surfers, yoga isn't just cross-training; it's a pathway to better surfing and a more harmonious relationship with the ocean.</p>
+          
+          <h3>Surf-Specific Yoga Benefits</h3>
+          <p><strong>Enhanced Flexibility:</strong> Yoga opens up tight hips, shoulders, and back muscles that surfing can compress. Poses like pigeon, downward dog, and cobra directly improve your pop-up and maneuverability on the board.</p>
+          <p><strong>Core Strength & Balance:</strong> Standing balance poses and core-focused flows build the stability needed for riding waves. Warrior sequences and boat pose translate directly to maintaining position on your board.</p>
+          <p><strong>Breath Awareness:</strong> Pranayama breathing techniques teach you to stay calm during hold-downs and manage energy during long sessions. Learning to control your breath in yoga helps you handle ocean stress.</p>
+          
+          <h3>Injury Prevention & Recovery</h3>
+          <p>Surfing puts repetitive stress on shoulders, lower back, and knees. A consistent yoga practice addresses these vulnerable areas through gentle strengthening and deep stretching. Yin yoga and restorative poses accelerate recovery between surf sessions.</p>
+          
+          <h3>Mindfulness on the Water</h3>
+          <p>Yoga's meditation practices enhance wave reading and ocean awareness. The same present-moment focus you cultivate on the mat helps you read sets, position yourself perfectly, and flow with the ocean's rhythm rather than fighting it.</p>
+          
+          <h3>Surf Yoga Routines</h3>
+          <p><strong>Pre-Surf Flow (15 minutes):</strong> Sun salutations, hip openers, spinal twists, and shoulder rolls to warm up the body and prepare for paddling.</p>
+          <p><strong>Post-Surf Recovery (20 minutes):</strong> Gentle forward folds, pigeon pose, legs-up-the-wall, and savasana to release tension and restore energy.</p>
+          
+          <h3>Beachside Yoga Communities</h3>
+          <p>Surf destinations worldwide now offer sunrise yoga sessions on the beach, combining practice with ocean views. From Bali to Costa Rica, Portugal to Byron Bay, surf yoga retreats create spaces where wave riders can deepen both practices simultaneously.</p>
+          
+          <h2>The Lifestyle Connection</h2>
+          <p>For the ChillVibes community, yoga and surfing together represent the ultimate lifestyle balance—the active pursuit of waves combined with the inner cultivation of peace. Both teach us to flow with forces beyond our control, find stillness amid movement, and respect the power of nature.</p>
+          <p>Whether you're holding a tree pose at dawn before paddling out, or practicing beach yoga between sessions, integrating these disciplines creates a holistic approach to ocean living that nurtures body, mind, and spirit.</p>
+        `,
+        imageUrl: this.surfBackgrounds[3],
+        category: "surf",
+        author: "ChillVibes Wellness Team",
+        isDraft: false,
+        isFeatured: true,
+        isRealtime: false,
+        tags: ["yoga", "surf-yoga", "flexibility", "mindfulness", "injury-prevention", "wellness"],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: nanoid(),
         title: "Sustainable Surfing: Ocean Conservation Meets Wave Riding",
         excerpt: "How the surf community is leading environmental conservation efforts while pursuing their passion.",
         subcategory: "conservation",

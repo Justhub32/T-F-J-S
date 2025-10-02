@@ -18,7 +18,7 @@ Preferred communication style: Simple, everyday language.
   - **Tech**: AI & Innovation, Blockchain, Mobile Apps
   - **Finance**: Travel Rewards, Crypto/DeFi, Markets
   - **Jiu-Jitsu**: Training & Mindset, Destinations, Competitions
-  - **Surf**: Forecasting, Destinations, Conservation, Gear Reviews
+  - **Surf**: Forecasting, Destinations, Conservation, Gear Reviews, Yoga
 - **Advanced Content Generation**: Combines AI-generated original content with real-time news feeds
 - **Enhanced Database Schema**: Added subcategory, realtime flags, source URLs, and tags to articles
 - **Lifestyle-First Approach**: All content filtered through ChillVibes perspective of balanced living

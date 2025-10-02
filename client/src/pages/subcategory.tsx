@@ -36,7 +36,8 @@ export default function Subcategory() {
         "destinations": { title: "Destinations", description: "Epic surf spots and hidden gems" },
         "conservation": { title: "Conservation", description: "Ocean protection and sustainable surfing" },
         "gear": { title: "Gear Reviews", description: "Surfboard and equipment reviews" },
-        "yoga": { title: "Yoga", description: "Yoga practices, mindfulness, and surf yoga" }
+        "yoga": { title: "Yoga", description: "Yoga practices, mindfulness, and surf yoga" },
+        "snowboarding": { title: "Snowboarding", description: "Top destinations, gear, athlete events and news" }
       }
     };
 

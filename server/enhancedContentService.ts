@@ -588,6 +588,98 @@ export class EnhancedContentService {
         tags: ["forecasting", "ai", "wave-prediction", "technology"],
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        id: nanoid(),
+        title: "2024-25 Snowboarding Season: Top Destinations, Latest Gear, and Must-Watch Athletes",
+        excerpt: "Your complete guide to this winter's best snowboarding destinations, cutting-edge equipment, and the athletes shaping the sport's future.",
+        subcategory: "snowboarding",
+        content: `
+          <h2>Epic Winter Awaits: The Ultimate Snowboarding Season Preview</h2>
+          <p>As the 2024-25 winter season approaches, snowboarders worldwide are gearing up for epic powder days, fresh terrain, and groundbreaking competition events. Whether you're a backcountry explorer, park rider, or freerider, this season brings exciting developments across destinations, gear innovation, and athlete performances.</p>
+          
+          <h3>🏔️ Top Snowboarding Destinations for 2024-25</h3>
+          
+          <h4>North America: Powder Paradise</h4>
+          <p><strong>Jackson Hole, Wyoming:</strong> Known for its legendary steep terrain and deep powder, Jackson Hole remains a mecca for advanced riders. This season brings new backcountry access points and improved lift infrastructure. Expect classic Jackson conditions with 400+ inches of annual snowfall.</p>
+          
+          <p><strong>Whistler Blackcomb, British Columbia:</strong> The largest ski resort in North America continues to innovate with expanded terrain parks and backcountry zones. Peak season runs December through March, with legendary coastal snowfall creating world-class riding conditions.</p>
+          
+          <p><strong>Mammoth Mountain, California:</strong> California's premier destination offers riding well into June. New terrain expansions and improved snowmaking technology ensure consistent conditions throughout the extended season.</p>
+          
+          <h4>Europe: Alpine Excellence</h4>
+          <p><strong>Chamonix, France:</strong> The birthplace of extreme skiing and snowboarding offers unparalleled big-mountain terrain. This season features new freeride zones and improved access to iconic descents like the Vallée Blanche.</p>
+          
+          <p><strong>Laax, Switzerland:</strong> Europe's premier freestyle destination boasts one of the world's best terrain parks. The LAAX OPEN competition (January 2025) will showcase cutting-edge park riding and halfpipe progression.</p>
+          
+          <h4>Japan: Powder Heaven</h4>
+          <p><strong>Niseko, Hokkaido:</strong> Legendary for its consistent, dry powder snow (averaging 15 meters annually), Niseko remains the ultimate powder destination. This season brings new terrain access and improved infrastructure for international visitors.</p>
+          
+          <p><strong>Hakuba Valley:</strong> Host to Olympic events, Hakuba combines world-class terrain with authentic Japanese culture. Multiple resorts connected by the valley offer diverse riding for all levels.</p>
+          
+          <h3>🛹 2024-25 Gear Innovations: What's New</h3>
+          
+          <h4>Boards: Technology Meets Performance</h4>
+          <p><strong>Burton Custom X 2025:</strong> The legendary all-mountain board receives updates with new carbon layup technology for improved response and reduced weight. Perfect for riders seeking versatility across all terrain.</p>
+          
+          <p><strong>Jones Flagship 2025:</strong> Features sustainable materials with bamboo-powered construction and recycled edges. This freeride-focused board combines environmental consciousness with high performance.</p>
+          
+          <p><strong>Ride Algorhythm 2025:</strong> Revolutionary asymmetric design optimizes edge control for natural riding stance. Perfect for carving enthusiasts seeking precision on groomed terrain.</p>
+          
+          <h4>Boots and Bindings: Comfort Revolution</h4>
+          <p><strong>Thirty Two TM-3 2025:</strong> Heat-moldable liners and improved heel hold systems deliver custom comfort from day one. BOA lacing systems provide micro-adjustability for perfect fit.</p>
+          
+          <p><strong>Union Strata 2025:</strong> Lighter construction without sacrificing durability, featuring new baseplate geometry for improved energy transfer and response.</p>
+          
+          <h4>Outerwear: Performance Meets Style</h4>
+          <p><strong>Arc'teryx Sabre AR Jacket:</strong> Gore-Tex Pro construction with helmet-compatible hoods and strategic ventilation. Built for backcountry missions and resort shredding alike.</p>
+          
+          <p><strong>Volcom L Gore-Tex Jacket:</strong> Eco-friendly construction with recycled materials and V-Science technology. Stylish design meets technical performance.</p>
+          
+          <h4>Safety and Tech</h4>
+          <p><strong>Avalanche Safety:</strong> New BCA Tracker4 beacon offers improved range and faster search times. Paired with lightweight carbon probes and shovels, backcountry safety continues to advance.</p>
+          
+          <p><strong>Action Cameras:</strong> GoPro Hero 12 with improved stabilization and battery life captures every powder turn in stunning 5.3K resolution.</p>
+          
+          <h3>🏆 Athletes to Watch: The Next Generation</h3>
+          
+          <h4>Olympic Hopefuls and Competition Stars</h4>
+          <p><strong>Zoi Sadowski-Synnott (New Zealand):</strong> Olympic gold medalist and X Games champion continues to push women's big air and slopestyle progression. Watch for her at the 2025 World Championships.</p>
+          
+          <p><strong>Marcus Kleveland (Norway):</strong> Known for his innovative trick selection and fearless approach, Kleveland remains at the forefront of competitive slopestyle and big air riding.</p>
+          
+          <p><strong>Chloe Kim (USA):</strong> The halfpipe legend continues her dominance while exploring backcountry terrain. Her influence extends beyond competition into snowboarding culture and progression.</p>
+          
+          <h4>Freeride Legends</h4>
+          <p><strong>Travis Rice:</strong> The godfather of modern freeriding continues pushing big-mountain boundaries. His latest film projects showcase cutting-edge backcountry lines and creative riding.</p>
+          
+          <p><strong>Marie-France Roy:</strong> A pioneer in women's freeriding, Roy's artistic approach to snowboarding and environmental advocacy inspire the next generation of riders.</p>
+          
+          <h3>📅 Key Events for 2024-25 Season</h3>
+          <p><strong>December 2024:</strong> Dew Tour Copper Mountain kicks off the competition season with slopestyle and superpipe events featuring top athletes.</p>
+          
+          <p><strong>January 2025:</strong> X Games Aspen showcases the world's best in big air, slopestyle, and superpipe. LAAX OPEN in Switzerland highlights European progression.</p>
+          
+          <p><strong>February 2025:</strong> FIS World Championships in Switzerland crowns world champions across multiple disciplines.</p>
+          
+          <p><strong>March 2025:</strong> Natural Selection Tour brings freeride competition to Alaska, Canada, and beyond, showcasing big-mountain riding at its finest.</p>
+          
+          <h3>The ChillVibes Snowboarding Lifestyle</h3>
+          <p>For our community, snowboarding represents more than sport—it's a lifestyle that embodies flow, progression, and mountain culture. Whether you're chasing powder in Japan, lapping the park in Switzerland, or exploring backcountry lines in the Rockies, this season offers endless opportunities to find your rhythm on snow.</p>
+          
+          <p>The intersection of surf and snow cultures continues to strengthen, with many riders splitting time between ocean waves and mountain powder. This dual lifestyle creates a year-round flow state, connecting us to nature's most powerful forces while maintaining that essential chill vibe.</p>
+          
+          <p><em>Stay tuned for season updates, gear reviews, and destination guides as winter unfolds. Drop in, stay low, and keep it chill.</em></p>
+        `,
+        imageUrl: this.snowboardingBackgrounds[0],
+        category: "surf",
+        author: "ChillVibes Snow Team",
+        isDraft: false,
+        isFeatured: true,
+        isRealtime: false,
+        tags: ["snowboarding", "winter-sports", "mountains", "gear", "destinations", "athletes"],
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ];
   }

@@ -701,9 +701,14 @@ export class EnhancedContentService {
       
       categories.forEach(category => {
         const categoryArticles = allContent.filter(a => a.category === category);
-        // Take 2-3 random articles per category
+        // Prioritize featured articles, then add others
+        const featured = categoryArticles.filter(a => a.isFeatured);
+        const nonFeatured = categoryArticles.filter(a => !a.isFeatured);
+        
+        // Take all featured articles plus random non-featured to reach 2-3 total
         const count = Math.max(2, Math.min(3, categoryArticles.length));
-        balancedContent.push(...categoryArticles.slice(0, count));
+        const selected = [...featured, ...nonFeatured].slice(0, count);
+        balancedContent.push(...selected);
       });
 
       return balancedContent;

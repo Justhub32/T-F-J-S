@@ -155,10 +155,10 @@ export default function Article() {
         <img 
           src={article.category === "jiu-jitsu" ? getJiujitsuBackground(articleId!) : getSurfBackground(articleId!)}
           alt="Article background"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover parallax-image"
         />
         {/* Enhanced overlay for better text readability while preserving background visibility */}
-        <div className="absolute inset-0 bg-white/25 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
       </div>
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 py-12">

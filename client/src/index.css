@@ -181,7 +181,7 @@
   
   .parallax-image {
     transition: transform 0.3s ease-out;
-    filter: brightness(0.8) contrast(1.1) saturate(1.2);
+    filter: brightness(1.0) contrast(1.2) saturate(1.4) vibrance(1.1);
   }
   
   /* Floating animated elements */

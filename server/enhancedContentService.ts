@@ -29,10 +29,11 @@ export class EnhancedContentService {
 
   private snowboardingBackgrounds = [
     "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder action
-    "https://images.unsplash.com/photo-1519315901367-f34ff9154487?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Mountain snowboarding
-    "https://images.unsplash.com/photo-1418985991508-e47386d96a71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snow mountain peaks
-    "https://images.unsplash.com/photo-1609099222661-615f749c62fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder jumping
-    "https://images.unsplash.com/photo-1470219556762-1771e7f9427d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snow terrain
+    "https://images.unsplash.com/photo-JU7z3ey-nzU?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder mid-air jump
+    "https://images.unsplash.com/photo-nQz49efZEFs?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarding on mountain daytime
+    "https://images.unsplash.com/photo-aWBM_gJfRGk?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder down slope
+    "https://images.unsplash.com/photo-bHTJ81XtXL8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarder trick in air
+    "https://images.unsplash.com/photo-KcsKWw77Ovw?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Snowboarding action shot
   ];
 
   constructor() {}

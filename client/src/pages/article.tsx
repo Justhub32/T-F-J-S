@@ -153,7 +153,7 @@ export default function Article() {
       {/* Background Image with Text Readability */}
       <div className="fixed inset-0 z-0">
         <img 
-          src={article.category === "jiu-jitsu" ? getJiujitsuBackground(articleId!) : getSurfBackground(articleId!)}
+          src={article.imageUrl || (article.category === "jiu-jitsu" ? getJiujitsuBackground(articleId!) : getSurfBackground(articleId!))}
           alt="Article background"
           className="w-full h-full object-cover parallax-image"
         />

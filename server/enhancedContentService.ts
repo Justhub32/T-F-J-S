@@ -27,7 +27,7 @@ export class EnhancedContentService {
     "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Beach lifestyle
   ];
 
-  private snowboardingBackgrounds = [
+  private snowBackgrounds = [
     "https://images.unsplash.com/photo-JU7z3ey-nzU?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Verified: Man flying through air while riding snowboard
     "https://images.unsplash.com/photo-bHTJ81XtXL8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Verified: Snowboarder doing trick in air (Banff)
     "https://images.unsplash.com/photo-dePcyxfAJy8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80", // Verified: Person on snowboard jumping in air (Swiss Alps)
@@ -135,7 +135,7 @@ export class EnhancedContentService {
         return 'training';
         
       case 'surf':
-        if (text.includes('snowboard') || text.includes('snow') || text.includes('mountain')) return 'snowboarding';
+        if (text.includes('snowboard') || text.includes('snow') || text.includes('mountain')) return 'snow';
         if (text.includes('yoga') || text.includes('mindfulness')) return 'yoga';
         if (text.includes('competition') || text.includes('championship')) return 'competitions';
         if (text.includes('destination') || text.includes('spot')) return 'destinations';
@@ -148,8 +148,8 @@ export class EnhancedContentService {
   }
 
   private getBackgroundForSubcategory(subcategory?: string): string {
-    if (subcategory === 'snowboarding') {
-      return this.snowboardingBackgrounds[Math.floor(Math.random() * this.snowboardingBackgrounds.length)];
+    if (subcategory === 'snow') {
+      return this.snowBackgrounds[Math.floor(Math.random() * this.snowBackgrounds.length)];
     }
     return this.surfBackgrounds[Math.floor(Math.random() * this.surfBackgrounds.length)];
   }
@@ -594,7 +594,7 @@ export class EnhancedContentService {
         id: nanoid(),
         title: "2024-25 Snowboarding Season: Top Destinations, Latest Gear, and Must-Watch Athletes",
         excerpt: "Your complete guide to this winter's best snowboarding destinations, cutting-edge equipment, and the athletes shaping the sport's future.",
-        subcategory: "snowboarding",
+        subcategory: "snow",
         content: `
           <h2>Epic Winter Awaits: The Ultimate Snowboarding Season Preview</h2>
           <p>As the 2024-25 winter season approaches, snowboarders worldwide are gearing up for epic powder days, fresh terrain, and groundbreaking competition events. Whether you're a backcountry explorer, park rider, or freerider, this season brings exciting developments across destinations, gear innovation, and athlete performances.</p>
@@ -672,7 +672,7 @@ export class EnhancedContentService {
           
           <p><em>Stay tuned for season updates, gear reviews, and destination guides as winter unfolds. Drop in, stay low, and keep it chill.</em></p>
         `,
-        imageUrl: this.snowboardingBackgrounds[0],
+        imageUrl: this.snowBackgrounds[0],
         category: "surf",
         author: "ChillVibes Snow Team",
         isDraft: false,

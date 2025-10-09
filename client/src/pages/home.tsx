@@ -200,9 +200,9 @@ export default function Home() {
                   <p className="text-sm text-gray-600">Practices, gear, destinations, and benefits</p>
                 </div>
               </Link>
-              <Link href="/category/surf/snowboarding">
+              <Link href="/category/surf/snow">
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 hover:bg-white hover:shadow-lg transition-all duration-300 border border-blue-200 hover:border-blue-300">
-                  <h4 className="font-semibold text-gray-900 mb-1">Snowboarding</h4>
+                  <h4 className="font-semibold text-gray-900 mb-1">Snow</h4>
                   <p className="text-sm text-gray-600">Top destinations, gear, athlete events and news</p>
                 </div>
               </Link>

@@ -672,7 +672,7 @@ export class EnhancedContentService {
           
           <p><em>Stay tuned for season updates, gear reviews, and destination guides as winter unfolds. Drop in, stay low, and keep it chill.</em></p>
         `,
-        imageUrl: this.snowBackgrounds[0],
+        imageUrl: this.getBackgroundForSubcategory('snow'),
         category: "surf",
         author: "ChillVibes Snow Team",
         isDraft: false,

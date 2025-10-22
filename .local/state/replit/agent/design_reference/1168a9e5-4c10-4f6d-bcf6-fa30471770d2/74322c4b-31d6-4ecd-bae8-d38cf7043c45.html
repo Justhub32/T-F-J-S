@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Vibes Community - Tech+Finance, Jiu-Jitsu+Surf</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ocean': '#2DD4BF',
+                        'sunset': '#F59E0B',
+                        'surf': '#06B6D4',
+                        'sand': '#FEF3C7',
+                        'wave': '#E0F2FE'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    
+    <!-- Navigation -->
+    <!-- @COMPONENT: Navigation [responsive navbar with community branding] -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-ocean to-surf rounded-lg flex items-center justify-center">
+                        <i class="fas fa-wave-square text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900" data-bind="site.name">ChillVibes</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-ocean transition-colors font-medium">Home</a>
+                    <a href="#tech-finance" class="text-gray-700 hover:text-ocean transition-colors font-medium">Tech+Finance</a>
+                    <a href="#jiu-jitsu-surf" class="text-gray-700 hover:text-ocean transition-colors font-medium">Jiu-Jitsu+Surf</a>
+                    <a href="#about" class="text-gray-700 hover:text-ocean transition-colors font-medium">About</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button data-event="click:toggleSearch" class="text-gray-500 hover:text-ocean transition-colors">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button data-event="click:showAdminLogin" class="bg-ocean text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors font-medium">
+                        Admin
+                    </button>
+                    <button class="md:hidden text-gray-700" data-event="click:toggleMobileMenu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- Mobile Menu -->
+    <!-- @COMPONENT: MobileMenu [collapsible mobile navigation] -->
+    <div class="md:hidden bg-white border-b border-gray-100 hidden" data-bind="mobileMenu.isOpen">
+        <div class="px-4 py-3 space-y-2">
+            <a href="#home" class="block py-2 text-gray-700 hover:text-ocean transition-colors">Home</a>
+            <a href="#tech-finance" class="block py-2 text-gray-700 hover:text-ocean transition-colors">Tech+Finance</a>
+            <a href="#jiu-jitsu-surf" class="block py-2 text-gray-700 hover:text-ocean transition-colors">Jiu-Jitsu+Surf</a>
+            <a href="#about" class="block py-2 text-gray-700 hover:text-ocean transition-colors">About</a>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: MobileMenu -->
+
+    <!-- Hero Section -->
+    <!-- @COMPONENT: HeroSection [main community introduction] -->
+    <section class="relative bg-gradient-to-br from-wave via-white to-sand py-20 overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <!-- Abstract wave pattern background -->
+            <svg class="w-full h-full" viewBox="0 0 1200 600" fill="none">
+                <path d="M0 300C400 200 600 400 1200 300V600H0V300Z" fill="url(#wave-gradient)"/>
+                <defs>
+                    <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#2DD4BF"/>
+                        <stop offset="100%" style="stop-color:#06B6D4"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        
+        <div class="relative max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                <span class="text-ocean">Tech+Finance</span>, 
+                <span class="text-surf">Jiu-Jitsu+Surf</span>:<br>
+                <span class="text-gray-700 font-medium">a lifestyle digital community<br>spreading chill vibes</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+                Where innovation meets zen, and hustle meets flow. Join our community of mindful achievers living the balanced life.
+            </p>
+            
+            <!-- Category Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <button data-event="click:navigateToCategory" data-category="tech-finance" 
+                        class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-gray-100 hover:border-ocean">
+                    <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-ocean to-surf rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Tech+Finance</h3>
+                    <p class="text-gray-600">Innovation, markets, and the future of money</p>
+                </button>
+                
+                <button data-event="click:navigateToCategory" data-category="jiu-jitsu-surf"
+                        class="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 w-full sm:w-80 border border-gray-100 hover:border-surf">
+                    <div class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-surf to-sunset rounded-xl mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-water text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Jiu-Jitsu+Surf</h3>
+                    <p class="text-gray-600">Mind, body, and the art of flow</p>
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- Featured Articles -->
+    <!-- @COMPONENT: FeaturedArticles [homepage article showcase] -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Latest from the Community</h2>
+                <p class="text-gray-600 text-lg">Fresh insights on living the balanced life</p>
+            </div>
+            
+            <!-- @MAP: featuredArticles.map(article => ( -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Featured Article 1 -->
+                <article class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100" data-mock="true">
+                    <!-- A modern office workspace with multiple monitors displaying financial charts -->
+                    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Modern trading setup" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" 
+                         data-mock-image="true"/>
+                    
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-ocean/10 text-ocean px-3 py-1 rounded-full text-sm font-medium" data-bind="article.category">Tech+Finance</span>
+                            <span class="text-gray-400 ml-auto text-sm" data-bind="article.date">2 days ago</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-ocean transition-colors" data-bind="article.title">
+                            The Zen of DeFi: Finding Balance in Crypto Trading
+                        </h3>
+                        <p class="text-gray-600 mb-4" data-bind="article.excerpt">
+                            How mindfulness principles can transform your approach to decentralized finance and reduce trading stress.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full mr-3" data-bind="article.author.avatar"></div>
+                            <span class="text-gray-700 font-medium text-sm" data-bind="article.author.name">Alex Rivera</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Featured Article 2 -->
+                <article class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100" data-mock="true">
+                    <!-- A person in a gi practicing jiu-jitsu on beach mats at sunrise -->
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Beach jiu-jitsu training" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" 
+                         data-mock-image="true"/>
+                    
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-surf/10 text-surf px-3 py-1 rounded-full text-sm font-medium" data-bind="article.category">Jiu-Jitsu+Surf</span>
+                            <span class="text-gray-400 ml-auto text-sm" data-bind="article.date">4 days ago</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-surf transition-colors" data-bind="article.title">
+                            Flow State: From Waves to Mats
+                        </h3>
+                        <p class="text-gray-600 mb-4" data-bind="article.excerpt">
+                            The surprising parallels between catching the perfect wave and executing a flawless submission.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full mr-3" data-bind="article.author.avatar"></div>
+                            <span class="text-gray-700 font-medium text-sm" data-bind="article.author.name">Maya Chen</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Featured Article 3 -->
+                <article class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100" data-mock="true">
+                    <!-- A serene home office setup overlooking the ocean with laptop and coffee -->
+                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400" 
+                         alt="Ocean view workspace" 
+                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" 
+                         data-mock-image="true"/>
+                    
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-ocean/10 text-ocean px-3 py-1 rounded-full text-sm font-medium" data-bind="article.category">Tech+Finance</span>
+                            <span class="text-gray-400 ml-auto text-sm" data-bind="article.date">1 week ago</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-ocean transition-colors" data-bind="article.title">
+                            Remote Work Revolution: Building Your Digital Nomad Portfolio
+                        </h3>
+                        <p class="text-gray-600 mb-4" data-bind="article.excerpt">
+                            Strategies for creating location-independent income streams while maintaining work-life balance.
+                        </p>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-200 rounded-full mr-3" data-bind="article.author.avatar"></div>
+                            <span class="text-gray-700 font-medium text-sm" data-bind="article.author.name">Jordan Blake</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <!-- @END_MAP )) -->
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button data-event="click:loadMoreArticles" class="bg-gradient-to-r from-ocean to-surf text-white px-8 py-3 rounded-lg hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 font-medium shadow-lg hover:shadow-xl">
+                    Explore More Stories
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FeaturedArticles -->
+
+    <!-- Newsletter Signup -->
+    <!-- @COMPONENT: NewsletterSignup [community email subscription] -->
+    <section class="py-16 bg-gradient-to-r from-wave to-sand">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Stay in the Flow</h2>
+            <p class="text-gray-600 text-lg mb-8">Get the latest insights delivered to your inbox. No spam, just chill vibes.</p>
+            
+            <div class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" 
+                           placeholder="Enter your email" 
+                           class="flex-1 px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                           data-bind="newsletter.email"
+                           data-mock="true"/>
+                    <button data-event="click:subscribeNewsletter" 
+                            class="bg-ocean text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition-colors font-medium whitespace-nowrap">
+                        Join Community
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: NewsletterSignup -->
+
+    <!-- Admin Interface Modal -->
+    <!-- @COMPONENT: AdminModal [content management interface] -->
+    <div class="fixed inset-0 bg-black/50 z-50 hidden" data-bind="admin.modalOpen" data-event="click:closeAdminModal">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden" data-event="click:stopPropagation">
+                
+                <!-- Admin Header -->
+                <div class="bg-gradient-to-r from-ocean to-surf text-white p-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold">Content Management</h2>
+                        <button data-event="click:closeAdminModal" class="text-white hover:text-gray-200 transition-colors">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Navigation -->
+                <div class="border-b border-gray-200">
+                    <div class="flex">
+                        <button data-event="click:switchAdminTab" data-tab="articles" 
+                                class="px-6 py-3 border-b-2 border-ocean text-ocean font-medium">
+                            Articles
+                        </button>
+                        <button data-event="click:switchAdminTab" data-tab="create" 
+                                class="px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium">
+                            Create New
+                        </button>
+                        <button data-event="click:switchAdminTab" data-tab="settings" 
+                                class="px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium">
+                            Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Content -->
+                <div class="p-6 max-h-[calc(90vh-200px)] overflow-y-auto">
+                    
+                    <!-- Articles Management Tab -->
+                    <div data-tab-content="articles">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-gray-900">Manage Articles</h3>
+                            <button data-event="click:createNewArticle" class="bg-ocean text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors">
+                                <i class="fas fa-plus mr-2"></i>New Article
+                            </button>
+                        </div>
+
+                        <!-- Articles List -->
+                        <!-- @MAP: articles.map(article => ( -->
+                        <div class="space-y-4" data-mock="true">
+                            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900" data-bind="article.title">The Zen of DeFi: Finding Balance in Crypto Trading</h4>
+                                    <div class="flex items-center text-sm text-gray-500 mt-1">
+                                        <span data-bind="article.category">Tech+Finance</span>
+                                        <span class="mx-2">•</span>
+                                        <span data-bind="article.status">Published</span>
+                                        <span class="mx-2">•</span>
+                                        <span data-bind="article.date">2 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button data-event="click:editArticle" class="text-ocean hover:text-teal-600 transition-colors">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button data-event="click:deleteArticle" class="text-red-500 hover:text-red-600 transition-colors">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900" data-bind="article.title">Flow State: From Waves to Mats</h4>
+                                    <div class="flex items-center text-sm text-gray-500 mt-1">
+                                        <span data-bind="article.category">Jiu-Jitsu+Surf</span>
+                                        <span class="mx-2">•</span>
+                                        <span data-bind="article.status">Published</span>
+                                        <span class="mx-2">•</span>
+                                        <span data-bind="article.date">4 days ago</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button data-event="click:editArticle" class="text-ocean hover:text-teal-600 transition-colors">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button data-event="click:deleteArticle" class="text-red-500 hover:text-red-600 transition-colors">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+
+                    <!-- Create Article Tab -->
+                    <div data-tab-content="create" class="hidden">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Create New Article</h3>
+                        
+                        <form class="space-y-6" data-event="submit:createArticle">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Title</label>
+                                <input type="text" 
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                                       placeholder="Enter article title"
+                                       data-bind="newArticle.title"/>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                                <select class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                                        data-bind="newArticle.category">
+                                    <option value="">Select category</option>
+                                    <option value="tech-finance">Tech+Finance</option>
+                                    <option value="jiu-jitsu-surf">Jiu-Jitsu+Surf</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Featured Image</label>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-ocean transition-colors">
+                                    <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
+                                    <p class="text-gray-600">Drop image here or click to upload</p>
+                                    <input type="file" class="hidden" accept="image/*" data-implementation="File upload component"/>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
+                                <textarea rows="3" 
+                                         class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                                         placeholder="Brief description of the article"
+                                         data-bind="newArticle.excerpt"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                                <!-- @FUNCTIONALITY: Rich text editor should be implemented here using libraries like Quill, TinyMCE, or similar -->
+                                <div class="border border-gray-200 rounded-lg min-h-[300px] p-4 bg-white" data-implementation="Rich text editor component">
+                                    <div class="border-b border-gray-200 pb-2 mb-4">
+                                        <div class="flex items-center space-x-2 text-gray-600">
+                                            <button type="button" class="p-2 hover:bg-gray-100 rounded"><i class="fas fa-bold"></i></button>
+                                            <button type="button" class="p-2 hover:bg-gray-100 rounded"><i class="fas fa-italic"></i></button>
+                                            <button type="button" class="p-2 hover:bg-gray-100 rounded"><i class="fas fa-underline"></i></button>
+                                            <button type="button" class="p-2 hover:bg-gray-100 rounded"><i class="fas fa-list-ul"></i></button>
+                                            <button type="button" class="p-2 hover:bg-gray-100 rounded"><i class="fas fa-list-ol"></i></button>
+                                            <button type="button" class="p-2 hover:bg-gray-100 rounded"><i class="fas fa-link"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="min-h-[200px] outline-none" contenteditable="true" data-bind="newArticle.content">
+                                        <p class="text-gray-400">Start writing your article...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center pt-6">
+                                <div class="flex items-center space-x-4">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="rounded border-gray-300 text-ocean focus:ring-ocean" data-bind="newArticle.isDraft"/>
+                                        <span class="ml-2 text-sm text-gray-700">Save as draft</span>
+                                    </label>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <button type="button" data-event="click:cancelArticle" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="px-6 py-3 bg-ocean text-white rounded-lg hover:bg-teal-600 transition-colors">
+                                        Publish Article
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div data-tab-content="settings" class="hidden">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Site Settings</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Site Name</label>
+                                <input type="text" 
+                                       value="ChillVibes Community"
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                                       data-bind="settings.siteName"/>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Site Description</label>
+                                <textarea rows="3" 
+                                         class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                                         data-bind="settings.siteDescription">A lifestyle digital community spreading chill vibes through tech, finance, jiu-jitsu, and surf culture.</textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">SEO Keywords</label>
+                                <input type="text" 
+                                       placeholder="lifestyle, tech, finance, jiu-jitsu, surf, community"
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-200 focus:border-ocean focus:ring-2 focus:ring-ocean/20 outline-none transition-all"
+                                       data-bind="settings.keywords"/>
+                            </div>
+
+                            <div class="pt-6">
+                                <button data-event="click:saveSettings" class="bg-ocean text-white px-6 py-3 rounded-lg hover:bg-teal-600 transition-colors">
+                                    Save Settings
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AdminModal -->
+
+    <!-- Footer -->
+    <!-- @COMPONENT: Footer [site footer with community links] -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-ocean to-surf rounded-lg flex items-center justify-center">
+                            <i class="fas fa-wave-square text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold">ChillVibes</span>
+                    </div>
+                    <p class="text-gray-400 mb-6 max-w-md">
+                        Building a community where innovation meets zen, and hustle meets flow. Join thousands living the balanced life.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-ocean transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-ocean transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-ocean transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-ocean transition-colors">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-ocean transition-colors">Tech+Finance</a></li>
+                        <li><a href="#" class="hover:text-ocean transition-colors">Jiu-Jitsu+Surf</a></li>
+                        <li><a href="#" class="hover:text-ocean transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-ocean transition-colors">Resources</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold mb-4">Community</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-ocean transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-ocean transition-colors">Contributors</a></li>
+                        <li><a href="#" class="hover:text-ocean transition-colors">Newsletter</a></li>
+                        <li><a href="#" class="hover:text-ocean transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ChillVibes Community. All rights reserved. Built with ❤️ for the balanced lifestyle.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- JavaScript for Interactive Elements -->
+    <script>
+        (function() {
+            // TODO: Implement business logic, API calls, and state management
+            
+            // Mock state management
+            let state = {
+                mobileMenuOpen: false,
+                adminModalOpen: false,
+                currentAdminTab: 'articles'
+            };
+
+            // Mobile menu toggle
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event="click:toggleMobileMenu"]')) {
+                    state.mobileMenuOpen = !state.mobileMenuOpen;
+                    const mobileMenu = document.querySelector('[data-bind="mobileMenu.isOpen"]');
+                    if (mobileMenu) {
+                        mobileMenu.classList.toggle('hidden', !state.mobileMenuOpen);
+                    }
+                }
+            });
+
+            // Admin modal controls
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event="click:showAdminLogin"]')) {
+                    state.adminModalOpen = true;
+                    const modal = document.querySelector('[data-bind="admin.modalOpen"]');
+                    if (modal) modal.classList.remove('hidden');
+                }
+
+                if (e.target.closest('[data-event="click:closeAdminModal"]')) {
+                    state.adminModalOpen = false;
+                    const modal = document.querySelector('[data-bind="admin.modalOpen"]');
+                    if (modal) modal.classList.add('hidden');
+                }
+
+                if (e.target.closest('[data-event="click:stopPropagation"]')) {
+                    e.stopPropagation();
+                }
+            });
+
+            // Admin tab switching
+            document.addEventListener('click', function(e) {
+                const tabButton = e.target.closest('[data-event="click:switchAdminTab"]');
+                if (tabButton) {
+                    const tabName = tabButton.dataset.tab;
+                    
+                    // Update tab buttons
+                    document.querySelectorAll('[data-event="click:switchAdminTab"]').forEach(btn => {
+                        btn.classList.remove('border-ocean', 'text-ocean');
+                        btn.classList.add('border-transparent', 'text-gray-500');
+                    });
+                    tabButton.classList.add('border-ocean', 'text-ocean');
+                    tabButton.classList.remove('border-transparent', 'text-gray-500');
+                    
+                    // Show/hide tab content
+                    document.querySelectorAll('[data-tab-content]').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    const activeContent = document.querySelector(`[data-tab-content="${tabName}"]`);
+                    if (activeContent) activeContent.classList.remove('hidden');
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Category button navigation
+            document.addEventListener('click', function(e) {
+                const categoryBtn = e.target.closest('[data-event="click:navigateToCategory"]');
+                if (categoryBtn) {
+                    const category = categoryBtn.dataset.category;
+                    // TODO: Implement category page navigation
+                    console.log(`Navigate to ${category} category`);
+                }
+            });
+
+            // Newsletter subscription
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('[data-event="click:subscribeNewsletter"]')) {
+                    // TODO: Implement newsletter subscription
+                    const emailInput = document.querySelector('[data-bind="newsletter.email"]');
+                    if (emailInput && emailInput.value) {
+                        alert('Thanks for joining our community! 🌊');
+                        emailInput.value = '';
+                    }
+                }
+            });
+
+            // Form submissions
+            document.addEventListener('submit', function(e) {
+                if (e.target.closest('[data-event="submit:createArticle"]')) {
+                    e.preventDefault();
+                    // TODO: Implement article creation
+                    alert('Article created successfully! 📝');
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>

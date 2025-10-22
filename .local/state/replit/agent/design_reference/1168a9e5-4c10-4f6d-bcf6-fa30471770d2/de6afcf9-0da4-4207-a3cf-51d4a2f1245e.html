@@ -1,0 +1,728 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub - Professional News Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Merriweather', 'Georgia', 'serif'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        'news-primary': '#1a1a1a',
+                        'news-secondary': '#666666',
+                        'news-accent': '#2563eb',
+                        'news-light': '#f8fafc',
+                        'news-border': '#e2e8f0'
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-white font-sans text-news-primary">
+    <!-- @COMPONENT: Header -->
+    <header class="border-b border-news-border sticky top-0 bg-white z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-8">
+                    <h1 class="text-2xl font-serif font-bold text-news-primary">NewsHub</h1>
+                    <nav class="hidden md:flex space-x-6">
+                        <a href="#" class="text-news-primary hover:text-news-accent transition-colors" data-view="home">Home</a>
+                        <a href="#" class="text-news-secondary hover:text-news-accent transition-colors" data-category="politics">Politics</a>
+                        <a href="#" class="text-news-secondary hover:text-news-accent transition-colors" data-category="technology">Technology</a>
+                        <a href="#" class="text-news-secondary hover:text-news-accent transition-colors" data-category="business">Business</a>
+                        <a href="#" class="text-news-secondary hover:text-news-accent transition-colors" data-category="sports">Sports</a>
+                        <a href="#" class="text-news-secondary hover:text-news-accent transition-colors" data-view="admin">Admin</a>
+                    </nav>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search articles..." 
+                               class="w-64 pl-10 pr-4 py-2 border border-news-border rounded-lg focus:outline-none focus:ring-2 focus:ring-news-accent focus:border-transparent" data-mock="true">
+                        <i class="fas fa-search absolute left-3 top-3 text-news-secondary"></i>
+                    </div>
+                    <button class="md:hidden" data-mobile-menu="toggle">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: HomeView -->
+    <div id="homeView" class="view-content">
+        <!-- Hero Section -->
+        <section class="bg-news-light border-b border-news-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <!-- Featured article thumbnail showing a modern newsroom -->
+                        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=500" 
+                             alt="Breaking news story" class="w-full h-80 object-cover rounded-lg shadow-lg" data-mock-image="true">
+                    </div>
+                    <div class="space-y-4">
+                        <span class="inline-block bg-red-100 text-red-800 text-sm font-medium px-3 py-1 rounded-full" data-mock="true">BREAKING</span>
+                        <h2 class="text-4xl font-serif font-bold leading-tight" data-bind="featuredArticle.title" data-mock="true">
+                            Major Technology Breakthrough Announced in Silicon Valley
+                        </h2>
+                        <p class="text-lg text-news-secondary leading-relaxed" data-bind="featuredArticle.excerpt" data-mock="true">
+                            Industry leaders gathered today to unveil a revolutionary advancement that promises to reshape how we interact with digital technology in our daily lives.
+                        </p>
+                        <div class="flex items-center space-x-4 text-sm text-news-secondary">
+                            <span data-bind="featuredArticle.author" data-mock="true">By Sarah Johnson</span>
+                            <span data-bind="featuredArticle.publishedAt" data-mock="true">2 hours ago</span>
+                            <span data-bind="featuredArticle.readTime" data-mock="true">5 min read</span>
+                        </div>
+                        <button class="bg-news-accent text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium" 
+                                data-event="click:viewArticle" data-implementation="Navigate to full article view">
+                            Read Full Story
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest Articles Grid -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-2xl font-serif font-bold">Latest Articles</h3>
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 bg-news-accent text-white rounded-lg text-sm font-medium">All</button>
+                    <button class="px-4 py-2 bg-gray-100 text-news-secondary rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">Politics</button>
+                    <button class="px-4 py-2 bg-gray-100 text-news-secondary rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">Tech</button>
+                    <button class="px-4 py-2 bg-gray-100 text-news-secondary rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors">Business</button>
+                </div>
+            </div>
+
+            <!-- @MAP: articles.map(article => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article Card 1 -->
+                <article class="bg-white border border-news-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-event="click:viewArticle">
+                    <!-- Modern office building representing business news -->
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                         alt="Article thumbnail" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded" data-mock="true">BUSINESS</span>
+                            <span class="text-xs text-news-secondary" data-mock="true">4 hours ago</span>
+                        </div>
+                        <h4 class="text-lg font-serif font-semibold mb-2 line-clamp-2" data-bind="article.title" data-mock="true">
+                            Global Markets Show Strong Recovery Amid Economic Optimism
+                        </h4>
+                        <p class="text-news-secondary text-sm mb-4 line-clamp-3" data-bind="article.excerpt" data-mock="true">
+                            Financial experts predict continued growth as international trade agreements boost investor confidence across multiple sectors.
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-news-secondary">
+                            <span data-bind="article.author" data-mock="true">Michael Chen</span>
+                            <span data-bind="article.readTime" data-mock="true">3 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article Card 2 -->
+                <article class="bg-white border border-news-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-event="click:viewArticle">
+                    <!-- Scientist working in a laboratory for science news -->
+                    <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                         alt="Article thumbnail" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="inline-block bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded" data-mock="true">SCIENCE</span>
+                            <span class="text-xs text-news-secondary" data-mock="true">6 hours ago</span>
+                        </div>
+                        <h4 class="text-lg font-serif font-semibold mb-2 line-clamp-2" data-bind="article.title" data-mock="true">
+                            Revolutionary Climate Research Offers New Hope for Carbon Reduction
+                        </h4>
+                        <p class="text-news-secondary text-sm mb-4 line-clamp-3" data-bind="article.excerpt" data-mock="true">
+                            Scientists at leading universities have developed an innovative approach to carbon capture that could significantly impact global warming efforts.
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-news-secondary">
+                            <span data-bind="article.author" data-mock="true">Dr. Emily Watson</span>
+                            <span data-bind="article.readTime" data-mock="true">7 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article Card 3 -->
+                <article class="bg-white border border-news-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-event="click:viewArticle">
+                    <!-- Athletic stadium for sports news -->
+                    <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                         alt="Article thumbnail" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="inline-block bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded" data-mock="true">SPORTS</span>
+                            <span class="text-xs text-news-secondary" data-mock="true">8 hours ago</span>
+                        </div>
+                        <h4 class="text-lg font-serif font-semibold mb-2 line-clamp-2" data-bind="article.title" data-mock="true">
+                            Championship Finals Set to Break Attendance Records This Weekend
+                        </h4>
+                        <p class="text-news-secondary text-sm mb-4 line-clamp-3" data-bind="article.excerpt" data-mock="true">
+                            Fans from around the world are converging for what promises to be one of the most exciting championship matches in recent history.
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-news-secondary">
+                            <span data-bind="article.author" data-mock="true">Alex Rodriguez</span>
+                            <span data-bind="article.readTime" data-mock="true">4 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Additional Article Cards -->
+                <article class="bg-white border border-news-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-event="click:viewArticle">
+                    <!-- Government building for politics news -->
+                    <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                         alt="Article thumbnail" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="inline-block bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded" data-mock="true">POLITICS</span>
+                            <span class="text-xs text-news-secondary" data-mock="true">1 day ago</span>
+                        </div>
+                        <h4 class="text-lg font-serif font-semibold mb-2 line-clamp-2" data-bind="article.title" data-mock="true">
+                            New Infrastructure Bill Passes With Bipartisan Support
+                        </h4>
+                        <p class="text-news-secondary text-sm mb-4 line-clamp-3" data-bind="article.excerpt" data-mock="true">
+                            The comprehensive infrastructure package addresses critical needs in transportation, broadband, and renewable energy sectors.
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-news-secondary">
+                            <span data-bind="article.author" data-mock="true">Jennifer Martinez</span>
+                            <span data-bind="article.readTime" data-mock="true">6 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white border border-news-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-event="click:viewArticle">
+                    <!-- Technology workspace with computers -->
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                         alt="Article thumbnail" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="inline-block bg-indigo-100 text-indigo-800 text-xs font-medium px-2 py-1 rounded" data-mock="true">TECHNOLOGY</span>
+                            <span class="text-xs text-news-secondary" data-mock="true">1 day ago</span>
+                        </div>
+                        <h4 class="text-lg font-serif font-semibold mb-2 line-clamp-2" data-bind="article.title" data-mock="true">
+                            AI Integration Transforms Remote Work Productivity
+                        </h4>
+                        <p class="text-news-secondary text-sm mb-4 line-clamp-3" data-bind="article.excerpt" data-mock="true">
+                            Companies report significant efficiency gains as artificial intelligence tools become standard in remote collaboration platforms.
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-news-secondary">
+                            <span data-bind="article.author" data-mock="true">David Kim</span>
+                            <span data-bind="article.readTime" data-mock="true">5 min read</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white border border-news-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer" data-event="click:viewArticle">
+                    <!-- Medical professionals in hospital setting -->
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                         alt="Article thumbnail" class="w-full h-48 object-cover" data-mock-image="true">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="inline-block bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded" data-mock="true">HEALTH</span>
+                            <span class="text-xs text-news-secondary" data-mock="true">2 days ago</span>
+                        </div>
+                        <h4 class="text-lg font-serif font-semibold mb-2 line-clamp-2" data-bind="article.title" data-mock="true">
+                            Breakthrough Treatment Shows Promise for Rare Disease Patients
+                        </h4>
+                        <p class="text-news-secondary text-sm mb-4 line-clamp-3" data-bind="article.excerpt" data-mock="true">
+                            Clinical trials demonstrate remarkable success rates for a new therapeutic approach targeting previously untreatable conditions.
+                        </p>
+                        <div class="flex items-center justify-between text-xs text-news-secondary">
+                            <span data-bind="article.author" data-mock="true">Dr. Maria Santos</span>
+                            <span data-bind="article.readTime" data-mock="true">8 min read</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <!-- @END_MAP )) -->
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button class="bg-white border border-news-border text-news-primary px-8 py-3 rounded-lg hover:bg-news-light transition-colors font-medium"
+                        data-event="click:loadMore" data-implementation="Load next batch of articles">
+                    Load More Articles
+                </button>
+            </div>
+        </section>
+    </div>
+    <!-- @END_COMPONENT: HomeView -->
+
+    <!-- @COMPONENT: ArticleView -->
+    <div id="articleView" class="view-content hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Article Header -->
+            <div class="mb-8">
+                <nav class="flex items-center space-x-2 text-sm text-news-secondary mb-6">
+                    <a href="#" class="hover:text-news-accent" data-view="home">Home</a>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span data-bind="article.category" data-mock="true">Technology</span>
+                    <i class="fas fa-chevron-right text-xs"></i>
+                    <span class="text-news-primary" data-mock="true">Current Article</span>
+                </nav>
+                
+                <div class="space-y-4">
+                    <span class="inline-block bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full" data-bind="article.category" data-mock="true">TECHNOLOGY</span>
+                    <h1 class="text-4xl lg:text-5xl font-serif font-bold leading-tight" data-bind="article.title" data-mock="true">
+                        Major Technology Breakthrough Announced in Silicon Valley
+                    </h1>
+                    <p class="text-xl text-news-secondary leading-relaxed" data-bind="article.excerpt" data-mock="true">
+                        Industry leaders gathered today to unveil a revolutionary advancement that promises to reshape how we interact with digital technology in our daily lives.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-news-secondary border-b border-news-border pb-6">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-gray-300 rounded-full"></div>
+                            <span data-bind="article.author" data-mock="true">By Sarah Johnson</span>
+                        </div>
+                        <span data-bind="article.publishedAt" data-mock="true">March 15, 2024</span>
+                        <span data-bind="article.readTime" data-mock="true">5 min read</span>
+                        <div class="flex items-center space-x-2 ml-auto">
+                            <button class="p-2 hover:bg-gray-100 rounded" data-implementation="Share article">
+                                <i class="fab fa-twitter text-gray-400"></i>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded" data-implementation="Share article">
+                                <i class="fab fa-facebook text-gray-400"></i>
+                            </button>
+                            <button class="p-2 hover:bg-gray-100 rounded" data-implementation="Share article">
+                                <i class="fas fa-link text-gray-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article Featured Image -->
+            <!-- High-tech laboratory showcasing advanced technology research -->
+            <img src="https://pixabay.com/get/g94afe62fe0314adbcecc020d5cb0b1aa57984b8e21232fca4a4ed4be72521a0415449340a625d69c421f58261a238ae822b743cbcde5b519646b2c4dd0298ce0_1280.jpg" 
+                 alt="Article featured image" class="w-full h-96 object-cover rounded-lg mb-8" data-mock-image="true">
+
+            <!-- Article Content -->
+            <div class="prose prose-lg max-w-none">
+                <div class="text-lg leading-relaxed space-y-6" data-bind="article.content" data-mock="true">
+                    <p>In a groundbreaking announcement that has sent ripples through the technology industry, leading researchers and engineers unveiled a revolutionary breakthrough that promises to fundamentally change how we interact with digital technology in our everyday lives.</p>
+
+                    <p>The development, which has been years in the making, represents a significant leap forward in human-computer interaction and artificial intelligence integration. According to the research team, this innovation could potentially transform everything from smartphones and personal computers to smart home devices and autonomous vehicles.</p>
+
+                    <h2 class="text-2xl font-serif font-bold mt-8 mb-4">The Science Behind the Breakthrough</h2>
+
+                    <p>At its core, the technology leverages advanced machine learning algorithms combined with sophisticated sensor arrays to create what researchers describe as "intuitive digital interfaces." Unlike traditional touch screens or voice commands, this system can interpret subtle gestures, facial expressions, and even brain activity patterns to understand user intent.</p>
+
+                    <blockquote class="border-l-4 border-news-accent pl-6 italic text-xl my-8">
+                        "This represents the most significant advancement in human-computer interaction since the introduction of the graphical user interface. We're essentially teaching machines to understand not just what we want, but how we want it." - Dr. Elena Rodriguez, Lead Researcher
+                    </blockquote>
+
+                    <p>The implications for accessibility are particularly profound. Users with physical disabilities who previously struggled with conventional input methods could find these new interfaces dramatically easier to use. Early testing has shown remarkable success rates across diverse user groups.</p>
+
+                    <h2 class="text-2xl font-serif font-bold mt-8 mb-4">Industry Impact and Future Applications</h2>
+
+                    <p>Major technology companies have already expressed interest in licensing the technology, with several partnerships announced during today's presentation. The automotive industry, in particular, sees significant potential for improving driver safety through more intuitive vehicle controls.</p>
+
+                    <p>Healthcare applications are equally promising, with researchers exploring how the technology could assist surgeons during complex procedures or help elderly patients manage their digital health records more effectively.</p>
+
+                    <div class="bg-news-light p-6 rounded-lg my-8">
+                        <h3 class="text-lg font-semibold mb-3">Key Features of the New Technology:</h3>
+                        <ul class="space-y-2">
+                            <li>• Gesture recognition with 99.7% accuracy</li>
+                            <li>• Real-time emotional context analysis</li>
+                            <li>• Adaptive learning for individual user preferences</li>
+                            <li>• Cross-platform compatibility</li>
+                            <li>• Enhanced privacy protection through local processing</li>
+                        </ul>
+                    </div>
+
+                    <p>Looking ahead, the research team plans to begin consumer testing within the next six months, with commercial applications expected to reach the market by late 2025. As we stand on the brink of this technological revolution, it's clear that the way we interact with our digital world is about to change forever.</p>
+                </div>
+            </div>
+
+            <!-- Article Footer -->
+            <div class="border-t border-news-border mt-12 pt-8">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm font-medium text-news-primary">Share this article:</span>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
+                                <i class="fab fa-twitter mr-2"></i>Tweet
+                            </button>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded text-sm hover:bg-blue-900 transition-colors">
+                                <i class="fab fa-facebook mr-2"></i>Share
+                            </button>
+                            <button class="px-4 py-2 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors">
+                                <i class="fas fa-link mr-2"></i>Copy Link
+                            </button>
+                        </div>
+                    </div>
+                    <button class="bg-news-accent text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors" data-view="home">
+                        ← Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: ArticleView -->
+
+    <!-- @COMPONENT: AdminView -->
+    <div id="adminView" class="view-content hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Admin Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-3xl font-serif font-bold">Admin Dashboard</h2>
+                    <p class="text-news-secondary mt-1">Manage your news articles and content</p>
+                </div>
+                <button class="bg-news-accent text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium" 
+                        data-modal="createArticle" data-implementation="Open new article form">
+                    <i class="fas fa-plus mr-2"></i>New Article
+                </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white border border-news-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-news-secondary">Total Articles</p>
+                            <p class="text-2xl font-bold" data-bind="stats.totalArticles" data-mock="true">147</p>
+                        </div>
+                        <i class="fas fa-newspaper text-2xl text-news-accent"></i>
+                    </div>
+                </div>
+                <div class="bg-white border border-news-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-news-secondary">Published</p>
+                            <p class="text-2xl font-bold text-green-600" data-bind="stats.published" data-mock="true">134</p>
+                        </div>
+                        <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                    </div>
+                </div>
+                <div class="bg-white border border-news-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-news-secondary">Drafts</p>
+                            <p class="text-2xl font-bold text-yellow-600" data-bind="stats.drafts" data-mock="true">13</p>
+                        </div>
+                        <i class="fas fa-edit text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+                <div class="bg-white border border-news-border rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-news-secondary">This Month</p>
+                            <p class="text-2xl font-bold text-blue-600" data-bind="stats.thisMonth" data-mock="true">24</p>
+                        </div>
+                        <i class="fas fa-calendar text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles Management -->
+            <div class="bg-white border border-news-border rounded-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-news-border">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">Articles Management</h3>
+                        <div class="flex items-center space-x-4">
+                            <select class="border border-news-border rounded px-3 py-2 text-sm" data-mock="true">
+                                <option>All Status</option>
+                                <option>Published</option>
+                                <option>Draft</option>
+                            </select>
+                            <select class="border border-news-border rounded px-3 py-2 text-sm" data-mock="true">
+                                <option>All Categories</option>
+                                <option>Technology</option>
+                                <option>Business</option>
+                                <option>Politics</option>
+                                <option>Sports</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Articles Table -->
+                <!-- @MAP: adminArticles.map(article => ( -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-news-light">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-news-secondary uppercase tracking-wider">Title</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-news-secondary uppercase tracking-wider">Category</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-news-secondary uppercase tracking-wider">Author</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-news-secondary uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-news-secondary uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-news-secondary uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-news-border">
+                            <tr data-mock="true">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-news-primary">Technology Breakthrough in Silicon Valley</div>
+                                    <div class="text-sm text-news-secondary">Revolutionary advancement that promises to reshape...</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">Technology</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-news-secondary">Sarah Johnson</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Published</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-news-secondary">Mar 15, 2024</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <button class="text-news-accent hover:text-blue-700" data-implementation="Edit article">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-700" data-implementation="Delete article">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-mock="true">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-news-primary">Global Markets Show Strong Recovery</div>
+                                    <div class="text-sm text-news-secondary">Financial experts predict continued growth as...</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded">Business</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-news-secondary">Michael Chen</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Published</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-news-secondary">Mar 14, 2024</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <button class="text-news-accent hover:text-blue-700" data-implementation="Edit article">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-700" data-implementation="Delete article">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-mock="true">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-news-primary">Climate Research Breakthrough</div>
+                                    <div class="text-sm text-news-secondary">Scientists develop innovative approach to carbon...</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">Science</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-news-secondary">Dr. Emily Watson</td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded">Draft</span>
+                                </td>
+                                <td class="px-6 py-4 text-sm text-news-secondary">Mar 13, 2024</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex space-x-2">
+                                        <button class="text-news-accent hover:text-blue-700" data-implementation="Edit article">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-700" data-implementation="Delete article">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AdminView -->
+
+    <!-- @COMPONENT: CreateArticleModal -->
+    <div id="createArticleModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50" data-modal="createArticle">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-screen overflow-y-auto">
+                <div class="px-6 py-4 border-b border-news-border">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-serif font-semibold">Create New Article</h3>
+                        <button class="text-news-secondary hover:text-news-primary" data-modal="close" data-implementation="Close modal">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <form class="p-6 space-y-6" data-mock="true" data-implementation="Handle article creation">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-news-primary mb-2">Title</label>
+                            <input type="text" class="w-full border border-news-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-news-accent" 
+                                   placeholder="Enter article title..." data-mock="true">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-news-primary mb-2">Category</label>
+                            <select class="w-full border border-news-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-news-accent" data-mock="true">
+                                <option>Select category...</option>
+                                <option>Technology</option>
+                                <option>Business</option>
+                                <option>Politics</option>
+                                <option>Sports</option>
+                                <option>Science</option>
+                                <option>Health</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-news-primary mb-2">Excerpt</label>
+                        <textarea class="w-full border border-news-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-news-accent" 
+                                  rows="3" placeholder="Brief article summary..." data-mock="true"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-news-primary mb-2">Featured Image</label>
+                        <div class="border-2 border-dashed border-news-border rounded-lg p-6 text-center">
+                            <i class="fas fa-cloud-upload-alt text-3xl text-news-secondary mb-2"></i>
+                            <p class="text-news-secondary">Drop your image here or <span class="text-news-accent cursor-pointer">browse files</span></p>
+                            <input type="file" class="hidden" accept="image/*" data-implementation="Handle image upload">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-news-primary mb-2">Content</label>
+                        <!-- @FUNCTIONALITY: Rich text editor should be implemented here with formatting tools -->
+                        <div class="border border-news-border rounded-lg">
+                            <div class="border-b border-news-border p-3 bg-news-light">
+                                <div class="flex items-center space-x-2">
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="Bold formatting">
+                                        <i class="fas fa-bold"></i>
+                                    </button>
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="Italic formatting">
+                                        <i class="fas fa-italic"></i>
+                                    </button>
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="Underline formatting">
+                                        <i class="fas fa-underline"></i>
+                                    </button>
+                                    <div class="border-l border-gray-300 h-6 mx-2"></div>
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="Heading formatting">
+                                        <i class="fas fa-heading"></i>
+                                    </button>
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="List formatting">
+                                        <i class="fas fa-list-ul"></i>
+                                    </button>
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="Link insertion">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button type="button" class="p-2 hover:bg-gray-200 rounded" data-implementation="Image insertion">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea class="w-full p-4 min-h-64 focus:outline-none" 
+                                      placeholder="Write your article content here..." data-mock="true"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-news-primary mb-2">Tags</label>
+                            <input type="text" class="w-full border border-news-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-news-accent" 
+                                   placeholder="technology, innovation, ai" data-mock="true">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-news-primary mb-2">Author</label>
+                            <input type="text" class="w-full border border-news-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-news-accent" 
+                                   placeholder="Author name" data-mock="true">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-6 border-t border-news-border">
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="mr-2" data-mock="true">
+                                <span class="text-sm">Save as draft</span>
+                            </label>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button type="button" class="px-6 py-3 border border-news-border rounded-lg hover:bg-news-light transition-colors" 
+                                    data-modal="close" data-implementation="Close modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="px-6 py-3 bg-news-accent text-white rounded-lg hover:bg-blue-700 transition-colors" 
+                                    data-implementation="Save article">
+                                Publish Article
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: CreateArticleModal -->
+
+    <!-- @STATE: currentView:string = 'home' -->
+    <!-- @STATE: selectedArticle:object = null -->
+    <!-- @STATE: showCreateModal:boolean = false -->
+    
+    <script>
+        // TODO: Implement full React state management and API integration
+        (function() {
+            // View switching functionality
+            const views = document.querySelectorAll('.view-content');
+            const navLinks = document.querySelectorAll('[data-view]');
+            const modal = document.getElementById('createArticleModal');
+
+            function showView(viewId) {
+                views.forEach(view => view.classList.add('hidden'));
+                document.getElementById(viewId + 'View').classList.remove('hidden');
+                
+                // Update nav active states
+                navLinks.forEach(link => {
+                    if (link.dataset.view === viewId) {
+                        link.classList.add('text-news-accent');
+                        link.classList.remove('text-news-secondary', 'text-news-primary');
+                    } else {
+                        link.classList.remove('text-news-accent');
+                        link.classList.add('text-news-secondary');
+                    }
+                });
+            }
+
+            // Navigation event listeners
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showView(link.dataset.view);
+                });
+            });
+
+            // Article view navigation
+            document.querySelectorAll('[data-event="click:viewArticle"]').forEach(el => {
+                el.addEventListener('click', () => showView('article'));
+            });
+
+            // Modal functionality
+            document.querySelectorAll('[data-modal="createArticle"]').forEach(el => {
+                el.addEventListener('click', () => modal.classList.remove('hidden'));
+            });
+
+            document.querySelectorAll('[data-modal="close"]').forEach(el => {
+                el.addEventListener('click', () => modal.classList.add('hidden'));
+            });
+
+            // Close modal on backdrop click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.add('hidden');
+            });
+
+            // Mobile menu toggle
+            document.querySelector('[data-mobile-menu="toggle"]').addEventListener('click', () => {
+                // TODO: Implement mobile menu functionality
+                console.log('Mobile menu toggle clicked');
+            });
+        })();
+    </script>
+</body>
+</html>

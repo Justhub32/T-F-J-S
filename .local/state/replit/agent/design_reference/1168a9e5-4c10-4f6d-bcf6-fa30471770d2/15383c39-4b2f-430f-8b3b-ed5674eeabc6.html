@@ -1,0 +1,688 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NewsHub - Professional News Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Playfair Display', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'news-blue': '#1a365d',
+                        'news-light-blue': '#4299e1',
+                        'news-gray': '#2d3748',
+                        'news-light-gray': '#e2e8f0',
+                        'news-accent': '#3182ce',
+                        'news-urgent': '#f56565',
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- @COMPONENT: NavigationHeader -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-news-blue font-serif">NewsHub</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-news-gray hover:text-news-accent transition-colors font-medium">Home</a>
+                    <a href="#politics" class="text-news-gray hover:text-news-accent transition-colors font-medium">Politics</a>
+                    <a href="#technology" class="text-news-gray hover:text-news-accent transition-colors font-medium">Technology</a>
+                    <a href="#sports" class="text-news-gray hover:text-news-accent transition-colors font-medium">Sports</a>
+                    <a href="#entertainment" class="text-news-gray hover:text-news-accent transition-colors font-medium">Entertainment</a>
+                    <a href="#admin" class="bg-news-accent text-white px-4 py-2 rounded-lg hover:bg-news-blue transition-colors">Admin</a>
+                </nav>
+                <button class="md:hidden text-news-gray" data-event="click:toggleMobileMenu">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-white border-t" id="mobile-menu">
+            <div class="px-4 py-2 space-y-2">
+                <a href="#home" class="block py-2 text-news-gray hover:text-news-accent">Home</a>
+                <a href="#politics" class="block py-2 text-news-gray hover:text-news-accent">Politics</a>
+                <a href="#technology" class="block py-2 text-news-gray hover:text-news-accent">Technology</a>
+                <a href="#sports" class="block py-2 text-news-gray hover:text-news-accent">Sports</a>
+                <a href="#entertainment" class="block py-2 text-news-gray hover:text-news-accent">Entertainment</a>
+                <a href="#admin" class="block py-2 text-news-accent font-medium">Admin Panel</a>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: NavigationHeader -->
+
+    <!-- @COMPONENT: HeroSection -->
+    <section id="home" class="bg-gradient-to-r from-news-blue to-news-light-blue text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold font-serif mb-6">Stay Informed, Stay Connected</h1>
+            <p class="text-xl md:text-2xl mb-8 text-blue-100">Your trusted source for breaking news and in-depth analysis</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-news-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    Latest Headlines
+                </button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-news-blue transition-colors">
+                    Subscribe Now
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- @COMPONENT: CategoryNavigation -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-news-gray font-serif mb-8 text-center">Browse by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- @MAP: categories.map(category => ( -->
+                <div class="category-card bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" data-event="click:navigateToCategory" data-category="politics">
+                    <div class="text-center">
+                        <i class="fas fa-landmark text-3xl text-news-accent mb-4"></i>
+                        <h3 class="text-xl font-semibold text-news-gray mb-2">Politics</h3>
+                        <p class="text-sm text-gray-600" data-bind="categories.politics.count">24 Articles</p>
+                    </div>
+                </div>
+                
+                <div class="category-card bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" data-event="click:navigateToCategory" data-category="technology">
+                    <div class="text-center">
+                        <i class="fas fa-microchip text-3xl text-green-600 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-news-gray mb-2">Technology</h3>
+                        <p class="text-sm text-gray-600" data-bind="categories.technology.count">18 Articles</p>
+                    </div>
+                </div>
+                
+                <div class="category-card bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" data-event="click:navigateToCategory" data-category="sports">
+                    <div class="text-center">
+                        <i class="fas fa-trophy text-3xl text-orange-600 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-news-gray mb-2">Sports</h3>
+                        <p class="text-sm text-gray-600" data-bind="categories.sports.count">31 Articles</p>
+                    </div>
+                </div>
+                
+                <div class="category-card bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer" data-event="click:navigateToCategory" data-category="entertainment">
+                    <div class="text-center">
+                        <i class="fas fa-theater-masks text-3xl text-purple-600 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-news-gray mb-2">Entertainment</h3>
+                        <p class="text-sm text-gray-600" data-bind="categories.entertainment.count">15 Articles</p>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CategoryNavigation -->
+
+    <!-- @COMPONENT: FeaturedArticles -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-news-gray font-serif">Featured Stories</h2>
+                <a href="#all-articles" class="text-news-accent hover:text-news-blue font-medium">View All →</a>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Featured Article -->
+                <!-- @MAP: featuredArticles.map(article => ( -->
+                <article class="lg:col-span-2 bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow" data-mock="true">
+                    <!-- Modern newsroom with journalists working at computers -->
+                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&h=600" alt="Modern newsroom" class="w-full h-64 object-cover" data-bind="article.featured_image" />
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-news-urgent text-white px-3 py-1 rounded-full text-sm font-medium">Breaking</span>
+                            <span class="ml-3 text-sm text-gray-500" data-bind="article.category">Politics</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-news-gray font-serif mb-3 hover:text-news-accent cursor-pointer" data-bind="article.title">Major Economic Policy Changes Announced by Government</h3>
+                        <p class="text-gray-600 mb-4" data-bind="article.excerpt">The administration unveiled sweeping economic reforms that could reshape the financial landscape for years to come...</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gray-300 rounded-full mr-3"></div>
+                                <div>
+                                    <p class="text-sm font-medium text-news-gray" data-bind="article.author">Sarah Johnson</p>
+                                    <p class="text-xs text-gray-500" data-bind="article.published_at">2 hours ago</p>
+                                </div>
+                            </div>
+                            <button class="text-news-accent hover:text-news-blue" data-event="click:shareArticle">
+                                <i class="fas fa-share"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Side Articles -->
+                <div class="space-y-6">
+                    <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow" data-mock="true">
+                        <!-- Tech startup office with modern computers and screens -->
+                        <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" alt="Tech startup office" class="w-full h-32 object-cover" data-bind="article.thumbnail" />
+                        <div class="p-4">
+                            <span class="text-xs text-green-600 font-medium" data-bind="article.category">Technology</span>
+                            <h4 class="text-lg font-semibold text-news-gray font-serif mb-2 hover:text-news-accent cursor-pointer" data-bind="article.title">AI Revolution in Healthcare Shows Promising Results</h4>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span data-bind="article.author">Dr. Michael Chen</span>
+                                <span class="mx-1">•</span>
+                                <span data-bind="article.published_at">4 hours ago</span>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow" data-mock="true">
+                        <!-- Professional sports stadium with players on field -->
+                        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" alt="Sports stadium" class="w-full h-32 object-cover" data-bind="article.thumbnail" />
+                        <div class="p-4">
+                            <span class="text-xs text-orange-600 font-medium" data-bind="article.category">Sports</span>
+                            <h4 class="text-lg font-semibold text-news-gray font-serif mb-2 hover:text-news-accent cursor-pointer" data-bind="article.title">Championship Finals Set Record Viewership Numbers</h4>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span data-bind="article.author">Alex Rodriguez</span>
+                                <span class="mx-1">•</span>
+                                <span data-bind="article.published_at">6 hours ago</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FeaturedArticles -->
+
+    <!-- @COMPONENT: ArticleListPage -->
+    <section id="category-page" class="py-12 bg-white hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center mb-8">
+                <button class="text-news-accent hover:text-news-blue mr-4" data-event="click:goBack">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <h1 class="text-3xl font-bold text-news-gray font-serif" data-bind="selectedCategory.name">Politics Articles</h1>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- @MAP: categoryArticles.map(article => ( -->
+                <article class="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" data-mock="true" data-event="click:openArticle">
+                    <!-- Government building with American flag -->
+                    <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=300" alt="Government building" class="w-full h-48 object-cover" data-bind="article.featured_image" />
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium" data-bind="article.category">Politics</span>
+                            <span class="ml-auto text-sm text-gray-500" data-bind="article.published_at">1 day ago</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-news-gray font-serif mb-3 hover:text-news-accent" data-bind="article.title">Senate Votes on Infrastructure Bill</h3>
+                        <p class="text-gray-600 mb-4" data-bind="article.excerpt">Lawmakers debate the merits of the proposed infrastructure spending package...</p>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-300 rounded-full mr-3"></div>
+                            <div>
+                                <p class="text-sm font-medium text-news-gray" data-bind="article.author">Emma Thompson</p>
+                                <p class="text-xs text-gray-500">Political Correspondent</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ArticleListPage -->
+
+    <!-- @COMPONENT: ArticleDetailPage -->
+    <section id="article-detail" class="py-12 bg-white hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-6">
+                <button class="text-news-accent hover:text-news-blue mb-4" data-event="click:goBack">
+                    <i class="fas fa-arrow-left"></i> Back to Articles
+                </button>
+                <div class="flex items-center mb-4">
+                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium" data-bind="article.category">Politics</span>
+                    <span class="ml-4 text-sm text-gray-500" data-bind="article.published_at">Published 2 hours ago</span>
+                </div>
+                <h1 class="text-4xl font-bold text-news-gray font-serif mb-6" data-bind="article.title">Major Economic Policy Changes Announced by Government</h1>
+                <div class="flex items-center mb-6">
+                    <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                    <div>
+                        <p class="font-medium text-news-gray" data-bind="article.author">Sarah Johnson</p>
+                        <p class="text-sm text-gray-500">Senior Political Reporter</p>
+                    </div>
+                    <div class="ml-auto flex space-x-4">
+                        <button class="text-gray-400 hover:text-news-accent" data-event="click:shareArticle">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-news-accent" data-event="click:shareArticle">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button class="text-gray-400 hover:text-news-accent" data-event="click:shareArticle">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Image -->
+            <!-- Modern government press conference room with podium -->
+            <img src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&h=600" alt="Government press conference" class="w-full h-80 object-cover rounded-xl shadow-lg mb-8" data-bind="article.featured_image" />
+            
+            <!-- Article Content -->
+            <div class="prose prose-lg max-w-none" data-bind="article.content" data-mock="true">
+                <p class="text-lg text-gray-700 leading-relaxed mb-6">In a significant move that could reshape the economic landscape, the administration announced comprehensive policy reforms aimed at addressing inflation, unemployment, and long-term economic growth.</p>
+                
+                <p class="text-gray-700 leading-relaxed mb-6">The new policies include targeted tax reforms, infrastructure investments, and regulatory changes designed to stimulate economic activity while maintaining fiscal responsibility. Economic experts have provided mixed reactions to the announcement.</p>
+                
+                <h2 class="text-2xl font-bold text-news-gray font-serif mt-8 mb-4">Key Policy Changes</h2>
+                <p class="text-gray-700 leading-relaxed mb-6">Among the most significant changes are adjustments to corporate tax rates, expanded small business incentives, and increased funding for renewable energy projects. These measures are expected to create thousands of new jobs while promoting sustainable economic growth.</p>
+                
+                <blockquote class="border-l-4 border-news-accent pl-6 italic text-lg text-gray-600 my-8">
+                    "These reforms represent a fundamental shift in how we approach economic policy, prioritizing both immediate relief and long-term sustainability." - Economic Policy Advisor
+                </blockquote>
+                
+                <p class="text-gray-700 leading-relaxed mb-6">Implementation of these policies is expected to begin in the next quarter, with full rollout anticipated within the next year. Congressional approval for certain measures is still pending.</p>
+            </div>
+            
+            <!-- Related Articles -->
+            <div class="mt-12 pt-8 border-t border-gray-200">
+                <h3 class="text-2xl font-bold text-news-gray font-serif mb-6">Related Articles</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- @MAP: relatedArticles.map(article => ( -->
+                    <article class="flex space-x-4 cursor-pointer hover:bg-gray-50 p-4 rounded-lg transition-colors" data-mock="true" data-event="click:openRelatedArticle">
+                        <!-- Economic charts and graphs on computer screen -->
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=120" alt="Economic charts" class="w-24 h-16 object-cover rounded" data-bind="article.thumbnail" />
+                        <div>
+                            <h4 class="font-semibold text-news-gray hover:text-news-accent" data-bind="article.title">Market Response to Policy Announcement</h4>
+                            <p class="text-sm text-gray-500 mt-1" data-bind="article.published_at">3 hours ago</p>
+                        </div>
+                    </article>
+                    <!-- @END_MAP )) -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ArticleDetailPage -->
+
+    <!-- @COMPONENT: AdminPanel -->
+    <section id="admin" class="py-12 bg-gray-100 hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-lg">
+                <div class="p-6 border-b border-gray-200">
+                    <h1 class="text-3xl font-bold text-news-gray font-serif">Admin Dashboard</h1>
+                    <p class="text-gray-600 mt-2">Manage your news content and categories</p>
+                </div>
+                
+                <div class="p-6">
+                    <div class="grid lg:grid-cols-4 gap-6 mb-8">
+                        <!-- Stats Cards -->
+                        <div class="bg-blue-50 p-6 rounded-xl">
+                            <div class="flex items-center">
+                                <i class="fas fa-newspaper text-2xl text-blue-600 mr-4"></i>
+                                <div>
+                                    <p class="text-2xl font-bold text-news-gray" data-bind="stats.totalArticles">127</p>
+                                    <p class="text-sm text-gray-600">Total Articles</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-green-50 p-6 rounded-xl">
+                            <div class="flex items-center">
+                                <i class="fas fa-eye text-2xl text-green-600 mr-4"></i>
+                                <div>
+                                    <p class="text-2xl font-bold text-news-gray" data-bind="stats.totalViews">45,892</p>
+                                    <p class="text-sm text-gray-600">Page Views</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-yellow-50 p-6 rounded-xl">
+                            <div class="flex items-center">
+                                <i class="fas fa-clock text-2xl text-yellow-600 mr-4"></i>
+                                <div>
+                                    <p class="text-2xl font-bold text-news-gray" data-bind="stats.drafts">8</p>
+                                    <p class="text-sm text-gray-600">Draft Articles</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-6 rounded-xl">
+                            <div class="flex items-center">
+                                <i class="fas fa-tags text-2xl text-purple-600 mr-4"></i>
+                                <div>
+                                    <p class="text-2xl font-bold text-news-gray" data-bind="stats.categories">6</p>
+                                    <p class="text-sm text-gray-600">Categories</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <button class="bg-news-accent text-white px-6 py-3 rounded-lg hover:bg-news-blue transition-colors font-medium" data-event="click:createNewArticle">
+                            <i class="fas fa-plus mr-2"></i>New Article
+                        </button>
+                        <button class="bg-gray-200 text-news-gray px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium" data-event="click:manageCategories">
+                            <i class="fas fa-folder mr-2"></i>Manage Categories
+                        </button>
+                        <button class="bg-gray-200 text-news-gray px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium" data-event="click:viewAnalytics">
+                            <i class="fas fa-chart-bar mr-2"></i>Analytics
+                        </button>
+                    </div>
+                    
+                    <!-- Articles Table -->
+                    <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <div class="px-6 py-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold text-news-gray">Recent Articles</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <!-- @MAP: recentArticles.map(article => ( -->
+                                    <tr class="hover:bg-gray-50" data-mock="true">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <div class="h-10 w-10 bg-gray-300 rounded"></div>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-news-gray" data-bind="article.title">Economic Policy Changes</div>
+                                                    <div class="text-sm text-gray-500" data-bind="article.author">Sarah Johnson</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded" data-bind="article.category">Politics</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded" data-bind="article.status">Published</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-bind="article.created_at">
+                                            Dec 15, 2023
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <button class="text-news-accent hover:text-news-blue mr-3" data-event="click:editArticle">Edit</button>
+                                            <button class="text-red-600 hover:text-red-900" data-event="click:deleteArticle">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <!-- @END_MAP )) -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: AdminPanel -->
+
+    <!-- @COMPONENT: ArticleEditor -->
+    <section id="article-editor" class="py-12 bg-gray-100 hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-xl shadow-lg">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-2xl font-bold text-news-gray font-serif">Article Editor</h1>
+                        <div class="flex space-x-3">
+                            <button class="bg-gray-200 text-news-gray px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors" data-event="click:saveDraft">
+                                <i class="fas fa-save mr-2"></i>Save Draft
+                            </button>
+                            <button class="bg-news-accent text-white px-4 py-2 rounded-lg hover:bg-news-blue transition-colors" data-event="click:publishArticle">
+                                <i class="fas fa-share mr-2"></i>Publish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="p-6 space-y-6" data-event="submit:handleArticleSubmit">
+                    <!-- Title -->
+                    <div>
+                        <label class="block text-sm font-medium text-news-gray mb-2">Article Title</label>
+                        <input type="text" placeholder="Enter article title..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-news-accent focus:border-transparent" data-bind="article.title" data-mock="true" value="Major Economic Policy Changes Announced by Government" />
+                    </div>
+                    
+                    <!-- Category and Tags -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-news-gray mb-2">Category</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-news-accent focus:border-transparent" data-bind="article.category">
+                                <option value="politics" selected>Politics</option>
+                                <option value="technology">Technology</option>
+                                <option value="sports">Sports</option>
+                                <option value="entertainment">Entertainment</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-news-gray mb-2">Tags</label>
+                            <input type="text" placeholder="economics, policy, government" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-news-accent focus:border-transparent" data-bind="article.tags" data-mock="true" value="economics, policy, government" />
+                        </div>
+                    </div>
+                    
+                    <!-- Featured Image Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-news-gray mb-2">Featured Image</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-news-accent transition-colors cursor-pointer" data-implementation="Use FileUpload component here">
+                            <i class="fas fa-upload text-3xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600">Click to upload or drag and drop</p>
+                            <p class="text-sm text-gray-500 mt-2">PNG, JPG, GIF up to 10MB</p>
+                            <input type="file" class="hidden" accept="image/*" data-event="change:handleImageUpload" />
+                        </div>
+                    </div>
+                    
+                    <!-- Excerpt -->
+                    <div>
+                        <label class="block text-sm font-medium text-news-gray mb-2">Article Excerpt</label>
+                        <textarea rows="3" placeholder="Brief summary of the article..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-news-accent focus:border-transparent" data-bind="article.excerpt" data-mock="true">The administration unveiled sweeping economic reforms that could reshape the financial landscape for years to come...</textarea>
+                    </div>
+                    
+                    <!-- Rich Text Editor -->
+                    <div>
+                        <label class="block text-sm font-medium text-news-gray mb-2">Article Content</label>
+                        <!-- @FUNCTIONALITY: This should implement a rich text editor like TinyMCE or Quill -->
+                        <div class="border border-gray-300 rounded-lg overflow-hidden" data-implementation="Replace with rich text editor component">
+                            <div class="bg-gray-50 px-4 py-2 border-b border-gray-300 flex space-x-2">
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-bold"></i></button>
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-italic"></i></button>
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-underline"></i></button>
+                                <div class="border-l border-gray-300 mx-2"></div>
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-list-ul"></i></button>
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-list-ol"></i></button>
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-link"></i></button>
+                                <button class="p-2 hover:bg-gray-200 rounded" data-mock="true"><i class="fas fa-image"></i></button>
+                            </div>
+                            <textarea rows="12" placeholder="Start writing your article..." class="w-full px-4 py-3 border-0 focus:ring-0 resize-none" data-bind="article.content" data-mock="true">In a significant move that could reshape the economic landscape, the administration announced comprehensive policy reforms aimed at addressing inflation, unemployment, and long-term economic growth.
+
+The new policies include targeted tax reforms, infrastructure investments, and regulatory changes designed to stimulate economic activity while maintaining fiscal responsibility...</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Article Settings -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-news-gray mb-4">Article Settings</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="featured" class="rounded border-gray-300 text-news-accent focus:ring-news-accent" data-bind="article.is_featured" />
+                                <label for="featured" class="ml-2 text-sm text-news-gray">Featured Article</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="breaking" class="rounded border-gray-300 text-news-urgent focus:ring-news-urgent" data-bind="article.is_breaking" />
+                                <label for="breaking" class="ml-2 text-sm text-news-gray">Breaking News</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="comments" class="rounded border-gray-300 text-news-accent focus:ring-news-accent" data-bind="article.allow_comments" checked />
+                                <label for="comments" class="ml-2 text-sm text-news-gray">Allow Comments</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="notifications" class="rounded border-gray-300 text-news-accent focus:ring-news-accent" data-bind="article.send_notifications" />
+                                <label for="notifications" class="ml-2 text-sm text-news-gray">Send Push Notifications</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ArticleEditor -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-news-blue text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold font-serif mb-4">NewsHub</h3>
+                    <p class="text-blue-200 mb-4">Your trusted source for breaking news and in-depth analysis.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-blue-200 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Categories</h4>
+                    <ul class="space-y-2 text-blue-200">
+                        <li><a href="#politics" class="hover:text-white transition-colors">Politics</a></li>
+                        <li><a href="#technology" class="hover:text-white transition-colors">Technology</a></li>
+                        <li><a href="#sports" class="hover:text-white transition-colors">Sports</a></li>
+                        <li><a href="#entertainment" class="hover:text-white transition-colors">Entertainment</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-blue-200">
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#careers" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Newsletter</h4>
+                    <p class="text-blue-200 mb-4">Stay updated with our latest news and articles.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 rounded-l-lg text-news-gray focus:outline-none" />
+                        <button class="bg-news-accent px-4 py-2 rounded-r-lg hover:bg-news-light-blue transition-colors">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-200">
+                <p>&copy; 2023 NewsHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // Basic navigation functionality - non-functional demo
+        (function() {
+            // TODO: Implement business logic, API calls, and state management
+            
+            // Mock navigation functionality
+            const sections = ['home', 'category-page', 'article-detail', 'admin', 'article-editor'];
+            let currentSection = 'home';
+            
+            function showSection(sectionId) {
+                sections.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.classList.add('hidden');
+                    }
+                });
+                
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
+                    currentSection = sectionId;
+                }
+            }
+            
+            // Category navigation
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    showSection('category-page');
+                });
+            });
+            
+            // Admin navigation
+            document.querySelectorAll('a[href="#admin"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showSection('admin');
+                });
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuButton = document.querySelector('[data-event="click:toggleMobileMenu"]');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Article navigation
+            document.querySelectorAll('[data-event="click:openArticle"]').forEach(article => {
+                article.addEventListener('click', () => {
+                    showSection('article-detail');
+                });
+            });
+            
+            // Create new article
+            document.querySelectorAll('[data-event="click:createNewArticle"]').forEach(button => {
+                button.addEventListener('click', () => {
+                    showSection('article-editor');
+                });
+            });
+            
+            // Back navigation
+            document.querySelectorAll('[data-event="click:goBack"]').forEach(button => {
+                button.addEventListener('click', () => {
+                    showSection('home');
+                });
+            });
+            
+            // File upload handling
+            document.querySelectorAll('[data-implementation*="FileUpload"]').forEach(dropzone => {
+                dropzone.addEventListener('click', () => {
+                    const fileInput = dropzone.querySelector('input[type="file"]');
+                    if (fileInput) {
+                        fileInput.click();
+                    }
+                });
+            });
+            
+            // Form validation placeholder
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    // TODO: Implement form validation and submission
+                    console.log('Form submitted - implement validation logic');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
